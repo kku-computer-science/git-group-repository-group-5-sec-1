@@ -70,6 +70,7 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
     Auth::routes();
 });
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('');
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
