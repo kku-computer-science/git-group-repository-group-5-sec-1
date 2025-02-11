@@ -16,6 +16,7 @@ class ApicallController extends Controller
      */
     public function create($id)
     {
+        Log::info("ID user". $id);
         $decryptedId = Crypt::decrypt($id);
 
         // เรียกใช้งาน ScopuscallController
