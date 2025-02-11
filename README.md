@@ -1,2 +1,27 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Bwpk2ByU)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=17426600&assignment_repo_type=AssignmentRepo)
+# Project Software Engineer CP353004 [2/2567]
+
+## Project Description
+โครงงานนี้เป็นส่วนหนึ่งของรายวิชา Software Engineer CP353004 ซึ่งเกี่ยวข้องกับการพัฒนาและปรับปรุงระบบ Research Document Management System เพื่อใช้ในการแสดงผล จัดเก็บ และรวบรวมงานวิจัยจากอาจารย์ของวิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น โดยปัจจุบันระบบมีปัญหาทำให้ไม่สามารถใช้งานได้อย่างมีประสิทธิภาพ ดังนี้:
+
+- ระบบมีข้อผิดพลาดที่ทำให้ข้อมูลบางประเภท เช่น รูปภาพ ไม่สามารถแสดงผลบนเว็บไซต์ได้
+- API ของแพลตฟอร์มรวบรวมงานวิจัย เช่น SCOPUS ไม่สามารถดึงข้อมูลได้ จำเป็นต้องมีการแก้ไข
+
+ปัจจุบันโครงงานยังคงอยู่ระหว่างการพัฒนาด้วยแนวทาง Scrum
+
+## Features
+- **อัปโหลดงานวิจัยลงโปรไฟล์**: ระบบสามารถอัปโหลดงานวิจัยของผู้วิจัยลงในโปรไฟล์ของตัวเองได้
+- **ระบบค้นหางานวิจัย**: สามารถค้นหางานวิจัยจากโปรไฟล์ของผู้วิจัย หรือสามารถค้นหาได้จาก ปีที่ตีพิมพ์, ชื่องาน, รายละเอียด หรือชื่อผู้วิจัย
+
+## Technologies Used
+- PHP (Laravel)
+- XAMPP, cPanel
+- GitHub
+- VS Code
+- phpMyAdmin
+
+## สมาชิกกลุ่ม 5 Sec. 1
+- 653380017-5 นายธณภัทร ภูคงเดือน
+- 653380278-7 นายภูริ วงษ์บุญ
+- 653380134-1 นายนันทพงศ์ ศรีจันทร์
+- 653380139-1 นายพนธกร สุภักดิ์
+- 653380146-4 นางสาววณิชยา ทิพวัลย์
