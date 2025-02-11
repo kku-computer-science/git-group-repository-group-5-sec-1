@@ -312,14 +312,14 @@
                 <i class="count-icon fa fa-book fa-2x"></i>
                 <h2 class="timer count-title count-number" data-to="${sumsco}" data-speed="1500"></h2>
                 <p class="count-text ">SCOPUS</p>`
-        document.getElementById("wos").innerHTML += `
-                <i class="count-icon fa fa-book fa-2x"></i>
-                <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
-                <p class="count-text ">WOS</p>`
-        document.getElementById("tci").innerHTML += `
-                <i class="count-icon fa fa-book fa-2x"></i>
-                <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
-                <p class="count-text ">TCI</p>`
+        // document.getElementById("wos").innerHTML += `
+        //         <i class="count-icon fa fa-book fa-2x"></i>
+        //         <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
+        //         <p class="count-text ">WOS</p>`
+        // document.getElementById("tci").innerHTML += `
+        //         <i class="count-icon fa fa-book fa-2x"></i>
+        //         <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
+        //         <p class="count-text ">TCI</p>`
         //document.getElementById("scopus").appendChild('data-to="100"');
         $.fn.countTo = function(options) {
             options = options || {};
