@@ -1,6 +1,5 @@
 <?php
 return [
-    
 'Home' => 'หน้าแรก',
 'Researchers' => 'ผู้วิจัย',
 'ResearchProj' => 'โครงการวิจัย',

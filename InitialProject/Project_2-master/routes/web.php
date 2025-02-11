@@ -94,12 +94,12 @@ Route::get('bib/{id}', [BibtexController::class, 'getbib'])->name('bibtex');
 //Route::get('bib/{id}', [BibtexController::class, 'index'])->name('bibtex');
 //Route::get('change/lang', [LocalizationController::class,'lang_change'])->name('LangChange');
 
-Route::get('/callscopus/{id}', [App\Http\Controllers\ScopuscallController::class, 'create'])->name('callscopus');
+Route::get('/callscopus/{id}', [App\Http\Controllers\ApicallController::class, 'create'])->name('callscopus');
 //Route::get('/showscopus', [App\Http\Controllers\ScopuscallController::class, 'index'])->name('showscopus');
 
 Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], function () {
     //Route::post('change-profile-picture',[ProfileuserController::class,'updatePicture'])->name('adminPictureUpdate');
-    
+
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);

@@ -49,7 +49,7 @@
 
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
-    
+
 
 </head>
 
@@ -112,17 +112,22 @@
 
 
                 </ul>
-                @if (Route::has('login'))
+                {{-- @if (Route::has('login'))
                 @auth
                 <span class="nav-item">
-
+                    <a class="btn-solid-sm" href="{{ route('logout') }}" target="_blank"
+                        onclick="event.preventDefault(); document.getElementById ('logout-form').submit();"
+                    >Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </span>
-                @else
+                @else --}}
                 <span class="nav-item">
                     <a class="btn-solid-sm" href="/login" target="_blank">Login</a>
                 </span>
-                @endauth
-                @endif
+                {{-- @endauth
+                @endif --}}
             </div> <!-- end of navbar-collapse -->
         </div> <!-- end of container -->
     </nav> <!-- end of navbar -->

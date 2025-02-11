@@ -9,6 +9,7 @@ use App\Models\Fund;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ResearchGroupController extends Controller
 {
@@ -42,7 +43,8 @@ class ResearchGroupController extends Controller
     {
         $users = User::role(['teacher', 'student'])->get();
         $funds = Fund::get();
-        return view('research_groups.create', compact('users', 'funds'));
+        $user = User::find(Auth::user()->id);
+        return view('research_groups.create', compact('users', 'funds', 'user'));
     }
 
     /**
@@ -92,9 +94,9 @@ class ResearchGroupController extends Controller
     {
         #$researchGroup=ResearchGroup::find($researchGroup->id);
         //dd($researchGroup->id);
-        //$data=ResearchGroup::find($researchGroup->id)->get(); 
+        //$data=ResearchGroup::find($researchGroup->id)->get();
         $leaderInfo = $researchGroup->user()->wherePivot('role', 1)->first();  // หัวหน้ากลุ่มวิจัย
-    $members = $researchGroup->user()->wherePivot('role', 2)->get(); 
+    $members = $researchGroup->user()->wherePivot('role', 2)->get();
 
         //return $data;
         return view('research_groups.show', compact('researchGroup', 'leaderInfo', 'members'));
