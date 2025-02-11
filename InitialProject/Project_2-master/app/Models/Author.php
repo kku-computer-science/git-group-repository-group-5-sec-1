@@ -9,6 +9,10 @@ class Author extends Model
 {
     use HasFactory;
     //protected $hidden = ['pivot'];
+    protected $fillable = [
+        'author_fname',
+        'author_lname',
+    ];
 
     public function paper()
     {
