@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 
 use App\Http\Controllers\HomeController;
@@ -69,7 +70,6 @@ use App\Http\Controllers\TcicallController;
 Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
     Auth::routes();
 });
-
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
