@@ -15,7 +15,8 @@ class ResearchGroup extends Model
         'group_detail_en',
         'group_desc_th',
         'group_desc_en',
-        'group_image'
+        'group_image',
+        'banner_image'
     ];
 
     public function user()

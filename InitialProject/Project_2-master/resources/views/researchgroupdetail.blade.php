@@ -3,20 +3,23 @@
 @section('content')
 <div class="container mt-5">
     <!-- ข้อมูลกลุ่ม -->
+    
     <div class="image-container">
-        <img src="img\1651340170.png" alt="Cinque Terre" width="100%" height="300">
+        @if($resgd->banner_image)
+        <img src="{{asset('img/'.$resgd->banner_image)}}" alt="Cinque Terre" width="100%" height="300">
         <div class="image-text" >
-            <h1 style="color:white;">{{ $resgd->group_name_th }}</h1>
+            <h1 style="color:white;">{{ $resgd->group_name_en }}</h1>
             
         </div>
-        
+        @endif
     </div>
+   
     <!-- Research rationale -->
     <div class="card mb-4">
         <div class="card-body">
-            <h2>Research rationale ของกลุ่มวิจัย</h2>
-            @if($resgd->group_detail_th)
-                <p>{!! nl2br($resgd->group_detail_th) !!}</p>
+            <h2>Research rationale</h2>
+            @if($resgd->group_detail_en)
+                <p>{!! nl2br($resgd->group_detail_en) !!}</p>
             @endif
         </div>
     </div>
@@ -24,10 +27,10 @@
     <!-- หัวข้อวิจัยที่เป็นจุดเน้นของกลุ่ม -->
     <div class="card mb-4">
         <div class="card-body">
-            <h2>หัวข้อวิจัยที่เป็นจุดเน้นของกลุ่ม</h2>
-            @if($resgd->group_desc_th)
+            <h2>Main research areas/topics </h2>
+            @if($resgd->group_desc_en)
                 <ul>
-                    @foreach(explode("\n", $resgd->group_desc_th) as $topic)
+                    @foreach(explode("\n", $resgd->group_desc_en) as $topic)
                         @if(trim($topic))
                             <li>{!! $topic !!}</li>
                         @endif
@@ -40,22 +43,22 @@
     <!-- สมาชิกของกลุ่มวิจัย -->
     <div class="card mb-4">
         <div class="card-body">
-            <h2>สมาชิกของกลุ่มวิจัย</h2>
+            <h2>Members of Research Group</h2>
             
             <!-- หัวหน้ากลุ่มวิจัย -->
-            <h3>หัวหน้ากลุ่มวิจัย</h3>
+            <h3>Head of Reseach Group</h3>
             @foreach($resgd->user as $user)
-                @if($user->pivot->role == 1)
-                    <p>{{ $user->academic_ranks_th }} {{ $user->fname_th }} {{ $user->lname_th }} {{ $user->department_name_th }}</p>
+                @if($user->pivot->role == 5)
+                    <p>{{ $user->academic_ranks_en }} {{ $user->fname_en }} {{ $user->lname_en }} {{ $user->department_name_en }}</p>
                 @endif
             @endforeach
 
             <!-- สมาชิก -->
-            <h3>สมาชิก</h3>
+            <h3>Members</h3>
             <ul>
                 @foreach($resgd->user as $user)
                     @if($user->pivot->role == 2)
-                        <li>{{ $user->academic_ranks_th }} {{ $user->fname_th }} {{ $user->lname_th }} {{ $user->department_name_th }}</li>
+                        <li>{{ $user->academic_ranks_en }} {{ $user->fname_en }} {{ $user->lname_en }} {{ $user->department_name_en }}</li>
                     @endif
                 @endforeach
             </ul>
@@ -67,10 +70,10 @@
         <div class="card-body">
             <h2>Contact person</h2>
             @foreach($resgd->user as $user)
-                @if($user->pivot->role == 1)
-                    <p>{{ $user->academic_ranks_th }} {{ $user->fname_th }} {{ $user->lname_th }}, {{ $user->email }}</p>
+                @if($user->pivot->role == 5)
+                    <p>{{ $user->academic_ranks_en }} {{ $user->fname_en }} {{ $user->lname_en }}, {{ $user->email }}</p>
                     @if($user->picture)
-                        <img src="{{ asset($user->picture) }}" alt="Contact Person" style="max-width: 200px;">
+                        <img src="{{ asset($user->picture) }}" alt="Contact Person" style="max-width: 300px;">
                     @endif
                 @endif
             @endforeach

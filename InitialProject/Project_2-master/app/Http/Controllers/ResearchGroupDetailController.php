@@ -14,7 +14,8 @@ class ResearchGroupDetailController extends Controller
         $resgd = ResearchGroup::with(['User.paper' => function ($query) {
             return $query->orderBy('paper_yearpub','DESC');
         }])->where('id','=',$id)->first(); // ใช้ first() เพราะเราต้องการแค่ 1 กลุ่มวิจัย
-
+         // ดึง banner_image จาก research_groups table
+        $rg = ResearchGroup::select('banner_image')->where('id', $id)->first();
         //return $resgd;
         // $std = ResearchGroup::hasRole('student')::with(['User.paper' => function ($query) {
         //     return $query->orderBy('paper_yearpub','DESC');
@@ -38,4 +39,6 @@ class ResearchGroupDetailController extends Controller
         //return $resgd;
 
     }
+
+    
 }
