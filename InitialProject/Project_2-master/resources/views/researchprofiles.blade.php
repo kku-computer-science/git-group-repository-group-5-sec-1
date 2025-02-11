@@ -88,30 +88,25 @@
                             <div class="count" id='scopus_sum'>
                             </div>
                         </div>
-<<<<<<< HEAD
-                        <div class="col">
-=======
-<<<<<<< HEAD
-                        <div class="col">
-=======
+
                         {{-- <div class="col">
->>>>>>> Nantapong_1341
->>>>>>> Nantapong_1341
+                        <div class="col"> --}}
+
+                        {{-- <div class="col">
+
                             <div class="count" id='wos_sum'>
                             </div>
                         </div>
                         <div class="col">
                             <div class="count" id='tci_sum'>
                             </div>
-<<<<<<< HEAD
+
                         </div>
-=======
-<<<<<<< HEAD
+
                         </div>
-=======
+
                         </div> --}}
->>>>>>> Nantapong_1341
->>>>>>> Nantapong_1341
+
 
                     </div>
                     <br>
@@ -528,34 +523,16 @@
 
 <script>
     var year = <?php echo $year; ?>;
-<<<<<<< HEAD
-    var paper_tci = <?php echo $paper_tci; ?>;
-    var paper_scopus = <?php echo $paper_scopus; ?>;
-    var paper_wos = <?php echo $paper_wos; ?>;
-=======
-<<<<<<< HEAD
-    var paper_tci = <?php echo $paper_tci; ?>;
-    var paper_scopus = <?php echo $paper_scopus; ?>;
-    var paper_wos = <?php echo $paper_wos; ?>;
-=======
     // var paper_tci = <?php echo $paper_tci; ?>;
     var paper_scopus = <?php echo $paper_scopus; ?>;
     // var paper_wos = <?php echo $paper_wos; ?>;
->>>>>>> Nantapong_1341
->>>>>>> Nantapong_1341
+
     var areaChartData = {
 
         labels: year,
 
-<<<<<<< HEAD
-        datasets: [{
-=======
-<<<<<<< HEAD
-        datasets: [{
-=======
         datasets: {
->>>>>>> Nantapong_1341
->>>>>>> Nantapong_1341
+
                 label: 'SCOPUS',
                 backgroundColor: '#83E4B5',
                 borderColor: 'rgba(255, 255, 255, 0.5)',
@@ -565,37 +542,7 @@
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: '#83E4B5',
                 data: paper_scopus
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> Nantapong_1341
-            },
-            {
-                label: 'TCI',
-                backgroundColor: '#3994D6',
-                borderColor: 'rgba(210, 214, 222, 1)',
-                pointRadius: false,
-                pointColor: '#3994D6',
-                pointStrokeColor: '#c1c7d1',
-                pointHighlightFill: '#fff',
-                pointHighlightStroke: '#3994D6',
-                data: paper_tci
-            },
-            {
-                label: 'WOS',
-                backgroundColor: '#FCC29A',
-                borderColor: 'rgba(0, 0, 255, 1)',
-                pointRadius: false,
-                pointColor: '#FCC29A',
-                pointStrokeColor: '#c1c7d1',
-                pointHighlightFill: '#fff',
-                pointHighlightStroke: '#FCC29A',
-                data: paper_wos
-            },
-        ]
-<<<<<<< HEAD
-=======
-=======
+
             }
             // {
             //     label: 'TCI',
@@ -620,9 +567,10 @@
             //     data: paper_wos
             // },
         
->>>>>>> Nantapong_1341
->>>>>>> Nantapong_1341
-    }
+
+            }
+            
+    
 
 
 
@@ -738,20 +686,7 @@
                 <h2 class="timer count-title count-number" data-to="${sumsco}" data-speed="1500"></h2>
                 <p class="count-text">SCOPUS</p>`
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> Nantapong_1341
-        document.getElementById("wos_sum").innerHTML += `    
-                <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
-                <p class="count-text ">WOS</p>`
 
-        document.getElementById("tci_sum").innerHTML += `  
-                <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
-                <p class="count-text ">TCI</p>`
-<<<<<<< HEAD
-=======
-=======
         // document.getElementById("wos_sum").innerHTML += `    
         //         <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
         //         <p class="count-text ">WOS</p>`
@@ -759,8 +694,16 @@
         // document.getElementById("tci_sum").innerHTML += `  
         //         <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
         //         <p class="count-text ">TCI</p>`
->>>>>>> Nantapong_1341
->>>>>>> Nantapong_1341
+
+
+        // document.getElementById("wos_sum").innerHTML += `    
+        //         <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
+        //         <p class="count-text ">WOS</p>`
+
+        // document.getElementById("tci_sum").innerHTML += `  
+        //         <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
+        //         <p class="count-text ">TCI</p>`
+
 
 
         //document.getElementById("scopus").appendChild('data-to="100"');
