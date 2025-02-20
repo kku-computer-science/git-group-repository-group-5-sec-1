@@ -49,9 +49,6 @@
                 <div class="carousel-item">
                     <img src="{{asset('img/Banner2.png')}}" class="d-block w-100" alt="...">
                 </div>
-                <!-- <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-            </div> -->
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -300,7 +297,7 @@
     let sumsco = paper_scopus;
     let sumwos = paper_wos;
     (function($) {
-        
+
         let sum = paper_wos + paper_tci + paper_scopus;
         //console.log(sum);
         //$("#scopus").append('data-to="100"');
