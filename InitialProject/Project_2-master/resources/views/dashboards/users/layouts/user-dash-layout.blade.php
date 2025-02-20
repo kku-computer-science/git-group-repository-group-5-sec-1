@@ -273,6 +273,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     @endcan
+                    @can('public-relations')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('highlight.index')}}">
+                            <i class="menu-icon mdi mdi-image"></i>
+                            <span class="menu-title">Highlight</span>
+                        </a>
+                    </li>
+                    @endcan
                 </ul>
             </nav>
 

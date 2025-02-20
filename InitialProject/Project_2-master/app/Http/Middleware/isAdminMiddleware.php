@@ -20,6 +20,8 @@ class isAdminMiddleware
     {
         if( Auth::check() && Auth::user()->hasRole('admin') ){
             return $next($request);
+        } elseif( Auth::check() && Auth::user()->hasRole('admin staff') ){
+            return $next($request);
         }else{
             return redirect()->route('login');
         }
