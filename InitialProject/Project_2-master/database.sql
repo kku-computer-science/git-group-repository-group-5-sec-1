@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2025 at 09:30 PM
+-- Generation Time: Feb 23, 2025 at 03:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -103,6 +103,18 @@ INSERT INTO `academicworks` (`id`, `ac_name`, `ac_type`, `ac_sourcetitle`, `ac_y
 (73, 'ผจญภัยในโลกนิทาน (Advance in the Fairytale World)', 'ลิขสิทธิ์', NULL, '2559-12-02', '349046', NULL, '2022-05-15 06:37:09', '2022-05-15 06:37:09'),
 (74, 'เว็บแอปพลิเคชันเพื่อแนะนำการลงทะเบียนและตรวจสอบจบ', 'ลิขสิทธิ์', NULL, '2559-12-14', '349040', NULL, '2022-05-15 06:38:25', '2022-05-15 06:38:25'),
 (75, 'โปรแกรมระบบสังเคราะห์เสียงพูดภาษาถิ่นอีสาน', 'ลิขสิทธิ์', NULL, '2558-05-18', '323716', NULL, '2022-05-15 06:40:41', '2022-05-15 06:40:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `album`
+--
+
+CREATE TABLE `album` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `highlight_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2494,6 +2506,21 @@ CREATE TABLE `fund_of_research` (
   `fund_id` bigint(20) UNSIGNED NOT NULL,
   `research_project_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `highlight`
+--
+
+CREATE TABLE `highlight` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `banner` varchar(255) NOT NULL,
+  `topic` varchar(255) NOT NULL,
+  `detail` text NOT NULL,
+  `selected` tinyint(1) NOT NULL,
+  `tag` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -5511,6 +5538,13 @@ ALTER TABLE `academicworks`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `album`
+--
+ALTER TABLE `album`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `album_highlight_id` (`highlight_id`);
+
+--
 -- Indexes for table `authors`
 --
 ALTER TABLE `authors`
@@ -5611,6 +5645,13 @@ ALTER TABLE `fund_of_research`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fund_of_research_fund_id_foreign` (`fund_id`),
   ADD KEY `fund_of_research_research_project_id_foreign` (`research_project_id`);
+
+--
+-- Indexes for table `highlight`
+--
+ALTER TABLE `highlight`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `highlight_research_groups _id_foreign` (`tag`);
 
 --
 -- Indexes for table `migrations`
@@ -5787,6 +5828,12 @@ ALTER TABLE `academicworks`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
+-- AUTO_INCREMENT for table `album`
+--
+ALTER TABLE `album`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `authors`
 --
 ALTER TABLE `authors`
@@ -5868,6 +5915,12 @@ ALTER TABLE `funds`
 -- AUTO_INCREMENT for table `fund_of_research`
 --
 ALTER TABLE `fund_of_research`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `highlight`
+--
+ALTER TABLE `highlight`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -5989,6 +6042,12 @@ ALTER TABLE `work_of_research_projects`
 --
 
 --
+-- Constraints for table `album`
+--
+ALTER TABLE `album`
+  ADD CONSTRAINT `album_highlight_id` FOREIGN KEY (`highlight_id`) REFERENCES `highlight` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `author_of_academicworks`
 --
 ALTER TABLE `author_of_academicworks`
@@ -6008,6 +6067,12 @@ ALTER TABLE `author_of_papers`
 ALTER TABLE `courses`
   ADD CONSTRAINT `courses_degree_id_foreign` FOREIGN KEY (`degree_id`) REFERENCES `degrees` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `courses_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `highlight`
+--
+ALTER TABLE `highlight`
+  ADD CONSTRAINT `highlight_research_groups _id_foreign` FOREIGN KEY (`tag`) REFERENCES `research_groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
