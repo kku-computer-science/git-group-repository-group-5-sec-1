@@ -22,14 +22,25 @@
     }
 </style>
 @section('content')
-<div class="container">
-    @if ($message = Session::get('success'))
-    <div class="alert alert-success">
-        <p>{{ $message }}</p>
-    </div>
-    @endif
-    <div class="card" style="padding: 16px;">
+    <div class="container">
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
+        <div class="card" style="padding: 16px;">
+            <div class="card-body">
 
-    </div>
-</div>
-@stop
+                <h4 class="card-title" style="text-align: center;">ไฮไลท์</h4>
+                <div class="row">
+                    @foreach ($highlights as $highlight)
+                        <div class="col-md-4">
+                            <img src="{{ url('/highlight-image/' . $highlight->banner) }}"
+                                class="rounded img-fluid float-start" alt="Highlight Image">
+                        </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </div>
+    @stop
