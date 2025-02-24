@@ -98,6 +98,8 @@ Route::get('bib/{id}', [BibtexController::class, 'getbib'])->name('bibtex');
 Route::get('/callscopus/{id}', [App\Http\Controllers\ApicallController::class, 'create'])->name('callscopus');
 //Route::get('/showscopus', [App\Http\Controllers\ScopuscallController::class, 'index'])->name('showscopus');
 
+Route::get('/highlight-image/{filename}', [HighlightController::class, 'getImage']);
+
 Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], function () {
     //Route::post('change-profile-picture',[ProfileuserController::class,'updatePicture'])->name('adminPictureUpdate');
 
@@ -108,7 +110,7 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
     Route::get('importfiles', [ImportExportController::class, 'index'])->name('importfiles');
     Route::post('import', [ImportExportController::class, 'import']);
     // Route::get('export', [ImportExportController::class, 'export']);
-
+    Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {

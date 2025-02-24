@@ -94,13 +94,13 @@ class ProgramController extends Controller
             $pro = $pro->department()->associate($department);
             $pro->save();
             $pro::updateOrCreate(['id' => $proId], ['program_name_en' => $request->program_name_en, 'program_name_th' => $request->program_name_th]);
-        
-            
+
+
         }
-        
+
         //$pro->save();
         //$pro2::updateOrCreate(['id' => $proId], ['program_name_en' => $request->program_name_en, 'program_name_th' => $request->program_name_th]);
-        
+
 
         if (empty($request->pro_id))
             $msg = 'Program entry created successfully.';

@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "google/cloud-storage": "^1.46",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
@@ -19,6 +20,7 @@
         "phpoffice/phpword": "^0.18.3",
         "renanbr/bibtex-parser": "^2.1",
         "spatie/laravel-permission": "^5.4",
+        "superbalist/flysystem-google-storage": "^7.2",
         "symfony/process": "^5.4",
         "yajra/laravel-datatables-oracle": "^9.19"
     },
