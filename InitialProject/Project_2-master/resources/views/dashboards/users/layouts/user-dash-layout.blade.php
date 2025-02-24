@@ -273,12 +273,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     @endcan
-                    @can('public-relations')
+                    @can('highlight-list')
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('highlight.index')}}">
-                            <i class="menu-icon mdi mdi-image"></i>
-                            <span class="menu-title">Highlight</span>
+                        <a class="nav-link" data-bs-toggle="collapse" href="#ManagePublications" aria-expanded="false" aria-controls="ManagePublications">
+                            <i class="menu-icon mdi mdi-folder-multiple-image"></i>
+                            <span class="menu-title">Manage Publications</span>
+                            <i class="menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="ManagePublications">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('highlight.index')}}">Show</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('all-highlight.index') }}">Manage</a></li>
+                            </ul>
+                        </div>
                     </li>
                     @endcan
                 </ul>
