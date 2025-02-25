@@ -101,11 +101,15 @@
     }
 
     #all-highlights .highlight-box:hover {
-        border: 2px solid #2781ff;
+        border: 2px solid #2781ff;`
+    }
+
+    #all-highlights .topic {
+        font-size: 14px;
     }
 
     .selected {
-        border: 2px solid #2781ff;
+        border: 3px solid #3988ff;
     }
 
     .selected::after {

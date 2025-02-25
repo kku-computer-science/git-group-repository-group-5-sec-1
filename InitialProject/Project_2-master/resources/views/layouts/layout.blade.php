@@ -124,7 +124,7 @@
                 </span>
                 @else --}}
                 <span class="nav-item">
-                    <a class="btn-solid-sm" href="/login" target="_blank">Login</a>
+                    <a class="btn-solid-sm" href="{{ route('login') }}" target="_blank">Login</a>
                 </span>
                 {{-- @endauth
                 @endif --}}

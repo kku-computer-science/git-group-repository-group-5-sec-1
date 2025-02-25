@@ -46,10 +46,6 @@
         border-radius: 10px;
     }
 
-    .highlight-placeholder:hover {
-        background-color: #00000021;
-    }
-
     .highlight-box:hover .topic {
         display: block;
     }
@@ -67,6 +63,10 @@
         border-bottom-right-radius: 10px;
         text-align: center;
     }
+
+    .mdi-arrow-left:hover {
+        color: #2781ff;
+    }
 </style>
 @section('content')
     <div class="container">
@@ -77,22 +77,16 @@
         @endif
         <div class="card" style="padding: 16px;">
             <div class="card-body">
-                <h4 class="card-title" style="text-align: center;">ไฮไลท์ทั้งหมด</h4>
-                <div class="row" style="gap: 10px; margin-left: auto; margin-right: auto;">
-                    <div onclick="window.location.href = '{{ route('all-highlight.create') }}'" class="highlight-placeholder col-md-4" style="padding: 0; width: 32%;">
-                        <i class="menu-icon mdi mdi-library-plus" style="font-size: 4vw; opacity: 0.75"></i>
-                    </div>
-                    @foreach ($highlights as $highlight)
-                        <div class="col-md-4 highlight-box" style="padding: 0; width: 32%;">
-                            <img src="{{ url('/highlight-image/' . $highlight->banner) }}"
-                                class="rounded img-fluid float-start" alt="{{ $highlight->topic }}">
-                            <div class="topic">
-                                {{ Str::limit($highlight->topic, 90) }}
-                            </div>
-                        </div>
-                    @endforeach
+                <div onclick="window.location.href = '{{ route('all-highlight.index') }}'">
+                    <i class="menu-icon mdi mdi-arrow-left" title="back to manage"
+                        style="font-size: 24px; cursor: pointer;"></i>
                 </div>
+                <h4 class="card-title" style="text-align: center;">สร้างไฮไลท์</h4>
+
             </div>
         </div>
     </div>
 @stop
+@section('javascript')
+    <script></script>
+@endsection
