@@ -23,10 +23,6 @@ class AllHighlightController extends Controller
 
     public function store(Request $request)
     {
-        // Log all incoming data for debugging
-        Log::info('Request data:', $request->all());
-        Log::info('Files in request:', $request->allFiles());
-
         // Validate request
         $request->validate([
             'banner' => 'required|image|mimes:png,jpeg,jpg,webp|max:2048',
@@ -54,7 +50,7 @@ class AllHighlightController extends Controller
         // Upload banner
         $bannerFile = $request->file('banner');
         $bannerName = date('Y-m-d') . '-' . time();
-        Log::info("Uploading banner: $bannerName");
+
         $bucket->upload(fopen($bannerFile->getRealPath(), 'r'), ['name' => $bannerName]);
 
         // Create Highlight record
@@ -64,32 +60,26 @@ class AllHighlightController extends Controller
             'topic' => $request->topic,
             'detail' => $request->detail,
         ]);
-        Log::info("Highlight created with ID: {$highlight->id}");
 
         // Process albums from allFiles()
         $allFiles = $request->allFiles();
         if (isset($allFiles['albums']) && !empty($allFiles['albums'])) {
             $albumFiles = $allFiles['albums'];
-            Log::info('Album files detected:', array_keys($albumFiles));
 
             foreach ($albumFiles as $groupIndex => $albumGroup) {
-                Log::info("Processing album group: $groupIndex", ['file_count' => count($albumGroup)]);
-                foreach ($albumGroup as $albumFile) { // Direct iteration over the file array
+                foreach ($albumGroup as $albumFile) {
                     if ($albumFile instanceof \Illuminate\Http\UploadedFile) {
                         $albumName = date('Y-m-d') . '-' . microtime(true);
-                        Log::info("Uploading album: $albumName");
 
                         try {
                             $bucket->upload(fopen($albumFile->getRealPath(), 'r'), [
                                 'name' => $albumName,
                             ]);
-                            Log::info("Album uploaded to GCS: $albumName");
 
                             $album = Album::create([
                                 'url' => $albumName,
                                 'highlight_id' => $highlight->id,
                             ]);
-                            Log::info("Album saved to database with ID: {$album->id}");
                         } catch (\Exception $e) {
                             Log::error("Failed to process album '$albumName': " . $e->getMessage());
                         }
@@ -114,4 +104,98 @@ class AllHighlightController extends Controller
 
         return view('highlight.edit', compact('highlight'));
     }
+
+    public function update(Request $request, $id)
+    {
+        // Log all incoming data for debugging
+        Log::info('Update request data:', $request->all());
+        Log::info('Update files in request:', $request->allFiles());
+
+        // Validate request
+        $request->validate([
+            'banner' => 'nullable|image|mimes:png,jpeg,jpg,webp|max:2048', // Optional for update
+            'topic' => 'required|string|max:255',
+            'detail' => 'required|string',
+            'albums.*.*' => 'nullable|image|mimes:png,jpeg,jpg,webp|max:2048',
+        ]);
+
+        // Find the highlight
+        $highlight = Highlight::find($id);
+        if (!$highlight) {
+            return back()->withErrors("Highlight not found with ID: $id");
+        }
+
+        // Initialize Google Cloud Storage
+        try {
+            $storage = new StorageClient([
+                'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
+                'keyFilePath' => env('GOOGLE_CLOUD_KEY_FILE', storage_path('app/google/service-account.json')),
+            ]);
+            $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
+
+            if (!$bucket->exists()) {
+                throw new \Exception("Bucket does not exist or is inaccessible.");
+            }
+        } catch (\Exception $e) {
+            Log::error('Google Cloud Storage initialization failed: ' . $e->getMessage());
+            return back()->withErrors('Google Cloud Storage error: ' . $e->getMessage());
+        }
+
+        // Update banner if provided
+        if ($request->hasFile('banner')) {
+            // Delete old banner from GCS (optional, depending on your needs)
+            $oldBanner = $highlight->banner;
+            $bucket->object($oldBanner)->delete();
+
+            $bannerFile = $request->file('banner');
+            $bannerName = date('Y-m-d') . '-' . time();
+            Log::info("Uploading new banner: $bannerName");
+            $bucket->upload(fopen($bannerFile->getRealPath(), 'r'), ['name' => $bannerName]);
+            $highlight->banner = $bannerName;
+        }
+
+        // Update highlight details
+        $highlight->topic = $request->topic;
+        $highlight->detail = $request->detail;
+        $highlight->save();
+        Log::info("Highlight updated with ID: {$highlight->id}");
+
+        // Process albums
+        $allFiles = $request->allFiles();
+        if (isset($allFiles['albums']) && !empty($allFiles['albums'])) {
+            $albumFiles = $allFiles['albums'];
+            
+            foreach ($albumFiles as $groupIndex => $albumGroup) {
+                foreach ($albumGroup as $albumFile) {
+                    if ($albumFile instanceof \Illuminate\Http\UploadedFile) {
+                        $existingAlbum = $highlight->albums->get($groupIndex);
+                        if ($existingAlbum) {
+                            $bucket->object($existingAlbum->url)->delete();
+                            $existingAlbum->delete();;
+                        }
+
+                        $albumName = date('Y-m-d') . '-' . microtime(true);
+
+                        try {
+                            $bucket->upload(fopen($albumFile->getRealPath(), 'r'), [
+                                'name' => $albumName,
+                            ]);
+
+                            $album = Album::create([
+                                'url' => $albumName,
+                                'highlight_id' => $highlight->id,
+                            ]);
+                        } catch (\Exception $e) {
+                            Log::error("Failed to process album '$albumName': " . $e->getMessage());
+                        }
+                    }
+                }
+            }
+        }
+
+        return redirect()->route('all-highlight.index')
+            ->with('success', 'Highlight updated successfully.');
+    }
 }
+
+
