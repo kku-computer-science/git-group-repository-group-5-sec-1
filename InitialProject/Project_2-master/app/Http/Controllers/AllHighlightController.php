@@ -13,4 +13,9 @@ class AllHighlightController extends Controller
 
         return view('highlight.all', compact('highlights'));
     }
+
+    public function create()
+    {
+        return view('highlight.create');
+    }
 }

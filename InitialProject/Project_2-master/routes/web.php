@@ -94,6 +94,7 @@ Route::get('lang/{lang}', ['as' => 'langswitch', 'uses' => 'App\Http\Controllers
 Route::get('/export', [ExportPaperController::class, 'exportUsers'])->name('export-papers');
 Route::get('bib/{id}', [BibtexController::class, 'getbib'])->name('bibtex');
 
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 //Route::get('bib/{id}', [BibtexController::class, 'index'])->name('bibtex');
 //Route::get('change/lang', [LocalizationController::class,'lang_change'])->name('LangChange');
 
@@ -145,9 +146,11 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::get('tests/{id}', [TestController::class, 'getCategory'])->name('tests'); //call program
     Route::get('/highlight', [HighlightController::class, 'index'])->name('highlight.index');
     Route::delete('/highlight/{id}', [HighlightController::class, 'destroy'])->name('highlight.destroy');
-    Route::resource('all-highlight', AllHighlightController::class);
     Route::post('/highlight/save', [HighlightController::class, 'save'])->name('highlight.save');
     Route::post('/highlight/reset', [HighlightController::class, 'reset'])->name('highlight.reset');
+
+    Route::get('/all-highlight', [AllHighlightController::class, 'index'])->name('all-highlight.index');
+    Route::get('/highlight/create', [AllHighlightController::class, 'create'])->name('all-highlight.create');
 });
 
 
