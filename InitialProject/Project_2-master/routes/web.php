@@ -84,18 +84,11 @@ Route::get('/researchproject', [App\Http\Controllers\ResearchProjController::cla
 Route::get('/researchgroup', [App\Http\Controllers\ResearchgroupsController::class, 'index'])->name('researchgroup');
 Route::get('researchgroupdetail/{id}', [ResearchGroupDetailController::class, 'request'])->name('researchgroupdetail');
 Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports');
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 Route::get('/highlight-banner', [HighlightController::class, 'showHighlights'])->name('highlight.banner');
 //To show highlight as viewer(non-login user)
 Route::get('/highlight{id}', [HighlightController::class, 'details'])->name('highlight.details');
 
 
->>>>>>> Stashed changes
-=======
-Route::get('/highlight-banner', [HighlighBannerController::class, 'index']);
->>>>>>> 83e4b7e31aaa16e4b7aeba65c18f021a0cf1851c
 Route::get('loadindex', [PDFController::class, 'index']);
 Route::get('pdf', [PDFController::class, 'generateInvoicePDF'])->name('pdf');
 Route::get('docx', [PDFController::class, 'generateInvoiceDOCX'])->name('docx');
@@ -163,11 +156,11 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::post('/highlight/reset', [HighlightController::class, 'reset'])->name('highlight.reset');
 
     Route::get('/all-highlight', [AllHighlightController::class, 'index'])->name('all-highlight.index');
-    Route::get('/all-highlight/create', [AllHighlightController::class, 'create'])->name('all-highlight.create');
-    Route::post('/all-highlight/store', [AllHighlightController::class, 'store'])->name('all-highlight.store');
-    Route::get('/all-highlight/{id}', [AllHighlightController::class, 'edit'])->name('all-highlight.edit');
-    Route::put('/all-highlight/{id}', [AllHighlightController::class, 'update'])->name('all-highlight.update');
-    Route::delete('/all-highlight/{id}', [AllHighlightController::class, 'destroy'])->name('all-highlight.destroy');
+    Route::get('/highlight/create', [AllHighlightController::class, 'create'])->name('all-highlight.create');
+    Route::post('/highlight/store', [AllHighlightController::class, 'store'])->name('all-highlight.store');
+    Route::get('/highlight/{id}', [AllHighlightController::class, 'edit'])->name('all-highlight.edit');
+    Route::put('/highlight/{id}', [AllHighlightController::class, 'update'])->name('all-highlight.update');
+    Route::delete('/highlight/{id}', [AllHighlightController::class, 'destroy'])->name('all-highlight.destroy');
 });
 
 

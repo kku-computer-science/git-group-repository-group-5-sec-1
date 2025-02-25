@@ -49,18 +49,6 @@
 
             {{-- Dynamic Carousel Items --}}
             <div class="carousel-inner">
-<<<<<<< Updated upstream
-                <div class="carousel-item active">
-                    <img src="{{asset('img/Banner1.png')}}" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="{{asset('img/Banner2.png')}}" class="d-block w-100" alt="...">
-                </div>
-<<<<<<< HEAD
-                <!-- <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-            </div> -->
-=======
                 @foreach ($latestHighlights as $index => $highlight)
                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                         <a href="{{ url('/highlight' . $highlight->id) }}">
@@ -69,9 +57,6 @@
                         </a>
                     </div>
                 @endforeach
->>>>>>> Stashed changes
-=======
->>>>>>> 83e4b7e31aaa16e4b7aeba65c18f021a0cf1851c
             </div>
 
             {{-- Carousel Controls --}}

@@ -17,7 +17,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        $latestHighlights = Highlight::orderBy('id', 'desc')->take(3)->get();
+        $latestHighlights = Highlight::whereNotNull('selected')
+                                ->orderBy('selected', 'asc')
+                                ->take(3)
+                                ->get();
         //$papers = Paper::all()->orderBy, 'DESC');
         $papers = [];
         $year = range(Carbon::now()->year - 4, Carbon::now()->year);

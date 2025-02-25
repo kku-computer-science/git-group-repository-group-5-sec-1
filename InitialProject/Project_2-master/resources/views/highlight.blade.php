@@ -39,14 +39,13 @@
     font-size: 16px;
 }
 </style>
-<<<<<<< HEAD
 
 @section('content')
     <div class="container">
-        <h2 class="text-center">Highlight Banner</h2>
+        <h2 class="text-center">ไฮไลท์ทั้งหมด</h2>
 
         @if ($highlights->isEmpty())
-            <p class="text-center">No highlights available.</p>
+            <p class="text-center">ไม่มีไฮไลท์.</p>
         @else
             <div class="row">
                 @foreach ($highlights as $highlight)
@@ -65,8 +64,3 @@
         @endif
     </div>
 @endsection
-
-
-=======
-@section('content')
->>>>>>> 83e4b7e31aaa16e4b7aeba65c18f021a0cf1851c

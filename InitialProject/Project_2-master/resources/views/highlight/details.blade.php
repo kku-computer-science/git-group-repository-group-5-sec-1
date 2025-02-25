@@ -44,7 +44,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-body text-center">
+                    <div class="card-body">
 
                         {{-- ✅ Display Banner Image --}}
                         @if (!empty($highlight->banner))
@@ -53,37 +53,45 @@
                                 alt="{{ $highlight->topic }}" 
                                 style="max-width: 100%; height: auto;">
                         @else
-                            <p class="text-muted">No Image Available</p>
+                            <p class="text-muted text-center">No Image Available</p>
                         @endif
 
+                        {{-- ✅ Display Tags Below the Image --}}
+                        <div class="mb-2 text-start">
+                            <small class="text-muted">
+                                <strong>Tags:</strong>
+                                @forelse($highlight->tags as $tag)
+                                    <span class="badge bg-secondary">{{ $tag->name }}</span>
+                                @empty
+                                    <span class="text-muted">No Tags</span>
+                                @endforelse
+                            </small>
+                        </div>
+
                         {{-- ✅ Display Topic in Large Header Size --}}
-                        <h2 class="mt-3">{{ $highlight->topic ?? 'No Topic Available' }}</h2>
+                        <h2 class="mt-3 text-center">{{ $highlight->topic ?? 'No Topic Available' }}</h2>
 
                         {{-- ✅ Display Detail with Original Formatting & Left Alignment --}}
                         <div class="text-start mt-2" style="white-space: pre-line;">
                             {{ $highlight->detail ?? 'No Details Available' }}
                         </div>
 
-                        {{-- ✅ Display Album as Thumbnails or Show "No Album" Message --}}
-                        @if (!empty($highlight->album) && is_string($highlight->album))
-                            @php
-                                $albumImages = json_decode($highlight->album, true);
-                            @endphp
-                            @if (is_array($albumImages) && count($albumImages) > 0)
-                                <div class="d-flex justify-content-center gap-2 mt-3">
-                                    @foreach($albumImages as $image)
-                                        <img src="{{ url('/highlight-image/' . $image->url) }}" 
+                        {{-- ✅ Display Albums as Thumbnails or Show "No Album" Message (Left Aligned) --}}
+                        <div class="text-start mt-3">
+                            <strong>Album:</strong>
+                            @if ($highlight->albums->isNotEmpty())
+                                <div class="d-flex gap-2 mt-2">
+                                    @foreach($highlight->albums as $album)
+                                        <img src="{{ url('/highlight-image/' . $album->url) }}" 
                                             class="rounded" 
                                             style="width: 80px; height: 80px; object-fit: cover;" 
                                             alt="Album Image">
                                     @endforeach
                                 </div>
                             @else
-                                <p class="text-start text-muted mt-3">No Album</p>
+                                <span class="text-muted ms-2">No Album</span>
                             @endif
-                        @else
-                            <p class="text-start text-muted mt-3">No Album</p>
-                        @endif
+                        </div>
 
                     </div>
                 </div>
