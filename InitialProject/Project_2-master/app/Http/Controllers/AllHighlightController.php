@@ -48,7 +48,7 @@ class AllHighlightController extends Controller
 
             // Upload banner
             $bannerFile = $request->file('banner');
-            $bannerName = date('Y-m-d') . '-' . time();
+            $bannerName = date('Y-m-d') . '-' . time() . '-' . $bannerFile->getClientOriginalName();
             $bucket->upload(fopen($bannerFile->getRealPath(), 'r'), ['name' => $bannerName]);
 
             // Create highlight
@@ -76,7 +76,7 @@ class AllHighlightController extends Controller
                 foreach ($albumFiles as $groupIndex => $albumGroup) {
                     foreach ($albumGroup as $albumFile) {
                         if ($albumFile instanceof \Illuminate\Http\UploadedFile) {
-                            $albumName = date('Y-m-d') . '-' . microtime(true);
+                            $albumName = date('Y-m-d') . '-' . microtime(true) . '-' . $albumFile->getClientOriginalName();
                             $bucket->upload(fopen($albumFile->getRealPath(), 'r'), ['name' => $albumName]);
                             Album::create([
                                 'url' => $albumName,
@@ -124,7 +124,7 @@ class AllHighlightController extends Controller
             if ($request->hasFile('banner')) {
                 $bucket->object($highlight->banner)->delete();
                 $bannerFile = $request->file('banner');
-                $bannerName = date('Y-m-d') . '-' . time();
+                $bannerName = date('Y-m-d') . '-' . time(). '-' . $bannerFile->getClientOriginalName();
                 $bucket->upload(fopen($bannerFile->getRealPath(), 'r'), ['name' => $bannerName]);
                 $highlight->banner = $bannerName;
             }
@@ -153,7 +153,7 @@ class AllHighlightController extends Controller
                 foreach ($albumFiles as $groupIndex => $albumGroup) {
                     foreach ($albumGroup as $albumFile) {
                         if ($albumFile instanceof \Illuminate\Http\UploadedFile) {
-                            $albumName = date('Y-m-d') . '-' . microtime(true);
+                            $albumName = date('Y-m-d') . '-' . microtime(true) . '-' . $albumFile->getClientOriginalName();
                             $bucket->upload(fopen($albumFile->getRealPath(), 'r'), ['name' => $albumName]);
                             Album::create([
                                 'url' => $albumName,
