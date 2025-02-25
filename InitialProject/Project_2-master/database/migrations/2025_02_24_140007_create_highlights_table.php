@@ -18,7 +18,7 @@ class CreateHighlightsTable extends Migration
             $table->string('banner');
             $table->string('topic');
             $table->text('detail');
-            $table->boolean('selected')->default(0);
+            $table->tinyInteger('selected')->default(0)->length(3);
             $table->timestamps();
         });
     }

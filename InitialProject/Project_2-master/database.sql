@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Feb 11, 2025 at 09:30 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost:8889
+-- Generation Time: Feb 24, 2025 at 07:08 PM
+-- Server version: 8.0.40
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sedb`
+-- Database: `example_app`
 --
 
 -- --------------------------------------------------------
@@ -28,13 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `academicworks` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `ac_name` varchar(200) NOT NULL,
-  `ac_type` varchar(50) DEFAULT NULL,
-  `ac_sourcetitle` varchar(50) DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `ac_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ac_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ac_sourcetitle` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ac_year` date DEFAULT NULL,
-  `ac_refnumber` varchar(75) DEFAULT NULL,
-  `ac_page` varchar(45) DEFAULT NULL,
+  `ac_refnumber` varchar(75) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ac_page` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -107,13 +107,27 @@ INSERT INTO `academicworks` (`id`, `ac_name`, `ac_type`, `ac_sourcetitle`, `ac_y
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `albums`
+--
+
+CREATE TABLE `albums` (
+  `id` bigint UNSIGNED NOT NULL,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `highlight_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `authors`
 --
 
 CREATE TABLE `authors` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `author_fname` varchar(100) DEFAULT NULL,
-  `author_lname` varchar(100) DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `author_fname` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `author_lname` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -836,10 +850,10 @@ INSERT INTO `authors` (`id`, `author_fname`, `author_lname`, `created_at`, `upda
 --
 
 CREATE TABLE `author_of_academicworks` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `author_type` int(1) DEFAULT NULL,
-  `author_id` bigint(20) UNSIGNED NOT NULL,
-  `academicwork_id` bigint(20) UNSIGNED NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `author_type` int DEFAULT NULL,
+  `author_id` bigint UNSIGNED NOT NULL,
+  `academicwork_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -920,10 +934,10 @@ INSERT INTO `author_of_academicworks` (`id`, `author_type`, `author_id`, `academ
 --
 
 CREATE TABLE `author_of_papers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `author_id` bigint(20) UNSIGNED NOT NULL,
-  `paper_id` bigint(20) UNSIGNED NOT NULL,
-  `author_type` int(1) DEFAULT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `author_id` bigint UNSIGNED NOT NULL,
+  `paper_id` bigint UNSIGNED NOT NULL,
+  `author_type` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2047,10 +2061,10 @@ INSERT INTO `author_of_papers` (`id`, `author_id`, `paper_id`, `author_type`) VA
 --
 
 CREATE TABLE `books` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `auther_name` varchar(255) NOT NULL,
-  `description` longtext NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `auther_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2062,9 +2076,9 @@ CREATE TABLE `books` (
 --
 
 CREATE TABLE `categories` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `title_ar` varchar(255) NOT NULL,
-  `title_en` varchar(255) NOT NULL,
+  `id` int UNSIGNED NOT NULL,
+  `title_ar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2076,11 +2090,11 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `courses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `course_code` varchar(255) NOT NULL,
-  `course_name` varchar(255) NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `degree_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `course_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `course_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `degree_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2092,10 +2106,10 @@ CREATE TABLE `courses` (
 --
 
 CREATE TABLE `customers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2107,11 +2121,11 @@ CREATE TABLE `customers` (
 --
 
 CREATE TABLE `degrees` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `degree_name_th` varchar(75) NOT NULL,
-  `degree_name_en` varchar(75) NOT NULL,
-  `title_th` varchar(10) DEFAULT NULL,
-  `title_en` varchar(10) DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `degree_name_th` varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `degree_name_en` varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_th` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title_en` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2132,9 +2146,9 @@ INSERT INTO `degrees` (`id`, `degree_name_th`, `degree_name_en`, `title_th`, `ti
 --
 
 CREATE TABLE `departments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `department_name_th` varchar(100) NOT NULL,
-  `department_name_en` varchar(100) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `department_name_th` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `department_name_en` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2153,12 +2167,12 @@ INSERT INTO `departments` (`id`, `department_name_th`, `department_name_en`, `cr
 --
 
 CREATE TABLE `education` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uname` varchar(150) NOT NULL,
-  `qua_name` varchar(150) NOT NULL,
-  `level` int(1) NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `year` varchar(4) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `uname` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `qua_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `level` int NOT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `year` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2260,9 +2274,9 @@ INSERT INTO `education` (`id`, `uname`, `qua_name`, `level`, `user_id`, `year`, 
 --
 
 CREATE TABLE `expertises` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `expert_name` varchar(100) NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `expert_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2406,13 +2420,13 @@ INSERT INTO `expertises` (`id`, `expert_name`, `user_id`, `created_at`, `updated
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `id` bigint UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2422,9 +2436,9 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `files` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `file_path` varchar(255) DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `file_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2436,14 +2450,14 @@ CREATE TABLE `files` (
 --
 
 CREATE TABLE `funds` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `fund_name` text NOT NULL,
-  `fund_details` text DEFAULT NULL,
-  `fund_type` varchar(10) NOT NULL,
-  `fund_level` varchar(10) DEFAULT NULL,
-  `fund_agency` varchar(150) DEFAULT NULL,
-  `support_resource` varchar(150) DEFAULT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `fund_name` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fund_details` text COLLATE utf8mb4_unicode_ci,
+  `fund_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fund_level` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fund_agency` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `support_resource` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2490,10 +2504,36 @@ INSERT INTO `funds` (`id`, `fund_name`, `fund_details`, `fund_type`, `fund_level
 --
 
 CREATE TABLE `fund_of_research` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `fund_id` bigint(20) UNSIGNED NOT NULL,
-  `research_project_id` bigint(20) UNSIGNED NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `fund_id` bigint UNSIGNED NOT NULL,
+  `research_project_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `highlights`
+--
+
+CREATE TABLE `highlights` (
+  `id` bigint UNSIGNED NOT NULL,
+  `banner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `topic` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `detail` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `selected` tinyint NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `highlights`
+--
+
+INSERT INTO `highlights` (`id`, `banner`, `topic`, `detail`, `selected`, `created_at`, `updated_at`) VALUES
+(1, '2025-2-4-1739952678-1.png', 'วิทยาลัยการคอมพิวเตอร์ มข. จัดงาน BOOTCAMP TRAINING & HACKATHON เส้นทางสู่จักรวาลข้อมูล: การพัฒนากำลังคนด้านการเขียนโปรแกรมสู่การเป็นนักวิเคราะห์ข้อมูล (Journey to Data Universe: Empowering Coding Professionals in Data Analyst)', 'ผศ. ดร.สุมณฑา เกษมวิลาศ อาจารย์ประจำวิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น หัวหน้าโครงการวิจัย ซึ่งได้รับทุนสนับสนุนจากหน่วยบริหารและจัดการทุนด้านการพัฒนากำลังคน และทุนด้านการพัฒนาสถาบันอุดมศึกษา การวิจัยและการสร้างนวัตกรรม (บพค.) ภายใต้แผนงานย่อย N44 (S4P21) พัฒนาเยาวชนให้เป็นผู้มีสมรรถนะและความรู้ ฉลาดรู้ทางวิทยาศาสตร์ คณิตศาสตร์ รวมถึง Coding โดยใช้วิทยาศาสตร์ วิจัย และนวัตกรรม ประจำปีงบประมาณ 2567 ในการจัดกิจกรรม “BOOTCAMP TRAINING & HACKATHON” ในโครงการ เส้นทางสู่จักรวาลข้อมูล: การพัฒนากำลังคนด้านการเขียนโปรแกรมสู่การเป็นนักวิเคราะห์ข้อมูล (Journey to Data Universe: Empowering Coding Professionals in Data Analyst) หรือเรียกสั้น ๆ ว่า Data Universe,การแข่งขัน Hackathon จัดขึ้นภายใต้ธีม \"Climate Change PM 2.5\" เมื่อวันอาทิตย์ที่ 16 กุมภาพันธ์ 2568 ณ ห้องประชุมวิทยวิภาส 1 อาคารวิทยวิภาส มหาวิทยาลัยขอนแก่น โดยมี ผศ. ดร.สุมณฑา เกษมวิลาศ เป็นหัวหน้าโครงการ โดยผู้ร่วมวิจัยประกอบไปด้วย รศ. ดร.วรารัตน์ สงฆ์แป้น, ผศ. ดร.ชิตสุธา สุ่มเล็ก และ อ.ธนพล ตั้งชูพงศ์ จากวิทยาลัยการอคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น ร่วมกับ ผศ. ดร.ศุภชานันท์ วนภู และ ดร.เจนจีรา อักษรพิมพ์ จากคณะวิทยาการจัดการ มหาวิทยาลัยราชภัฏนครราชสีมา ซึ่งกิจกรรมนี้ได้รับความสนใจจากนักศึกษา นักวิจัย และผู้สนใจด้านเทคโนโลยีข้อมูลเป็นจำนวนมาก', 3, '2025-02-24 08:17:00', '2025-02-24 19:08:27'),
+(2, '2025-2-3-1739872646-1.png', 'นักศึกษาวิทยาลัยการคอมพิวเตอร์ มข. คว้ารางวัลชมเชยจากเวที Durian Hackathon 2025', 'ทีมนักศึกษาวิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น คว้ารางวัลชมเชยจากการแข่งขันปัญญาประดิษฐ์ทางการเกษตร Durian Hackathon 2025 ซึ่งจัดขึ้นระหว่างวันที่ 15-16 กุมภาพันธ์ 2568 ณ มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตภูเก็ต โดยมีเป้าหมายเพื่อพัฒนาเทคโนโลยีปัญญาประดิษฐ์ (AI) และ Computer Vision สำหรับภาคเกษตรกรรม โดยเฉพาะในกลุ่ม Smart Farmer และ Young Smart Farmer เพื่อเพิ่มประสิทธิภาพการผลิต ลดต้นทุน และคาดการณ์ปัญหาทางการเกษตรได้อย่างแม่นยำ\r\n\r\nโดยทีมนักศึกษาจากวิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น ได้รับรางวัลชมเชย ได้แก่ ทีม \"D020 No Durian No Life\" ซึ่งประกอบไปด้วย\r\n👨‍💻 นายธนรัตน์ แซ่เฮีย (หลักสูตรปัญญาประดิษฐ์ ชั้นปีที่ 2)\r\n👩‍💻 นางสาวณัฐวดี ชาลีชาติ (หลักสูตรวิทยาการคอมพิวเตอร์ ชั้นปีที่ 2)\r\n👨‍💻 นายจักรพรรดิ์ มั่งกูล (หลักสูตรปัญญาประดิษฐ์ ชั้นปีที่ 2)\r\n👨‍💻 นายโภควินท์ ทรัพย์สมบูรณ์ (หลักสูตรปัญญาประดิษฐ์ ชั้นปีที่ 2)\r\n\r\nการแข่งขัน Durian Hackathon 2025 จัดโดย วิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตภูเก็ต ร่วมกับ สถาบันข้อมูลขนาดใหญ่ (BDI) มีผู้เข้าร่วมกว่า 86 คน จาก 21 ทีมทั่วประเทศ ครอบคลุมทั้งการอบรมภาคทฤษฎีและภาคปฏิบัติ รวมถึงการแข่งขัน Hackathon ที่เปิดโอกาสให้ผู้เข้าร่วมได้ทดลองใช้เทคโนโลยีจริงภายใต้การดูแลของผู้เชี่ยวชาญ และได้รับเกียรติจาก รองศาสตราจารย์ ดร.พันธ์ ทองชุมนุม รองอธิการบดี ม.อ.ภูเก็ต เป็นประธานเปิดงาน\r\n\r\nการแข่งขันครั้งนี้ถือเป็นอีกหนึ่งเวทีสำคัญที่ช่วยผลักดันนักศึกษาไทยให้มีความรู้และทักษะด้าน AI สำหรับอุตสาหกรรมเกษตร พร้อมปูทางสู่การพัฒนาเทคโนโลยีที่สามารถสร้างประโยชน์ให้กับภาคการเกษตรของประเทศในอนาคต', 2, '2025-02-24 11:02:00', '2025-02-24 19:08:27'),
+(3, '2025-2-2-1739791867-1.png', 'นักศึกษาวิทยาลัยการคอมพิวเตอร์ มข. โชว์ศักยภาพ คว้า 7 รางวัลจากเวทีแข่งขันระดับชาติ E-SAN Thailand PMU-B Coding & AI Academy Season 2', 'วิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น ขอแสดงความยินดีกับ นายญาณาธร บุญลือ (หลักสูตรปัญญาประดิษฐ์ ชั้นที่ปี 2) และ นายปุณณวิชญ์ พงษ์สวโรจน์ (หลักสูตรวิทยาการคอมพิวเตอร์ ชั้นที่ปี 1) สองนักศึกษาจาก วิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น ที่สร้างผลงานโดดเด่นในการแข่งขันกิจกรรม “Hackathon & Pitching สู่วิชาชีพขั้นสูง” และการนำเสนอโครงงาน (Advance Coding & AI Skills and Proposal Round: E-SAN Thailand PMU-B Coding & AI Academy Season 2) โครงการการพัฒนาแพลตฟอร์มการเรียนรู้ที่ส่งเสริมสมรรถนะทางวิชาชีพด้าน STEM, Coding & AI ซึ่งการแข่งขันนี้เริ่มต้นขึ้นตั้งแต่เดือนสิงหาคม 2567 โดยมีผู้เข้าร่วมกว่า 1,000 คน ก่อนจะผ่านการคัดเลือกจนเหลือเพียง 20 ทีมสุดท้าย ที่เข้าแข่งขันรอบชิงชนะเลิศ ซึ่งจัดขึ้นระหว่างวันที่ 9 - 11 กุมภาพันธ์ 2568 ณ โรงแรมอวานี จังหวัดขอนแก่น\r\n\r\n🏆 โดยนักศึกษาจากวิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น ได้รับรางวัลดังต่อไปนี้\r\n\r\n🔹 นายญาณาธร บุญลือ (หลักสูตรปัญญาประดิษฐ์ ชั้นปีที่ 2)\r\nร่วมทีมกับนักศึกษาสาขาคอมพิวเตอร์ศึกษา คณะศึกษาศาสตร์ นำเสนอโปรเจกต์ \"สมองดี Smart Mind\" ซึ่งคว้ารางวัลรวมถึง 4 รางวัล ได้แก่\r\n✅ รางวัลรองชนะเลิศอันดับ 3\r\n✅ รางวัลพิเศษจากบริษัท Mindbot\r\n✅ รางวัลสนับสนุนการดูงาน ณ ประเทศเกาหลีใต้ จำนวน 2 รางวัล\r\n\r\n🔹 นายปุณณวิชญ์ พงษ์สวโรจน์ (หลักสูตรวิทยาการคอมพิวเตอร์ ชั้นปีที่ 1)\r\nร่วมทีมกับนักเรียนมัธยมและบุคคลทั่วไป พัฒนา \"MOODY: แพลตฟอร์มวินิจฉัยและติดตามสุขภาพจิตด้วย Deep Learning\" ซึ่งคว้า 3 รางวัล ได้แก่\r\n✅ รางวัลพิเศษ\r\n✅ รางวัลพิเศษจาก RUEE Lab.\r\n✅ รางวัลสนับสนุนการดูงาน ณ ประเทศเกาหลีใต้\r\n\r\nโดยทั้งสองโปรเจกต์จัดทำขึ้นเพื่อวินิจฉัยและดูแลสุขภาพสมองและสุขภาพจิต สะท้อนให้เห็นถึงศักยภาพของเยาวชนไทยในการพัฒนานวัตกรรมเพื่อสังคม ทั้งนี้การแข่งขันครั้งนี้ไม่เพียงเป็นเวทีทดสอบศักยภาพของเยาวชนไทย แต่ยังเป็นโอกาสสำคัญที่ช่วยเปิดประสบการณ์และพัฒนาทักษะให้พร้อมก้าวสู่อุตสาหกรรมเทคโนโลยีระดับสากล', 1, '2025-02-24 11:12:00', '2025-02-24 19:08:27'),
+(4, '2025-2-6-1738921360-1.png', 'วิทยาลัยการคอมพิวเตอร์ มข. จับมือ ExxonMobil ลงนาม MOU เสริมความร่วมมือด้านไอที พร้อมจัดกิจกรรม Knowledge Sharing', 'วันที่ 7 กุมภาพันธ์ 2568 วิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น ได้ลงนามบันทึกข้อตกลงความร่วมมือ (MOU) กับ บริษัท เอ็กซอนโมบิล จำกัด เพื่อส่งเสริมความร่วมมือทางวิชาการ งานวิจัย สหกิจศึกษา และพัฒนาทักษะด้านเทคโนโลยีของนักศึกษาให้สอดคล้องกับความต้องการของภาคอุตสาหกรรม\r\n\r\nพิธีลงนามครั้งนี้ได้รับเกียรติจาก คุณวิริยะ โฆษะวิสุทธิ์ กรรมการและผู้จัดการฝ่ายเทคโนโลยีสารสนเทศ คุณสุทธิชัย แสวงพบสุข ผู้จัดการฝ่ายเทคโนโลยีสารสนเทศ และ คุณปกรณ์ วุฒิวิชญานันต์ หัวหน้าทีมฝ่ายเทคโนโลยีสารสนเทศ ร่วมลงนามความร่วมมือกับตัวแทนจากวิทยาลัยการคอมพิวเตอร์ นำโดย อ.ดร.ศรัณย์ อภิชนตระกูล รองคณบดีฝ่ายบริหาร และ ผศ.ดร.ชานนท์ เดชสุภา รองคณบดีฝ่ายวิจัยและนวัตกรรม พร้อมด้วยคณะผู้บริหารและประธานหลักสูตรของวิทยาลัยฯ\r\n\r\nนอกเหนือจากพิธีลงนาม บริษัท ExxonMobil ยังได้จัดกิจกรรม Knowledge Sharing ในหัวข้อ \"Introduction to Database\" ถ่ายทอดความรู้เกี่ยวกับโครงสร้างของฐานข้อมูลและแนวโน้มในอนาคต รวมถึงเทคโนโลยีที่ใช้จริงในอุตสาหกรรม โดยมี คุณพิชามญชุ์ จันทเพ็ชร์ (HyperAutomation Development Consultant) และ คุณธนิดา จงอานนท์ (AP Trading Business Analyst) เป็นวิทยากร ซึ่งกิจกรรมดังกล่าวได้รับความสนใจจากนักศึกษาจำนวนมาก เปิดโอกาสให้ผู้เข้าร่วมได้เรียนรู้เทคโนโลยีฐานข้อมูล ตั้งแต่พื้นฐานไปจนถึงแนวโน้มของอุตสาหกรรม รวมถึงแนวทางการนำไปประยุกต์ใช้ในอนาคต\r\n\r\nการลงนาม MOU และการจัดกิจกรรมครั้งนี้ถือเป็นก้าวสำคัญในการสร้างเครือข่ายความร่วมมือระหว่างภาคการศึกษาและภาคอุตสาหกรรม ซึ่งจะช่วยในการพัฒนาศักยภาพของนักศึกษา และสร้างโอกาสในการทำงานในอนาคต', 0, '2025-02-24 12:59:55', '2025-02-24 19:08:27');
 
 -- --------------------------------------------------------
 
@@ -2502,9 +2542,9 @@ CREATE TABLE `fund_of_research` (
 --
 
 CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
+  `id` int UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2542,7 +2582,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (28, '2022_04_17_222540_create_user_of_academicworks', 6),
 (29, '2022_04_17_222553_create_author_of_academicworks', 7),
 (30, '2022_04_29_143111_create_outsiders_table', 8),
-(31, '2022_04_29_155014_create_outsiders_work_of_project_table', 9);
+(31, '2022_04_29_155014_create_outsiders_work_of_project_table', 9),
+(32, '2025_02_24_140007_create_highlights_table', 10),
+(33, '2025_02_24_140010_create_albums_table', 10);
 
 -- --------------------------------------------------------
 
@@ -2551,9 +2593,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `model_has_permissions` (
-  `permission_id` bigint(20) UNSIGNED NOT NULL,
-  `model_type` varchar(255) NOT NULL,
-  `model_id` bigint(20) UNSIGNED NOT NULL
+  `permission_id` bigint UNSIGNED NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2563,9 +2605,9 @@ CREATE TABLE `model_has_permissions` (
 --
 
 CREATE TABLE `model_has_roles` (
-  `role_id` bigint(20) UNSIGNED NOT NULL,
-  `model_type` varchar(255) NOT NULL,
-  `model_id` bigint(20) UNSIGNED NOT NULL
+  `role_id` bigint UNSIGNED NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -2579,6 +2621,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'App\\Models\\User', 4),
 (2, 'App\\Models\\User', 5),
 (2, 'App\\Models\\User', 6),
+(5, 'App\\Models\\User', 6),
 (2, 'App\\Models\\User', 7),
 (2, 'App\\Models\\User', 8),
 (2, 'App\\Models\\User', 9),
@@ -2606,6 +2649,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'App\\Models\\User', 32),
 (2, 'App\\Models\\User', 33),
 (2, 'App\\Models\\User', 34),
+(4, 'App\\Models\\User', 35),
 (3, 'App\\Models\\User', 36),
 (3, 'App\\Models\\User', 38),
 (3, 'App\\Models\\User', 39),
@@ -2616,6 +2660,9 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (3, 'App\\Models\\User', 44),
 (3, 'App\\Models\\User', 45),
 (3, 'App\\Models\\User', 46),
+(4, 'App\\Models\\User', 47),
+(4, 'App\\Models\\User', 49),
+(4, 'App\\Models\\User', 50),
 (3, 'App\\Models\\User', 51),
 (3, 'App\\Models\\User', 52),
 (3, 'App\\Models\\User', 53),
@@ -2716,11 +2763,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (3, 'App\\Models\\User', 148),
 (3, 'App\\Models\\User', 149),
 (3, 'App\\Models\\User', 150),
-(4, 'App\\Models\\User', 35),
-(4, 'App\\Models\\User', 47),
-(4, 'App\\Models\\User', 49),
-(4, 'App\\Models\\User', 50),
-(5, 'App\\Models\\User', 6);
+(6, 'App\\Models\\User', 161);
 
 -- --------------------------------------------------------
 
@@ -2729,10 +2772,10 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 --
 
 CREATE TABLE `outsiders` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `fname` varchar(255) NOT NULL,
-  `lname` varchar(255) NOT NULL,
-  `title_name` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `fname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2755,10 +2798,10 @@ INSERT INTO `outsiders` (`id`, `fname`, `lname`, `title_name`, `created_at`, `up
 --
 
 CREATE TABLE `outsiders_work_of_project` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `outsider_id` bigint(20) UNSIGNED NOT NULL,
-  `research_project_id` bigint(20) UNSIGNED NOT NULL,
-  `role` int(1) NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `outsider_id` bigint UNSIGNED NOT NULL,
+  `research_project_id` bigint UNSIGNED NOT NULL,
+  `role` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2768,23 +2811,23 @@ CREATE TABLE `outsiders_work_of_project` (
 --
 
 CREATE TABLE `papers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `paper_name` text NOT NULL,
-  `abstract` text DEFAULT NULL,
-  `paper_type` varchar(55) DEFAULT NULL,
-  `paper_subtype` varchar(55) DEFAULT NULL,
-  `paper_sourcetitle` varchar(255) DEFAULT NULL,
-  `keyword` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `paper_url` varchar(150) DEFAULT NULL,
-  `publication` varchar(100) DEFAULT NULL,
-  `paper_yearpub` year(4) DEFAULT NULL,
-  `paper_volume` varchar(20) DEFAULT NULL,
-  `paper_issue` varchar(20) DEFAULT NULL,
-  `paper_citation` int(11) DEFAULT NULL,
-  `paper_page` varchar(50) DEFAULT NULL,
-  `paper_doi` varchar(100) DEFAULT NULL,
-  `paper_funder` text DEFAULT NULL,
-  `reference_number` varchar(100) DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `paper_name` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abstract` text COLLATE utf8mb4_unicode_ci,
+  `paper_type` varchar(55) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paper_subtype` varchar(55) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paper_sourcetitle` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `keyword` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `paper_url` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `publication` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paper_yearpub` year DEFAULT NULL,
+  `paper_volume` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paper_issue` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paper_citation` int DEFAULT NULL,
+  `paper_page` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paper_doi` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `paper_funder` text COLLATE utf8mb4_unicode_ci,
+  `reference_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3395,8 +3438,8 @@ INSERT INTO `papers` (`id`, `paper_name`, `abstract`, `paper_type`, `paper_subty
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -3407,9 +3450,9 @@ CREATE TABLE `password_resets` (
 --
 
 CREATE TABLE `permissions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `guard_name` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3466,7 +3509,9 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (46, 'expertises-create', 'web', '2022-04-03 18:03:09', '2022-04-03 18:03:09'),
 (47, 'expertises-delete', 'web', '2022-04-03 18:03:25', '2022-04-03 18:03:25'),
 (48, 'expertises-edit', 'web', '2022-04-03 18:03:31', '2022-04-03 18:03:31'),
-(50, 'expertises-list', 'web', '2022-04-03 18:29:05', '2022-04-03 18:29:05');
+(50, 'expertises-list', 'web', '2022-04-03 18:29:05', '2022-04-03 18:29:05'),
+(53, 'highlight-list', 'web', '2025-02-24 14:24:13', '2025-02-24 14:24:13'),
+(54, 'all-highlight-list', 'web', '2025-02-24 14:24:19', '2025-02-24 14:24:19');
 
 -- --------------------------------------------------------
 
@@ -3475,9 +3520,9 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 --
 
 CREATE TABLE `posts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `body` text NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3489,11 +3534,11 @@ CREATE TABLE `posts` (
 --
 
 CREATE TABLE `products` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `file` varchar(255) DEFAULT NULL,
-  `group_id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `file` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `group_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3505,11 +3550,11 @@ CREATE TABLE `products` (
 --
 
 CREATE TABLE `programs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `program_name_th` varchar(100) NOT NULL,
-  `program_name_en` varchar(100) NOT NULL,
-  `degree_id` bigint(20) UNSIGNED NOT NULL,
-  `department_id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `program_name_th` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `program_name_en` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `degree_id` bigint UNSIGNED NOT NULL,
+  `department_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3537,15 +3582,15 @@ INSERT INTO `programs` (`id`, `program_name_th`, `program_name_en`, `degree_id`,
 --
 
 CREATE TABLE `research_groups` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `group_name_th` varchar(100) NOT NULL,
-  `group_name_en` varchar(100) NOT NULL,
-  `group_detail_th` text DEFAULT NULL,
-  `group_detail_en` text DEFAULT NULL,
-  `group_desc_th` text DEFAULT NULL,
-  `group_desc_en` text DEFAULT NULL,
-  `group_image` varchar(155) DEFAULT NULL,
-  `banner_image` varchar(155) DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `group_name_th` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `group_name_en` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `group_detail_th` text COLLATE utf8mb4_unicode_ci,
+  `group_detail_en` text COLLATE utf8mb4_unicode_ci,
+  `group_desc_th` text COLLATE utf8mb4_unicode_ci,
+  `group_desc_en` text COLLATE utf8mb4_unicode_ci,
+  `group_image` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `banner_image` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3572,16 +3617,16 @@ INSERT INTO `research_groups` (`id`, `group_name_th`, `group_name_en`, `group_de
 --
 
 CREATE TABLE `research_projects` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `project_name` text NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `project_name` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_start` date DEFAULT NULL,
   `project_end` date DEFAULT NULL,
-  `project_year` year(4) DEFAULT NULL,
-  `budget` int(11) DEFAULT NULL,
-  `responsible_department` varchar(50) DEFAULT NULL,
-  `note` text DEFAULT NULL,
-  `status` int(4) NOT NULL,
-  `fund_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `project_year` year DEFAULT NULL,
+  `budget` int DEFAULT NULL,
+  `responsible_department` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci,
+  `status` int NOT NULL,
+  `fund_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3624,9 +3669,9 @@ INSERT INTO `research_projects` (`id`, `project_name`, `project_start`, `project
 --
 
 CREATE TABLE `roles` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `guard_name` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3640,7 +3685,8 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 (2, 'teacher', 'web', NULL, NULL),
 (3, 'student', 'web', '2022-03-31 15:14:52', '2022-03-31 15:14:52'),
 (4, 'staff', 'web', '2022-03-31 16:57:10', '2022-03-31 16:57:10'),
-(5, 'headproject', 'web', '2022-04-29 05:52:46', '2022-04-29 05:53:03');
+(5, 'headproject', 'web', '2022-04-29 05:52:46', '2022-04-29 05:53:03'),
+(6, 'admin staff', 'web', '2025-02-24 06:17:45', '2025-02-24 06:17:45');
 
 -- --------------------------------------------------------
 
@@ -3649,8 +3695,8 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 --
 
 CREATE TABLE `role_has_permissions` (
-  `permission_id` bigint(20) UNSIGNED NOT NULL,
-  `role_id` bigint(20) UNSIGNED NOT NULL
+  `permission_id` bigint UNSIGNED NOT NULL,
+  `role_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -3675,79 +3721,81 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (15, 1),
 (16, 1),
 (17, 1),
-(17, 2),
-(17, 4),
-(17, 5),
 (18, 1),
-(18, 2),
-(18, 4),
-(18, 5),
 (19, 1),
-(19, 2),
-(19, 4),
-(19, 5),
 (20, 1),
-(20, 2),
-(20, 5),
 (21, 1),
-(21, 2),
-(21, 4),
-(21, 5),
 (22, 1),
-(22, 2),
-(22, 4),
-(22, 5),
 (23, 1),
-(23, 2),
-(23, 4),
-(23, 5),
 (24, 1),
-(24, 2),
-(24, 5),
 (25, 1),
-(25, 2),
-(25, 4),
 (26, 1),
-(26, 2),
 (27, 1),
-(27, 2),
 (28, 1),
-(28, 2),
 (29, 1),
-(29, 2),
-(29, 4),
 (30, 1),
-(30, 2),
-(30, 4),
 (31, 1),
-(31, 2),
-(31, 3),
-(31, 4),
 (32, 1),
-(32, 2),
 (33, 1),
-(33, 4),
 (34, 1),
-(34, 4),
 (35, 1),
-(35, 4),
 (36, 1),
+(42, 1),
+(43, 1),
+(44, 1),
+(45, 1),
+(46, 1),
+(47, 1),
+(48, 1),
+(50, 1),
+(17, 2),
+(18, 2),
+(19, 2),
+(20, 2),
+(21, 2),
+(22, 2),
+(23, 2),
+(24, 2),
+(25, 2),
+(26, 2),
+(27, 2),
+(28, 2),
+(29, 2),
+(30, 2),
+(31, 2),
+(32, 2),
+(31, 3),
+(17, 4),
+(18, 4),
+(19, 4),
+(21, 4),
+(22, 4),
+(23, 4),
+(25, 4),
+(29, 4),
+(30, 4),
+(31, 4),
+(33, 4),
+(34, 4),
+(35, 4),
 (36, 4),
 (37, 4),
 (38, 4),
 (39, 4),
-(42, 1),
 (42, 4),
-(43, 1),
 (43, 4),
-(44, 1),
 (44, 4),
-(45, 1),
 (45, 4),
-(46, 1),
-(47, 1),
-(48, 1),
-(50, 1);
+(17, 5),
+(18, 5),
+(19, 5),
+(20, 5),
+(21, 5),
+(22, 5),
+(23, 5),
+(24, 5),
+(53, 6),
+(54, 6);
 
 -- --------------------------------------------------------
 
@@ -3756,8 +3804,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 --
 
 CREATE TABLE `source_data` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `source_name` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `source_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -3778,9 +3826,9 @@ INSERT INTO `source_data` (`id`, `source_name`, `created_at`, `updated_at`) VALU
 --
 
 CREATE TABLE `source_papers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `source_data_id` bigint(20) UNSIGNED NOT NULL,
-  `paper_id` bigint(20) UNSIGNED NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `source_data_id` bigint UNSIGNED NOT NULL,
+  `paper_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -4406,9 +4454,9 @@ INSERT INTO `source_papers` (`id`, `source_data_id`, `paper_id`) VALUES
 --
 
 CREATE TABLE `teacher_papers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `paper_id` bigint(20) UNSIGNED NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `paper_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -4418,26 +4466,26 @@ CREATE TABLE `teacher_papers` (
 --
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `username` varchar(100) DEFAULT NULL,
-  `password` varchar(100) NOT NULL,
-  `fname_en` varchar(50) DEFAULT NULL,
-  `lname_en` varchar(50) DEFAULT NULL,
-  `fname_th` varchar(50) DEFAULT NULL,
-  `lname_th` varchar(50) DEFAULT NULL,
-  `doctoral_degree` varchar(5) DEFAULT NULL,
-  `academic_ranks_en` varchar(25) DEFAULT NULL,
-  `academic_ranks_th` varchar(25) DEFAULT NULL,
-  `position_en` varchar(25) DEFAULT NULL,
-  `position_th` varchar(25) DEFAULT NULL,
-  `title_name_th` varchar(15) DEFAULT NULL,
-  `title_name_en` varchar(15) DEFAULT NULL,
-  `picture` varchar(155) DEFAULT NULL,
-  `status` int(2) DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fname_en` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lname_en` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fname_th` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lname_th` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `doctoral_degree` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `academic_ranks_en` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `academic_ranks_th` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `position_en` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `position_th` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title_name_th` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title_name_en` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `picture` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` int DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `program_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
+  `program_id` bigint UNSIGNED DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -4593,7 +4641,8 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `fname_en`, `lname_e
 (157, 'wannad@kku.ac.th', NULL, '$2y$10$1zIzwxKbnj7YuOd4kA87T.h5UHSh0lAuW25E2tJT9trZlxy5RL1e2', 'Wanchaloem', 'Nadda', 'วันเฉลิม', 'นัดดา', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นาย', 'Mr.', '34_2024-12-5-1733986955-1.jpeg', 0, NULL, 1, NULL, '2022-02-01 11:55:57', '2022-05-01 16:12:28'),
 (158, 'putklang_w@kku.ac.th', NULL, '$2y$10$1zIzwxKbnj7YuOd4kA87T.h5UHSh0lAuW25E2tJT9trZlxy5RL1e2', 'Wasana', 'Putklang', 'วาสนา', 'พุฒกลาง', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นาง', 'Mrs.', 'wassana.jpeg', 0, NULL, 3, NULL, '2022-02-01 11:55:57', '2022-05-01 16:12:28'),
 (159, 'pakamu@kku.ac.th', NULL, '$2y$10$qShntuYtnft33sKsaNyJA.S0x4vlrrJcJAaGKHZr9Q0MSc3P0hs6C', 'Pakarat', 'Musikawan', 'ภัคราช', 'มุสิกะวัน', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นาย', 'Mr.', '36_1677840079-pakarat.jpeg', 0, NULL, 4, NULL, '2022-02-01 11:55:57', '2022-05-01 15:58:15'),
-(160, 'yaniko@kku.ac.th', NULL, '$2y$10$1zIzwxKbnj7YuOd4kA87T.h5UHSh0lAuW25E2tJT9trZlxy5RL1e2', 'Yanika', 'Kongsorot', 'ญานิกา', 'คงโสรส', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นางสาว', 'Miss', '37_1677839562-AjPalmySquareSesize.jpeg', 0, NULL, 4, NULL, '2022-02-01 11:55:57', '2022-05-01 16:12:28');
+(160, 'yaniko@kku.ac.th', NULL, '$2y$10$1zIzwxKbnj7YuOd4kA87T.h5UHSh0lAuW25E2tJT9trZlxy5RL1e2', 'Yanika', 'Kongsorot', 'ญานิกา', 'คงโสรส', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นางสาว', 'Miss', '37_1677839562-AjPalmySquareSesize.jpeg', 0, NULL, 4, NULL, '2022-02-01 11:55:57', '2022-05-01 16:12:28'),
+(161, 'thanlao@kku.ac.th', NULL, '$2y$10$DX///UGCI.GFN1mtoIueF.IFdW9AreQMyiaGsjV8wncGzpfM/qNTm', 'Thanwipa', 'Laochai', 'ธารวิภา', 'เหล่าชัย', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2025-02-24 06:19:13', '2025-02-24 06:19:13');
 
 -- --------------------------------------------------------
 
@@ -4602,10 +4651,10 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `fname_en`, `lname_e
 --
 
 CREATE TABLE `user_of_academicworks` (
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `author_type` int(1) DEFAULT NULL,
-  `academicwork_id` bigint(20) UNSIGNED NOT NULL,
-  `id` bigint(20) NOT NULL
+  `user_id` bigint UNSIGNED NOT NULL,
+  `author_type` int DEFAULT NULL,
+  `academicwork_id` bigint UNSIGNED NOT NULL,
+  `id` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -4680,10 +4729,10 @@ INSERT INTO `user_of_academicworks` (`user_id`, `author_type`, `academicwork_id`
 --
 
 CREATE TABLE `user_papers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `paper_id` bigint(20) UNSIGNED NOT NULL,
-  `author_type` int(1) DEFAULT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `paper_id` bigint UNSIGNED NOT NULL,
+  `author_type` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -5402,10 +5451,10 @@ INSERT INTO `user_papers` (`id`, `user_id`, `paper_id`, `author_type`) VALUES
 --
 
 CREATE TABLE `work_of_research_groups` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `role` int(1) NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `research_group_id` bigint(20) UNSIGNED NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `role` int NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `research_group_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -5460,10 +5509,10 @@ INSERT INTO `work_of_research_groups` (`id`, `role`, `user_id`, `research_group_
 --
 
 CREATE TABLE `work_of_research_projects` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `role` int(1) NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `research_project_id` bigint(20) UNSIGNED NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `role` int NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `research_project_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -5509,6 +5558,13 @@ INSERT INTO `work_of_research_projects` (`id`, `role`, `user_id`, `research_proj
 --
 ALTER TABLE `academicworks`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `albums`
+--
+ALTER TABLE `albums`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `albums_highlight_id_foreign` (`highlight_id`);
 
 --
 -- Indexes for table `authors`
@@ -5611,6 +5667,12 @@ ALTER TABLE `fund_of_research`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fund_of_research_fund_id_foreign` (`fund_id`),
   ADD KEY `fund_of_research_research_project_id_foreign` (`research_project_id`);
+
+--
+-- Indexes for table `highlights`
+--
+ALTER TABLE `highlights`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `migrations`
@@ -5784,230 +5846,203 @@ ALTER TABLE `work_of_research_projects`
 -- AUTO_INCREMENT for table `academicworks`
 --
 ALTER TABLE `academicworks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT for table `albums`
+--
+ALTER TABLE `albums`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `authors`
 --
 ALTER TABLE `authors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=707;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=707;
 
 --
 -- AUTO_INCREMENT for table `author_of_academicworks`
 --
 ALTER TABLE `author_of_academicworks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `author_of_papers`
 --
 ALTER TABLE `author_of_papers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1114;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1114;
 
 --
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `education`
 --
 ALTER TABLE `education`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `expertises`
 --
 ALTER TABLE `expertises`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `funds`
 --
 ALTER TABLE `funds`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `fund_of_research`
 --
 ALTER TABLE `fund_of_research`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `highlights`
+--
+ALTER TABLE `highlights`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `outsiders`
 --
 ALTER TABLE `outsiders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `outsiders_work_of_project`
 --
 ALTER TABLE `outsiders_work_of_project`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `papers`
 --
 ALTER TABLE `papers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=574;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=574;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `research_groups`
 --
 ALTER TABLE `research_groups`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `research_projects`
 --
 ALTER TABLE `research_projects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `source_data`
 --
 ALTER TABLE `source_data`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `source_papers`
 --
 ALTER TABLE `source_papers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3875;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3875;
 
 --
 -- AUTO_INCREMENT for table `teacher_papers`
 --
 ALTER TABLE `teacher_papers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
-
---
--- AUTO_INCREMENT for table `user_of_academicworks`
---
-ALTER TABLE `user_of_academicworks`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
-
---
--- AUTO_INCREMENT for table `user_papers`
---
-ALTER TABLE `user_papers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=707;
-
---
--- AUTO_INCREMENT for table `work_of_research_groups`
---
-ALTER TABLE `work_of_research_groups`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
-
---
--- AUTO_INCREMENT for table `work_of_research_projects`
---
-ALTER TABLE `work_of_research_projects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `author_of_academicworks`
+-- Constraints for table `albums`
 --
-ALTER TABLE `author_of_academicworks`
-  ADD CONSTRAINT `author_of_academicworks_academicwork_id_foreign` FOREIGN KEY (`academicwork_id`) REFERENCES `academicworks` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `author_of_academicworks_author_id_foreign` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `author_of_papers`
---
-ALTER TABLE `author_of_papers`
-  ADD CONSTRAINT `author_of_papers_author_id_foreign` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `author_of_papers_paper_id_foreign` FOREIGN KEY (`paper_id`) REFERENCES `papers` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `courses`
---
-ALTER TABLE `courses`
-  ADD CONSTRAINT `courses_degree_id_foreign` FOREIGN KEY (`degree_id`) REFERENCES `degrees` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `courses_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+ALTER TABLE `albums`
+  ADD CONSTRAINT `albums_highlight_id_foreign` FOREIGN KEY (`highlight_id`) REFERENCES `highlights` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -121,7 +121,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById ('logout-form').submit();"> {{ __('Logout') }} <i class="mdi mdi-logout"></i>
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        <form id="logout-form" action="{{ route('logout') }}" method="GET" class="d-none">
                             @csrf
                         </form>
                     </li>
