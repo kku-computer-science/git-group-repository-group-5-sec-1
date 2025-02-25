@@ -36,13 +36,20 @@
 <div class="container home">
     <div class="container d-sm-flex justify-content-center mt-5">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            
+            {{-- Dynamic Carousel Indicators --}}
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <!-- <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                aria-label="Slide 3"></button> -->
+                @foreach ($latestHighlights as $index => $highlight)
+                    <button type="button" data-bs-target="#carouselExampleIndicators" 
+                        data-bs-slide-to="{{ $index }}" 
+                        class="{{ $index == 0 ? 'active' : '' }}" 
+                        aria-label="Slide {{ $index + 1 }}"></button>
+                @endforeach
             </div>
+
+            {{-- Dynamic Carousel Items --}}
             <div class="carousel-inner">
+<<<<<<< Updated upstream
                 <div class="carousel-item active">
                     <img src="{{asset('img/Banner1.png')}}" class="d-block w-100" alt="...">
                 </div>
@@ -52,7 +59,19 @@
                 <!-- <div class="carousel-item">
                 <img src="..." class="d-block w-100" alt="...">
             </div> -->
+=======
+                @foreach ($latestHighlights as $index => $highlight)
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                        <a href="{{ url('/highlight' . $highlight->id) }}">
+                            <img src="{{ url('/highlight-image/' . $highlight->banner) }}" 
+                                class="d-block w-100" alt="{{ $highlight->topic }}">
+                        </a>
+                    </div>
+                @endforeach
+>>>>>>> Stashed changes
             </div>
+
+            {{-- Carousel Controls --}}
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
@@ -63,7 +82,7 @@
             </button>
         </div>
     </div>
-
+</div>
 
     <!-- Modal -->
 

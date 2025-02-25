@@ -10,12 +10,14 @@ use Bibtex;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor;
+use App\Models\Highlight;
 
 class HomeController extends Controller
 {
 
     public function index()
     {
+        $latestHighlights = Highlight::orderBy('id', 'desc')->take(3)->get();
         //$papers = Paper::all()->orderBy, 'DESC');
         $papers = [];
         $year = range(Carbon::now()->year - 4, Carbon::now()->year);
@@ -179,7 +181,8 @@ class HomeController extends Controller
 
         //$key="watchara";
         //return response()->json($bb);
-        return view('home', compact('papers'))->with('year', json_encode($year, JSON_NUMERIC_CHECK))
+        return view('home', compact('papers', 'latestHighlights'))
+            ->with('year', json_encode($year, JSON_NUMERIC_CHECK))
             ->with('paper_tci', json_encode($paper_tci, JSON_NUMERIC_CHECK))
             ->with('paper_scopus', json_encode($paper_scopus, JSON_NUMERIC_CHECK))
             ->with('paper_wos', json_encode($paper_wos, JSON_NUMERIC_CHECK))
@@ -187,11 +190,13 @@ class HomeController extends Controller
             ->with('paper_scopus_numall', json_encode($paper_scopus_numall, JSON_NUMERIC_CHECK))
             ->with('paper_wos_numall', json_encode($paper_wos_numall, JSON_NUMERIC_CHECK));
 
+            
 
 
         // return $papers;
         // (DB::raw('YEAR(paper_yearpub)')
         //return view('home',compact('papers'));
+
     }
 
     public function getnum()
