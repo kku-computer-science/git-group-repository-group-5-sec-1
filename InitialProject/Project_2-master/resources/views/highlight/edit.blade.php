@@ -159,8 +159,14 @@
                             </table>
                         </div>
                     </div>
-                    <button style="width: auto; margin-left: auto; margin-right: 12%" type="submit"
-                        class="btn btn-primary mt-4">Update</button>
+                    <div style="display: flex; gap: 10px; margin-right: 12%; justify-content: flex-end;">
+                        <button style="width: auto;" type="submit" class="btn btn-primary mt-4">Update</button>
+                        <form action="{{ route('all-highlight.destroy', $highlight->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this highlight?');">
+                            @csrf
+                            @method('DELETE')
+                            <button style="width: auto;" type="submit" class="btn btn-danger mt-4">Delete</button>
+                        </form>
+                    </div>
                 </form>
             </div>
         </div>

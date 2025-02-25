@@ -164,7 +164,7 @@ class AllHighlightController extends Controller
         $allFiles = $request->allFiles();
         if (isset($allFiles['albums']) && !empty($allFiles['albums'])) {
             $albumFiles = $allFiles['albums'];
-            
+
             foreach ($albumFiles as $groupIndex => $albumGroup) {
                 foreach ($albumGroup as $albumFile) {
                     if ($albumFile instanceof \Illuminate\Http\UploadedFile) {
@@ -196,6 +196,52 @@ class AllHighlightController extends Controller
         return redirect()->route('all-highlight.index')
             ->with('success', 'Highlight updated successfully.');
     }
+
+    public function destroy($id)
+    {
+        // Log the deletion attempt
+        Log::info("Attempting to delete highlight with ID: $id");
+
+        // Find the highlight
+        $highlight = Highlight::find($id);
+        if (!$highlight) {
+            Log::warning("Highlight not found with ID: $id");
+            return redirect()->route('all-highlight.index')->withErrors("Highlight not found with ID: $id");
+        }
+
+        // Initialize Google Cloud Storage
+        try {
+            $storage = new StorageClient([
+                'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
+                'keyFilePath' => env('GOOGLE_CLOUD_KEY_FILE', storage_path('app/google/service-account.json')),
+            ]);
+            $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
+
+            if (!$bucket->exists()) {
+                throw new \Exception("Bucket does not exist or is inaccessible.");
+            }
+
+            // Delete banner from GCS
+            $bucket->object($highlight->banner)->delete();
+            Log::info("Deleted banner from GCS: {$highlight->banner}");
+
+            // Delete all associated albums from GCS and database
+            foreach ($highlight->albums as $album) {
+                $bucket->object($album->url)->delete();
+                Log::info("Deleted album from GCS: {$album->url}");
+                $album->delete(); // Delete from database
+            }
+
+            // Delete the highlight record
+            $highlight->delete();
+            Log::info("Highlight deleted from database with ID: $id");
+
+        } catch (\Exception $e) {
+            Log::error("Failed to delete highlight ID: $id - " . $e->getMessage());
+            return redirect()->route('all-highlight.index')->withErrors("Failed to delete highlight: " . $e->getMessage());
+        }
+
+        return redirect()->route('all-highlight.index')
+            ->with('success', 'Highlight deleted successfully.');
+    }
 }
-
-

@@ -154,6 +154,7 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::post('/highlight/store', [AllHighlightController::class, 'store'])->name('all-highlight.store');
     Route::get('/highlight/{id}', [AllHighlightController::class, 'edit'])->name('all-highlight.edit');
     Route::put('/highlight/{id}', [AllHighlightController::class, 'update'])->name('all-highlight.update');
+    Route::delete('/highlight/{id}', [AllHighlightController::class, 'destroy'])->name('all-highlight.destroy');
 });
 
 
