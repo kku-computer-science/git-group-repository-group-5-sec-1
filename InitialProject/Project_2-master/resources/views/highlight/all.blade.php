@@ -91,11 +91,14 @@
                         </div>
                     @endif
                     @foreach ($highlights as $highlight)
-                        <div class="col-md-4 highlight-box" style="padding: 0; width: 32%;">
-                            <img src="{{ url('/highlight-image/' . $highlight->banner) }}"
-                                class="rounded img-fluid float-start" alt="{{ $highlight->topic }}">
-                            <div class="topic">
-                                {{ Str::limit($highlight->topic, 90) }}
+                        <div onclick="window.location.href = '{{ route('all-highlight.edit', $highlight->id) }}'"
+                            style="cursor: pointer; width: 32%;">
+                            <div class="col-md-4 highlight-box" style="padding: 0; width: 100%;">
+                                <img src="{{ url('/highlight-image/' . $highlight->banner) }}"
+                                    class="rounded img-fluid float-start" alt="{{ $highlight->topic }}">
+                                <div class="topic">
+                                    {{ Str::limit($highlight->topic, 90) }}
+                                </div>
                             </div>
                         </div>
                     @endforeach
