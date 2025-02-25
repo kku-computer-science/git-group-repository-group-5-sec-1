@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllHighlightController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
@@ -11,6 +12,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileuserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HighlighBannerController;
 
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +31,7 @@ use App\Http\Controllers\ResearchGroupDetailController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExportPaperController;
+use App\Http\Controllers\GoogleCloudController;
 use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\PatentController;
@@ -39,6 +42,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
+use App\Http\Controllers\HighlightController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,6 +84,7 @@ Route::get('/researchproject', [App\Http\Controllers\ResearchProjController::cla
 Route::get('/researchgroup', [App\Http\Controllers\ResearchgroupsController::class, 'index'])->name('researchgroup');
 Route::get('researchgroupdetail/{id}', [ResearchGroupDetailController::class, 'request'])->name('researchgroupdetail');
 Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports');
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 Route::get('/highlight-banner', [HighlightController::class, 'showHighlights'])->name('highlight.banner');
@@ -88,6 +93,9 @@ Route::get('/highlight{id}', [HighlightController::class, 'details'])->name('hig
 
 
 >>>>>>> Stashed changes
+=======
+Route::get('/highlight-banner', [HighlighBannerController::class, 'index']);
+>>>>>>> 83e4b7e31aaa16e4b7aeba65c18f021a0cf1851c
 Route::get('loadindex', [PDFController::class, 'index']);
 Route::get('pdf', [PDFController::class, 'generateInvoicePDF'])->name('pdf');
 Route::get('docx', [PDFController::class, 'generateInvoiceDOCX'])->name('docx');
@@ -99,11 +107,14 @@ Route::get('lang/{lang}', ['as' => 'langswitch', 'uses' => 'App\Http\Controllers
 Route::get('/export', [ExportPaperController::class, 'exportUsers'])->name('export-papers');
 Route::get('bib/{id}', [BibtexController::class, 'getbib'])->name('bibtex');
 
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 //Route::get('bib/{id}', [BibtexController::class, 'index'])->name('bibtex');
 //Route::get('change/lang', [LocalizationController::class,'lang_change'])->name('LangChange');
 
 Route::get('/callscopus/{id}', [App\Http\Controllers\ApicallController::class, 'create'])->name('callscopus');
 //Route::get('/showscopus', [App\Http\Controllers\ScopuscallController::class, 'index'])->name('showscopus');
+
+Route::get('/highlight-image/{filename}', [GoogleCloudController::class, 'getImage']);
 
 Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], function () {
     //Route::post('change-profile-picture',[ProfileuserController::class,'updatePicture'])->name('adminPictureUpdate');
@@ -115,7 +126,7 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
     Route::get('importfiles', [ImportExportController::class, 'index'])->name('importfiles');
     Route::post('import', [ImportExportController::class, 'import']);
     // Route::get('export', [ImportExportController::class, 'export']);
-
+    Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
@@ -146,7 +157,17 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::get('/ajax-get-subcat', [UserController::class, 'getCategory']);
     Route::get('tests', [TestController::class, 'index']); //call department
     Route::get('tests/{id}', [TestController::class, 'getCategory'])->name('tests'); //call program
+    Route::get('/highlight', [HighlightController::class, 'index'])->name('highlight.index');
+    Route::delete('/highlight/{id}', [HighlightController::class, 'destroy'])->name('highlight.destroy');
+    Route::post('/highlight/save', [HighlightController::class, 'save'])->name('highlight.save');
+    Route::post('/highlight/reset', [HighlightController::class, 'reset'])->name('highlight.reset');
 
+    Route::get('/all-highlight', [AllHighlightController::class, 'index'])->name('all-highlight.index');
+    Route::get('/all-highlight/create', [AllHighlightController::class, 'create'])->name('all-highlight.create');
+    Route::post('/all-highlight/store', [AllHighlightController::class, 'store'])->name('all-highlight.store');
+    Route::get('/all-highlight/{id}', [AllHighlightController::class, 'edit'])->name('all-highlight.edit');
+    Route::put('/all-highlight/{id}', [AllHighlightController::class, 'update'])->name('all-highlight.update');
+    Route::delete('/all-highlight/{id}', [AllHighlightController::class, 'destroy'])->name('all-highlight.destroy');
 });
 
 

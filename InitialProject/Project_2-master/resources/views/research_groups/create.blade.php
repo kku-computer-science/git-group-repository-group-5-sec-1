@@ -89,7 +89,7 @@
                     <div class="form-group row">
                         <p class="col-sm-3"><b>หัวหน้ากลุ่มวิจัย</b></p>
                         <div class="col-sm-8" style="opacity: 0.75">
-                            <select id='head0' name="head" disabled >
+                            <select id='head0' name="head" readonly>
                                 <option value="{{ $user->id }}" selected>
                                     {{ $user->fname_th }} {{ $user->lname_th }}
                                 </option>

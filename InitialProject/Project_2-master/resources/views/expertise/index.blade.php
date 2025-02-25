@@ -3,28 +3,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.bootstrap4.min.css">
 @section('content')
-<!-- <div class="row">
-    <div class="col-lg-12" style="text-align: center">
-        <div>
-            <h2>ความเชี่ยวชาญ</h2>
-        </div>
-        <br />
-    </div>
-</div> -->
-<!-- <div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-right">
-            <a href="javascript:void(0)" class="btn btn-success mb-2" id="new-expertise" data-toggle="modal">Add
-                Expertise</a>
-        </div>
-    </div>
-</div> -->
-<!-- <br />
-@if ($message = Session::get('success'))
-<div class="alert alert-success">
-    <p id="msg">{{ $message }}</p>
-</div>
-@endif -->
 <div class="container">
     @if ($message = Session::get('success'))
     <div class="alert alert-success">
@@ -162,7 +140,7 @@
         /* Delete expertise */
         $('body').on('click', '#delete-expertise', function(e) {
             var expert_id = $(this).data("id");
-            
+
             var token = $("meta[name='csrf-token']").attr("content");
             e.preventDefault();
             //confirm("Are You sure want to delete !");

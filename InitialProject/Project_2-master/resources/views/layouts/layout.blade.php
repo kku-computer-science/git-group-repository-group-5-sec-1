@@ -88,6 +88,9 @@
                         <a class="nav-link" href="/researchgroup">{{ trans('message.ResearchGroup') }}</a>
                     </li>
                     <li class="nav-item {{ request()->is('reports') ? 'active' : ''}}">
+                        <a class="nav-link" href="/highlight-banner">highlight</a>
+                    </li>
+                    <li class="nav-item {{ request()->is('reports') ? 'active' : ''}}">
                         <a class="nav-link" href="/reports">{{ trans('message.Report') }}</a>
                     </li>
 
@@ -124,7 +127,7 @@
                 </span>
                 @else --}}
                 <span class="nav-item">
-                    <a class="btn-solid-sm" href="/login" target="_blank">Login</a>
+                    <a class="btn-solid-sm" href="{{ route('login') }}" target="_blank">Login</a>
                 </span>
                 {{-- @endauth
                 @endif --}}

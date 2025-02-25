@@ -39,6 +39,7 @@
     font-size: 16px;
 }
 </style>
+<<<<<<< HEAD
 
 @section('content')
     <div class="container">
@@ -66,3 +67,6 @@
 @endsection
 
 
+=======
+@section('content')
+>>>>>>> 83e4b7e31aaa16e4b7aeba65c18f021a0cf1851c

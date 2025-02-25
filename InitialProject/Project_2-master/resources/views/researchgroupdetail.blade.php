@@ -1,232 +1,28 @@
-{{-- @extends('layouts.layout')
-<style>
-    .name {
+<<<<<<< HEAD
+=======
 
-        font-size: 20px;
-
-    }
-</style>
-@section('content')
-<div class="container card-4 mt-5">
-    <div class="card">
-        @foreach ($resgd as $rg)
-        <div class="row g-0">
-            <div class="col-md-4">
-                <div class="card-body">
-                    <img src="{{asset('img/'.$rg->group_image)}}" alt="...">
-                    <h1 class="card-text-1"> Laboratory Supervisor </h1>
-                    <h2 class="card-text-2">
-                        @foreach ($rg->user as $r)
-                        @if ($r->hasRole('teacher'))
-                        @if (app()->getLocale() == 'en' and $r->academic_ranks_en == 'Lecturer' and $r->doctoral_degree == 'Ph.D.')
-                             {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.
-                            <br>
-                            @elseif(app()->getLocale() == 'en' and $r->academic_ranks_en == 'Lecturer')
-                            {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}
-                            <br>
-                            @elseif(app()->getLocale() == 'en' and $r->doctoral_degree == 'Ph.D.')
-                            {{ str_replace('Dr.', ' ', $r->{'position_'.app()->getLocale()}) }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.
-                            <br>
-                            @else                            
-                            {{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}
-                            <br>
-                            @endif
-                        
-                        @endif
-                        @endforeach
-                    </h2>
-                    <h1 class="card-text-1"> Student </h1>
-                    <h2 class="card-text-2">
-                        @foreach ($rg->user as $user)
-                        @if ($user->hasRole('student'))
-                        {{$user->{'position_'.app()->getLocale()} }} {{$user->{'fname_'.app()->getLocale()} }} {{$user->{'lname_'.app()->getLocale()} }}
-                        <br>
-                        @endif
-                        @endforeach
-                    </h2>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title"> {{ $rg->{'group_name_'.app()->getLocale()} }}</>
-                    </h5>
-                    <h3 class="card-text">{{$rg->{'group_detail_'.app()->getLocale()} }}
-                    </h3>
-                </div>
-                
-            </div>
-            @endforeach
-            <!-- <div id="loadMore">
-                <a href="#"> Load More </a>
-            </div> -->
-        </div>
-
-    </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $(".moreBox").slice(0, 1).show();
-        if ($(".blogBox:hidden").length != 0) {
-            $("#loadMore").show();
-        }
-        $("#loadMore").on('click', function(e) {
-            e.preventDefault();
-            $(".moreBox:hidden").slice(0, 1).slideDown();
-            if ($(".moreBox:hidden").length == 0) {
-                $("#loadMore").fadeOut('slow');
-            }
-        });
-    });
-</script>
-
-@stop
-<!-- <div class="card-body-research">
-                    <p>Research</p>
-                    <table class="table">
-                        @foreach ($rg->user as $user)
-                        
-                        <thead>
-                            <tr>
-                                <th><b class="name">{{$user->{'position_'.app()->getLocale()} }} {{$user->{'fname_'.app()->getLocale()} }} {{$user->{'lname_'.app()->getLocale()} }}</b></th>
-                            </tr>
-                            @foreach ($user->paper->sortByDesc('paper_yearpub') as $p)
-                            <tr class="hidden">
-                                <th>
-                                    <b><math>{!! html_entity_decode(preg_replace('<inf>', 'sub', $p->paper_name)) !!}</math></b> (
-                                    <link>@foreach ($p->teacher as $teacher){{$teacher->fname_en}} {{$teacher->lname_en}},
-                                    @endforeach
-                                    @foreach ($p->author as $author){{$author->author_fname}} {{$author->author_lname}}@if (!$loop->last),@endif
-                                    @endforeach</link>), {{$p->paper_sourcetitle}}, {{$p->paper_volume}},
-                                    {{ $p->paper_yearpub }}.
-                                    <a href="{{$p->paper_url}} " target="_blank">[url]</a> <a href="https://doi.org/{{$p->paper_doi}}" target="_blank">[doi]</a>
-                                </th>
-                            </tr>
-                            @endforeach
-                        </thead>
-                        @endforeach
-                    </table>
-                </div> --> 
-
-                 --}}
-
-
-
-
-
-
-
-{{-- @extends('layouts.layout')
-@section('content')
-    <div class="container mt-5">
-        <!-- ข้อมูลกลุ่ม -->
-   
-            <div >
-                <h3>{{ $resgd->group_name_th }}</h3>
-                <h4>{{ $resgd->group_name_en }}</h4>
-            </div>
-            
-       
-
-        <!-- หัวหน้ากลุ่มวิจัย -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h4>หัวหน้ากลุ่มวิจัย</h4>
-            </div>
-            <div class="card-body">
-                @foreach ($resgd->user as $user)
-                    @if ($user->pivot->role == 1)
-                        <div class="row">
-                            <div class="col-md-3">
-                                @if ($user->picture)
-                                    <img src="{{ asset($user->picture) }}" class="img-fluid rounded-circle">
-                                @endif
-                            </div>
-                            <div class="col-md-9">
-                                <h5>{{ $user->academic_ranks_th }} {{ $user->fname_th }} {{ $user->lname_th }}</h5>
-                                <p>{{ $user->academic_ranks_en }} {{ $user->fname_en }} {{ $user->lname_en }}</p>
-                                <p>Email: {{ $user->email }}</p>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-        </div>
-
-        <!-- สมาชิกกลุ่มวิจัย -->
-        <div class="card">
-            <div class="card-header">
-                <h4>สมาชิกกลุ่มวิจัย</h4>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    @foreach ($resgd->user as $user)
-                        @if ($user->pivot->role == 2)
-                            <div class="col-md-6 mb-4">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        @if ($user->picture)
-                                            <img src="{{ asset($user->picture) }}" class="rounded-circle"
-                                                style="width: 100px;">
-                                        @endif
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h5>{{ $user->academic_ranks_th }} {{ $user->fname_th }} {{ $user->lname_th }}
-                                        </h5>
-                                        <p>{{ $user->academic_ranks_en }} {{ $user->fname_en }} {{ $user->lname_en }}</p>
-                                        <p>Email: {{ $user->email }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-        <!-- แสดงผลงานวิจัย -->
-        <div class="card mt-4">
-            <div class="card-header">
-                <h4>ผลงานวิจัย</h4>
-            </div>
-            <div class="card-body">
-                @foreach ($resgd->user as $user)
-                    @if ($user->paper->count() > 0)
-                        <h5>{{ $user->fname_en }} {{ $user->lname_en }}</h5>
-                        <ul>
-                            @foreach ($user->paper as $paper)
-                                <li>
-                                    {{ $paper->paper_name }} ({{ $paper->paper_yearpub }})
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
-                @endforeach
-            </div>
-        </div>
-    </div>
-@endsection --}}
-
-
-
+>>>>>>> 6976c4b6dc8f1098d5d6b3d7a462e94baee73759
 @extends('layouts.layout')
 @section('content')
 <div class="container mt-5">
     <!-- ข้อมูลกลุ่ม -->
+    
     <div class="image-container">
-        <img src="img\1651340170.png" alt="Cinque Terre" width="100%" height="300">
+        @if($resgd->banner_image)
+        <img src="{{asset('img/'.$resgd->banner_image)}}" alt="Cinque Terre" width="100%" height="300">
         <div class="image-text" >
-            <h1 style="color:white;">{{ $resgd->group_name_th }}</h1>
+            <h1 style="color:white;">{{ $resgd->group_name_en }}</h1>
             
         </div>
-        
+        @endif
     </div>
+   
     <!-- Research rationale -->
     <div class="card mb-4">
         <div class="card-body">
-            <h2>Research rationale ของกลุ่มวิจัย</h2>
-            @if($resgd->group_detail_th)
-                <p>{!! nl2br($resgd->group_detail_th) !!}</p>
+            <h2>Research rationale</h2>
+            @if($resgd->group_detail_en)
+                <p>{!! nl2br($resgd->group_detail_en) !!}</p>
             @endif
         </div>
     </div>
@@ -234,10 +30,10 @@
     <!-- หัวข้อวิจัยที่เป็นจุดเน้นของกลุ่ม -->
     <div class="card mb-4">
         <div class="card-body">
-            <h2>หัวข้อวิจัยที่เป็นจุดเน้นของกลุ่ม</h2>
-            @if($resgd->group_desc_th)
+            <h2>Main research areas/topics </h2>
+            @if($resgd->group_desc_en)
                 <ul>
-                    @foreach(explode("\n", $resgd->group_desc_th) as $topic)
+                    @foreach(explode("\n", $resgd->group_desc_en) as $topic)
                         @if(trim($topic))
                             <li>{!! $topic !!}</li>
                         @endif
@@ -250,22 +46,22 @@
     <!-- สมาชิกของกลุ่มวิจัย -->
     <div class="card mb-4">
         <div class="card-body">
-            <h2>สมาชิกของกลุ่มวิจัย</h2>
+            <h2>Members of Research Group</h2>
             
             <!-- หัวหน้ากลุ่มวิจัย -->
-            <h3>หัวหน้ากลุ่มวิจัย</h3>
+            <h3>Head of Reseach Group</h3>
             @foreach($resgd->user as $user)
-                @if($user->pivot->role == 1)
-                    <p>{{ $user->academic_ranks_th }} {{ $user->fname_th }} {{ $user->lname_th }} {{ $user->department_name_th }}</p>
+                @if($user->pivot->role == 5)
+                    <p>{{ $user->academic_ranks_en }} {{ $user->fname_en }} {{ $user->lname_en }} {{ $user->department_name_en }}</p>
                 @endif
             @endforeach
 
             <!-- สมาชิก -->
-            <h3>สมาชิก</h3>
+            <h3>Members</h3>
             <ul>
                 @foreach($resgd->user as $user)
                     @if($user->pivot->role == 2)
-                        <li>{{ $user->academic_ranks_th }} {{ $user->fname_th }} {{ $user->lname_th }} {{ $user->department_name_th }}</li>
+                        <li>{{ $user->academic_ranks_en }} {{ $user->fname_en }} {{ $user->lname_en }} {{ $user->department_name_en }}</li>
                     @endif
                 @endforeach
             </ul>
@@ -277,10 +73,10 @@
         <div class="card-body">
             <h2>Contact person</h2>
             @foreach($resgd->user as $user)
-                @if($user->pivot->role == 1)
-                    <p>{{ $user->academic_ranks_th }} {{ $user->fname_th }} {{ $user->lname_th }}, {{ $user->email }}</p>
+                @if($user->pivot->role == 5)
+                    <p>{{ $user->academic_ranks_en }} {{ $user->fname_en }} {{ $user->lname_en }}, {{ $user->email }}</p>
                     @if($user->picture)
-                        <img src="{{ asset($user->picture) }}" alt="Contact Person" style="max-width: 200px;">
+                        <img src="{{ asset($user->picture) }}" alt="Contact Person" style="max-width: 300px;">
                     @endif
                 @endif
             @endforeach

@@ -29,6 +29,9 @@ class RedirectIfAuthenticated
             if( Auth::guard($guard)->check() && Auth::user()->hasRole('admin')){
                 return redirect()->route('dashboard');
             }
+            elseif( Auth::guard($guard)->check() && Auth::user()->hasRole('admin staff')){
+                return redirect()->route('dashboard');
+            }
             elseif( Auth::guard($guard)->check() && Auth::user()->hasRole('teacher')){
                 //return redirect(RouteServiceProvider::HOME);
                 return redirect()->route('dashboard');
@@ -41,7 +44,7 @@ class RedirectIfAuthenticated
                 //return redirect(RouteServiceProvider::HOME);
                 return redirect()->route('dashboard');
             }
-            
+
         }
         return $next($request);
     }
