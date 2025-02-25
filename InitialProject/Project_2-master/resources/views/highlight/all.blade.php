@@ -79,9 +79,17 @@
             <div class="card-body">
                 <h4 class="card-title" style="text-align: center;">ไฮไลท์ทั้งหมด</h4>
                 <div class="row" style="gap: 10px; margin-left: auto; margin-right: auto;">
-                    <div onclick="window.location.href = '{{ route('all-highlight.create') }}'" class="highlight-placeholder col-md-4" style="padding: 0; width: 32%;">
-                        <i class="menu-icon mdi mdi-library-plus" style="font-size: 4vw; opacity: 0.75"></i>
-                    </div>
+                    @if (count($highlights) == 0)
+                        <div onclick="window.location.href = '{{ route('all-highlight.create') }}'"
+                            class="highlight-placeholder col-md-4" style="padding: 0; width: 32%; height: 200px;">
+                            <i class="menu-icon mdi mdi-library-plus" style="font-size: 4vw; opacity: 0.75"></i>
+                        </div>
+                    @else
+                        <div onclick="window.location.href = '{{ route('all-highlight.create') }}'"
+                            class="highlight-placeholder col-md-4" style="padding: 0; width: 32%;">
+                            <i class="menu-icon mdi mdi-library-plus" style="font-size: 4vw; opacity: 0.75"></i>
+                        </div>
+                    @endif
                     @foreach ($highlights as $highlight)
                         <div class="col-md-4 highlight-box" style="padding: 0; width: 32%;">
                             <img src="{{ url('/highlight-image/' . $highlight->banner) }}"

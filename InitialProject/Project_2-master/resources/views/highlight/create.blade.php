@@ -82,11 +82,144 @@
                         style="font-size: 24px; cursor: pointer;"></i>
                 </div>
                 <h4 class="card-title" style="text-align: center;">สร้างไฮไลท์</h4>
-
+                <form class="row g-3 mt-3" action="{{ route('all-highlight.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <!-- Banner -->
+                    <div id="banner-row-preview" class="form-group row" style="display: none;">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-8">
+                            <img id="bannerPreview" src="#" alt="Banner Preview"
+                                style="width: 100%; display:none; margin-top: 10px; height: auto;">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <p class="col-sm-3"><b>Banner</b></p>
+                        <div class="col-sm-8">
+                            <input id="bannerImageInput" type="file" name="banner"
+                                accept="image/png, image/jpeg, image/jpg, image/webp" class="form-control">
+                        </div>
+                    </div>
+                    <!-- Topic -->
+                    <div class="form-group row">
+                        <p class="col-sm-3"><b>Topic</b></p>
+                        <div class="col-sm-8">
+                            <input name="topic" class="form-control" placeholder="หัวข้อไฮไลท์">
+                        </div>
+                    </div>
+                    <!-- Detail -->
+                    <div class="form-group row">
+                        <p class="col-sm-3"><b>Detail</b></p>
+                        <div class="col-sm-8">
+                            <textarea name="detail" class="form-control" style="height:400px"></textarea>
+                        </div>
+                    </div>
+                    <!-- Albums -->
+                    <div class="form-group row">
+                        <p class="col-sm-3 pt-4"><b>Album</b></p>
+                        <div class="col-sm-8">
+                            <table class="table" id="dynamicAddRemove">
+                                <tr>
+                                    <th>
+                                        <button type="button" name="add" id="add-btn2"
+                                            class="btn btn-success btn-sm add"><i class="mdi mdi-plus"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <button style="width: auto; margin-left: auto; margin-right: 12%" type="submit"
+                        class="btn btn-primary mt-4">Submit</button>
+                </form>
             </div>
         </div>
     </div>
 @stop
 @section('javascript')
-    <script></script>
+    <script>
+        // Show Banner when uploaded
+        document.getElementById("bannerImageInput").addEventListener("change", function(e) {
+            const bannerPreview = document.getElementById("bannerPreview");
+            const bannerRowPreview = document.getElementById("banner-row-preview");
+            if (e.target.files && e.target.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    bannerPreview.src = e.target.result;
+                    bannerPreview.style.display = "block";
+                    bannerRowPreview.style.display = "flex";
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            } else {
+                bannerPreview.style.display = "none";
+                bannerRowPreview.style.display = "none";
+            }
+        });
+
+        // Dynamic add/remove album fields with multiple image input and preview
+        document.addEventListener("DOMContentLoaded", function() {
+            let i = 0; // Initialize counter outside the event listener to persist across clicks
+            const wrapper = document.getElementById("dynamicAddRemove");
+
+            // Add new album field when clicking the "add" button
+            document.getElementById("add-btn2").addEventListener("click", function(e) {
+                e.preventDefault();
+                const newRow = document.createElement("tr");
+                newRow.id = `row${i}`; // Unique row ID based on current index
+                newRow.innerHTML = `
+                    <td style="padding: 0;">
+                        <div class="input-group mb-3">
+                            <input type="file" name="albums[${i}][]" class="form-control me-2"
+                                accept="image/png, image/jpeg, image/jpg, image/webp"
+                                id="albumInput${i}" multiple>
+                            <div class="input-group-append">
+                                <button style="padding: 8px 10px;" type="button" class="btn btn-danger remove-btn" data-id="${i}">
+                                    <i class="mdi mdi-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="album-preview" id="albumPreviewContainer${i}" style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
+                        </div>
+                    </td>`;
+                wrapper.appendChild(newRow);
+
+                // Add event listener for the new file input to show previews
+                const albumInput = document.getElementById(`albumInput${i}`);
+                albumInput.addEventListener("change", function(e) {
+                    const previewContainer = document.getElementById(`albumPreviewContainer${i}`);
+                    previewContainer.innerHTML = ""; // Clear previous previews
+                    if (e.target.files && e.target.files.length > 0) {
+                        Array.from(e.target.files).forEach(file => {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const imgElement = document.createElement("img");
+                                imgElement.src = e.target.result;
+                                imgElement.alt = "Album Preview";
+                                imgElement.style.width = "150px";
+                                imgElement.style.height = "150px";
+                                imgElement.style.objectFit = "cover";
+                                imgElement.style.borderRadius = "10px";
+                                previewContainer.appendChild(imgElement);
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                    }
+                });
+
+                i++; // Increment the counter *after* adding the row to ensure unique indices
+            });
+
+            // Remove album field when clicking the "remove" button
+            wrapper.addEventListener("click", function(e) {
+                const removeBtn = e.target.closest(".remove-btn");
+                if (removeBtn) {
+                    e.preventDefault();
+                    const rowId = removeBtn.getAttribute("data-id");
+                    const row = document.getElementById(`row${rowId}`);
+                    if (row) {
+                        row.remove(); // Remove the row from the DOM
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

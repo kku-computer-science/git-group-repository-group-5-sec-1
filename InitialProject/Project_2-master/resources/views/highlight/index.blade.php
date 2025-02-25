@@ -206,7 +206,12 @@
                     @endfor
                 </div>
                 <div class="divider"></div>
-                <h4 id="all-highlights-title" class="mb-3" style="text-align: center; display: none;">เลือกไฮไลท์</h4>
+                @if (count($highlights) > 0)
+                    <h4 id="all-highlights-title" class="mb-3" style="text-align: center; display: none;">เลือกไฮไลท์</h4>
+                @else
+                <h4 id="all-highlights-title" class="mb-3" style="text-align: center; display: none; color: red">ไม่มีไฮไลท์</h4>
+                @endif
+
                 <div id="all-highlights">
                     @for ($j = 0; $j < count($highlights); $j++)
                         @php

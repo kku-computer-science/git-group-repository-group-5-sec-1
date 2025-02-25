@@ -151,6 +151,8 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
 
     Route::get('/all-highlight', [AllHighlightController::class, 'index'])->name('all-highlight.index');
     Route::get('/highlight/create', [AllHighlightController::class, 'create'])->name('all-highlight.create');
+    Route::post('/highlight/store', [AllHighlightController::class, 'store'])->name('all-highlight.store');
+    Route::get('/highlight/{id}', [AllHighlightController::class, 'edit'])->name('all-highlight.edit');
 });
 
 
