@@ -33,3 +33,4 @@ class ApicallController extends Controller
         return redirect()->back()->with('success', 'เรียกข้อมูลจาก Scopus และ Google Scholar สำเร็จ');
     }
 }
+    
