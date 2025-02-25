@@ -128,8 +128,10 @@
                             </table>
                         </div>
                     </div>
-                    <button style="width: auto; margin-left: auto; margin-right: 12%" type="submit"
-                        class="btn btn-primary mt-4">Submit</button>
+                    <div>
+                        <button style="margin-left: auto; margin-right: 12%; display: block;" type="submit"
+                                class="btn btn-primary mt-4">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>

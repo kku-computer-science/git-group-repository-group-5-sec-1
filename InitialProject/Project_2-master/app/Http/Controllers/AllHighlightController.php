@@ -199,17 +199,14 @@ class AllHighlightController extends Controller
 
     public function destroy($id)
     {
-        // Log the deletion attempt
         Log::info("Attempting to delete highlight with ID: $id");
 
-        // Find the highlight
         $highlight = Highlight::find($id);
         if (!$highlight) {
             Log::warning("Highlight not found with ID: $id");
-            return redirect()->route('all-highlight.index')->withErrors("Highlight not found with ID: $id");
+            return response()->json(['error' => "Highlight not found with ID: $id"], 404);
         }
 
-        // Initialize Google Cloud Storage
         try {
             $storage = new StorageClient([
                 'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
@@ -222,26 +219,35 @@ class AllHighlightController extends Controller
             }
 
             // Delete banner from GCS
-            $bucket->object($highlight->banner)->delete();
-            Log::info("Deleted banner from GCS: {$highlight->banner}");
-
-            // Delete all associated albums from GCS and database
-            foreach ($highlight->albums as $album) {
-                $bucket->object($album->url)->delete();
-                Log::info("Deleted album from GCS: {$album->url}");
-                $album->delete(); // Delete from database
+            $bannerObject = $bucket->object($highlight->banner);
+            if ($bannerObject->exists()) {
+                $bannerObject->delete();
+                Log::info("Deleted banner from GCS: {$highlight->banner}");
+            } else {
+                Log::warning("Banner file not found in GCS: {$highlight->banner}");
             }
 
-            // Delete the highlight record
+            // Delete albums from GCS and database
+            foreach ($highlight->albums as $album) {
+                $albumObject = $bucket->object($album->url);
+                if ($albumObject->exists()) {
+                    $albumObject->delete();
+                    Log::info("Deleted album from GCS: {$album->url}");
+                } else {
+                    Log::warning("Album file not found in GCS: {$album->url}");
+                }
+                $album->delete();
+                Log::info("Deleted album from database with ID: {$album->id}");
+            }
+
+            // Delete highlight from database
             $highlight->delete();
             Log::info("Highlight deleted from database with ID: $id");
 
+            return response()->json(['success' => 'Highlight deleted successfully']);
         } catch (\Exception $e) {
-            Log::error("Failed to delete highlight ID: $id - " . $e->getMessage());
-            return redirect()->route('all-highlight.index')->withErrors("Failed to delete highlight: " . $e->getMessage());
+            Log::error("Failed to delete highlight ID: $id - Reason: " . $e->getMessage() . " (File: " . $e->getFile() . ", Line: " . $e->getLine() . ")");
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return redirect()->route('all-highlight.index')
-            ->with('success', 'Highlight deleted successfully.');
     }
 }

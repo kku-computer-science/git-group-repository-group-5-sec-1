@@ -91,7 +91,8 @@
                         style="font-size: 24px; cursor: pointer;"></i>
                 </div>
                 <h4 class="card-title" style="text-align: center;">แก้ไขไฮไลท์</h4>
-                <form class="row g-3 mt-3" action="{{ route('all-highlight.update', $highlight->id) }}" method="POST" enctype="multipart/form-data">
+                <form class="row g-3 mt-3" action="{{ route('all-highlight.update', $highlight->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <!-- Banner -->
@@ -113,7 +114,8 @@
                     <div class="form-group row">
                         <p class="col-sm-3"><b>Topic</b></p>
                         <div class="col-sm-8">
-                            <input name="topic" class="form-control" placeholder="หัวข้อไฮไลท์" value="{{ $highlight->topic }}">
+                            <input name="topic" class="form-control" placeholder="หัวข้อไฮไลท์"
+                                value="{{ $highlight->topic }}">
                         </div>
                     </div>
                     <!-- Detail -->
@@ -139,19 +141,21 @@
                                     <tr id="row{{ $index }}">
                                         <td style="padding: 0;">
                                             <div class="input-group mb-3">
-                                                <input type="file" name="albums[{{ $index }}][]" class="form-control me-2"
+                                                <input type="file" name="albums[{{ $index }}][]"
+                                                    class="form-control me-2"
                                                     accept="image/png, image/jpeg, image/jpg, image/webp"
                                                     id="albumInput{{ $index }}" multiple>
                                                 <div class="input-group-append">
-                                                    <button style="padding: 8px 10px;" type="button" class="btn btn-danger remove-btn" data-id="{{ $index }}">
+                                                    <button style="padding: 8px 10px;" type="button"
+                                                        class="btn btn-danger remove-btn" data-id="{{ $index }}">
                                                         <i class="mdi mdi-minus"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="album-preview" id="albumPreviewContainer{{ $index }}"
                                                 style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
-                                                <img src="{{ url('/highlight-image/' . $album->url) }}"
-                                                    alt="Album Preview" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;">
+                                                <img src="{{ url('/highlight-image/' . $album->url) }}" alt="Album Preview"
+                                                    style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;">
                                             </div>
                                         </td>
                                     </tr>
@@ -161,11 +165,8 @@
                     </div>
                     <div style="display: flex; gap: 10px; margin-right: 12%; justify-content: flex-end;">
                         <button style="width: auto;" type="submit" class="btn btn-primary mt-4">Update</button>
-                        <form action="{{ route('all-highlight.destroy', $highlight->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this highlight?');">
-                            @csrf
-                            @method('DELETE')
-                            <button style="width: auto;" type="submit" class="btn btn-danger mt-4">Delete</button>
-                        </form>
+                        <button style="width: auto;" type="button" class="btn btn-danger mt-4" id="deleteHighlightBtn"
+                            data-url="{{ route('all-highlight.destroy', $highlight->id) }}">Delete</button>
                     </div>
                 </form>
             </div>
@@ -258,7 +259,8 @@
             // Preview existing album uploads
             @foreach ($highlight->albums as $index => $album)
                 document.getElementById(`albumInput${{ $index }}`).addEventListener("change", function(e) {
-                    const previewContainer = document.getElementById(`albumPreviewContainer${{ $index }}`);
+                    const previewContainer = document.getElementById(
+                        `albumPreviewContainer${{ $index }}`);
                     previewContainer.innerHTML = ""; // Clear previous previews
                     if (e.target.files && e.target.files.length > 0) {
                         Array.from(e.target.files).forEach(file => {
@@ -278,6 +280,32 @@
                     }
                 });
             @endforeach
+        });
+
+        document.getElementById("deleteHighlightBtn").addEventListener("click", function() {
+            if (confirm("Are you sure you want to delete this highlight?")) {
+                const url = this.getAttribute("data-url");
+                fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Failed to delete highlight");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        window.location.href = "{{ route('all-highlight.index') }}";
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Failed to delete highlight: " + error.message);
+                    });
+            }
         });
     </script>
 @endsection
