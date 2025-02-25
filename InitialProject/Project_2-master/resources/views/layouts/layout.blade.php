@@ -88,6 +88,9 @@
                         <a class="nav-link" href="/researchgroup">{{ trans('message.ResearchGroup') }}</a>
                     </li>
                     <li class="nav-item {{ request()->is('reports') ? 'active' : ''}}">
+                        <a class="nav-link" href="/highlight-banner">highlight</a>
+                    </li>
+                    <li class="nav-item {{ request()->is('reports') ? 'active' : ''}}">
                         <a class="nav-link" href="/reports">{{ trans('message.Report') }}</a>
                     </li>
 
