@@ -29,6 +29,8 @@ class AllHighlightController extends Controller
             'topic' => 'required|string|max:255',
             'detail' => 'required|string',
             'albums.*.*' => 'image|mimes:png,jpeg,jpg,webp|max:2048',
+            'tags' => 'nullable|array',
+            'tags.*' => 'nullable|string|exists:research_groups,group_name_th'
         ]);
 
         // Initialize Google Cloud Storage
@@ -50,8 +52,12 @@ class AllHighlightController extends Controller
         // Upload banner
         $bannerFile = $request->file('banner');
         $bannerName = date('Y-m-d') . '-' . time();
-
         $bucket->upload(fopen($bannerFile->getRealPath(), 'r'), ['name' => $bannerName]);
+
+        // Filter out empty tags and create highlight
+        $tags = array_filter($request->tags ?? [], function($value) {
+            return !empty($value);
+        });
 
         // Create Highlight record
         $highlight = Highlight::create([
@@ -59,6 +65,7 @@ class AllHighlightController extends Controller
             'selected' => 0,
             'topic' => $request->topic,
             'detail' => $request->detail,
+            'tags' => array_values($tags) // Re-index array after filtering
         ]);
 
         // Process albums from allFiles()
@@ -95,6 +102,7 @@ class AllHighlightController extends Controller
         return redirect()->route('all-highlight.index')
             ->with('success', 'Highlight created successfully.');
     }
+
     public function edit($id)
     {
         $highlight = Highlight::find($id);
@@ -107,16 +115,14 @@ class AllHighlightController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Log all incoming data for debugging
-        Log::info('Update request data:', $request->all());
-        Log::info('Update files in request:', $request->allFiles());
-
         // Validate request
         $request->validate([
-            'banner' => 'nullable|image|mimes:png,jpeg,jpg,webp|max:2048', // Optional for update
+            'banner' => 'nullable|image|mimes:png,jpeg,jpg,webp|max:2048',
             'topic' => 'required|string|max:255',
             'detail' => 'required|string',
             'albums.*.*' => 'nullable|image|mimes:png,jpeg,jpg,webp|max:2048',
+            'tags' => 'nullable|array',
+            'tags.*' => 'nullable|string|exists:research_groups,group_name_th'
         ]);
 
         // Find the highlight
@@ -143,7 +149,7 @@ class AllHighlightController extends Controller
 
         // Update banner if provided
         if ($request->hasFile('banner')) {
-            // Delete old banner from GCS (optional, depending on your needs)
+            // Delete old banner from GCS
             $oldBanner = $highlight->banner;
             $bucket->object($oldBanner)->delete();
 
@@ -154,9 +160,15 @@ class AllHighlightController extends Controller
             $highlight->banner = $bannerName;
         }
 
+        // Filter out empty tags and update highlight
+        $tags = array_filter($request->tags ?? [], function($value) {
+            return !empty($value);
+        });
+
         // Update highlight details
         $highlight->topic = $request->topic;
         $highlight->detail = $request->detail;
+        $highlight->tags = array_values($tags);
         $highlight->save();
         Log::info("Highlight updated with ID: {$highlight->id}");
 
@@ -171,7 +183,7 @@ class AllHighlightController extends Controller
                         $existingAlbum = $highlight->albums->get($groupIndex);
                         if ($existingAlbum) {
                             $bucket->object($existingAlbum->url)->delete();
-                            $existingAlbum->delete();;
+                            $existingAlbum->delete();
                         }
 
                         $albumName = date('Y-m-d') . '-' . microtime(true);

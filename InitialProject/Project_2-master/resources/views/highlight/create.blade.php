@@ -82,7 +82,8 @@
                         style="font-size: 24px; cursor: pointer;"></i>
                 </div>
                 <h4 class="card-title" style="text-align: center;">สร้างไฮไลท์</h4>
-                <form class="row g-3 mt-3" action="{{ route('all-highlight.store') }}" method="POST" enctype="multipart/form-data">
+                <form class="row g-3 mt-3" action="{{ route('all-highlight.store') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <!-- Banner -->
                     <div id="banner-row-preview" class="form-group row" style="display: none;">
@@ -113,6 +114,21 @@
                             <textarea name="detail" class="form-control" style="height:400px"></textarea>
                         </div>
                     </div>
+                    <!-- Tag -->
+                    <div class="form-group row">
+                        <p class="col-sm-3 pt-4"><b>Tags</b></p>
+                        <div class="col-sm-8">
+                            <table class="table" id="dynamicTagsAddRemove">
+                                <tr>
+                                    <th>
+                                        <button type="button" name="add" id="add-tag-btn"
+                                            class="btn btn-success btn-sm add"><i class="mdi mdi-plus"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                     <!-- Albums -->
                     <div class="form-group row">
                         <p class="col-sm-3 pt-4"><b>Album</b></p>
@@ -130,7 +146,7 @@
                     </div>
                     <div>
                         <button style="margin-left: auto; margin-right: 12%; display: block;" type="submit"
-                                class="btn btn-primary mt-4">Submit</button>
+                            class="btn btn-primary mt-4">Submit</button>
                     </div>
                 </form>
             </div>
@@ -222,6 +238,54 @@
                     }
                 }
             });
+        });
+
+        // Dynamic add/remove tag fields
+        document.addEventListener("DOMContentLoaded", function() {
+            let tagIndex = 0;
+            const tagWrapper = document.getElementById("dynamicTagsAddRemove");
+
+            // Add new tag field when clicking the "add" button
+            document.getElementById("add-tag-btn").addEventListener("click", function(e) {
+                e.preventDefault();
+                const newRow = document.createElement("tr");
+                newRow.id = `tagRow${tagIndex}`;
+                newRow.innerHTML = `
+            <td style="padding: 0;">
+                <div class="input-group mb-3">
+                    <select name="tags[${tagIndex}]" class="form-control my-select me-2">
+                        <option value="">เลือกกลุ่มวิจัย</option>
+                        ${getResearchGroupOptions()}
+                    </select>
+                    <div class="input-group-append">
+                        <button style="padding: 8px 10px;" type="button" class="btn btn-danger remove-tag-btn" data-id="${tagIndex}">
+                            <i class="mdi mdi-minus"></i>
+                        </button>
+                    </div>
+                </div>
+            </td>`;
+                tagWrapper.appendChild(newRow);
+                tagIndex++;
+            });
+
+            // Remove tag field when clicking the "remove" button
+            tagWrapper.addEventListener("click", function(e) {
+                const removeBtn = e.target.closest(".remove-tag-btn");
+                if (removeBtn) {
+                    e.preventDefault();
+                    const rowId = removeBtn.getAttribute("data-id");
+                    const row = document.getElementById(`tagRow${rowId}`);
+                    if (row) {
+                        row.remove();
+                    }
+                }
+            });
+
+            // Function to get research group options
+            function getResearchGroupOptions() {
+                const groups = @json(\App\Models\ResearchGroup::pluck('group_name_th'));
+                return groups.map(group => `<option value="${group}">${group}</option>`).join('');
+            }
         });
     </script>
 @endsection

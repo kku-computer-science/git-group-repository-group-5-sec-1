@@ -19,6 +19,11 @@ class CreateHighlightsTable extends Migration
             $table->string('topic');
             $table->text('detail');
             $table->tinyInteger('selected')->default(0)->length(3);
+            $table->unsignedBigInteger('research_group_id');
+            $table->foreignId('research_group_highlight_id')
+                  ->constrained('research_groups')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }

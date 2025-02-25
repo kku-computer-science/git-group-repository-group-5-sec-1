@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Highlight extends Model
 {
     use HasFactory;
-    protected $fillable = ['banner', 'topic', 'detail', 'selected'];
+    protected $fillable = ['banner', 'topic', 'detail', 'selected', 'tag'];
 
     public function albums()
     {
