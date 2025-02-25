@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Highlight;
+use App\Models\Tag;
 use Google\Cloud\Storage\StorageClient;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -114,7 +115,7 @@ class HighlightController extends Controller
         $highlights = Highlight::orderBy('created_at', 'desc')->get();
         return view('highlight', compact('highlights'));
     }
-    
+
     public function show($id)
     {
         $highlight = Highlight::findOrFail($id);
@@ -125,5 +126,11 @@ class HighlightController extends Controller
     {
         $highlight = Highlight::with(['tags', 'albums'])->findOrFail($id);
         return view('highlight.details', compact('highlight'));
+    }
+
+    public function showByTag(Tag $tag)
+    {
+        $highlights = $tag->highlights()->with('albums', 'tags')->get();
+        return view('highlight.by_tag', compact('highlights', 'tag'));
     }
 }

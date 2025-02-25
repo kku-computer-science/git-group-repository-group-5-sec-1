@@ -87,7 +87,7 @@ Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])-
 Route::get('/highlight-banner', [HighlightController::class, 'showHighlights'])->name('highlight.banner');
 //To show highlight as viewer(non-login user)
 Route::get('/highlight{id}', [HighlightController::class, 'details'])->name('highlight.details');
-
+Route::get('/highlights/tag/{tag}', [HighlightController::class, 'showByTag'])->name('highlights.byTag');
 
 Route::get('loadindex', [PDFController::class, 'index']);
 Route::get('pdf', [PDFController::class, 'generateInvoicePDF'])->name('pdf');
@@ -156,11 +156,11 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::post('/highlight/reset', [HighlightController::class, 'reset'])->name('highlight.reset');
 
     Route::get('/all-highlight', [AllHighlightController::class, 'index'])->name('all-highlight.index');
-    Route::get('/highlight/create', [AllHighlightController::class, 'create'])->name('all-highlight.create');
-    Route::post('/highlight/store', [AllHighlightController::class, 'store'])->name('all-highlight.store');
-    Route::get('/highlight/{id}', [AllHighlightController::class, 'edit'])->name('all-highlight.edit');
-    Route::put('/highlight/{id}', [AllHighlightController::class, 'update'])->name('all-highlight.update');
-    Route::delete('/highlight/{id}', [AllHighlightController::class, 'destroy'])->name('all-highlight.destroy');
+    Route::get('/all-highlight/create', [AllHighlightController::class, 'create'])->name('all-highlight.create');
+    Route::post('/all-highlight/store', [AllHighlightController::class, 'store'])->name('all-highlight.store');
+    Route::get('/all-highlight/{id}', [AllHighlightController::class, 'edit'])->name('all-highlight.edit');
+    Route::put('/all-highlight/{id}', [AllHighlightController::class, 'update'])->name('all-highlight.update');
+    Route::delete('/all-highlight/{id}', [AllHighlightController::class, 'destroy'])->name('all-highlight.destroy');
 });
 
 
