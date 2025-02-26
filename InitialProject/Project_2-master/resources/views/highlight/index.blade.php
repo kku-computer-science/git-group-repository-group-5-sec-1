@@ -1,10 +1,9 @@
 @extends('dashboards.users.layouts.user-dash-layout')
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
 <style type="text/css">
-.dropdown-toggle {
+    .dropdown-toggle {
         height: 40px;
         width: 400px !important;
     }
@@ -101,7 +100,7 @@
     }
 
     #all-highlights .highlight-box:hover {
-        border: 2px solid #2781ff;`
+        border: 2px solid #2781ff;
     }
 
     #all-highlights .topic {
@@ -120,20 +119,6 @@
         color: #2781ff;
         font-size: 16px;
         font-weight: bold;
-    }
-
-    .save-button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: #2781ff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .save-button:hover {
-        background-color: #1a66cc;
     }
 
     .save-button,
@@ -174,6 +159,7 @@
         pointer-events: none;
     }
 </style>
+
 @section('content')
     <div class="container">
         @if ($message = Session::get('success'))
@@ -209,7 +195,7 @@
                 @if (count($highlights) > 0)
                     <h4 id="all-highlights-title" class="mb-3" style="text-align: center; display: none;">เลือกไฮไลท์</h4>
                 @else
-                <h4 id="all-highlights-title" class="mb-3" style="text-align: center; display: none; color: red">ไม่มีไฮไลท์</h4>
+                    <h4 id="all-highlights-title" class="mb-3" style="text-align: center; display: none; color: red">ไม่มีไฮไลท์</h4>
                 @endif
 
                 <div id="all-highlights">
@@ -239,6 +225,7 @@
         </div>
     </div>
 @stop
+
 @section('javascript')
     <script>
         let initialHighlights = {};
@@ -292,7 +279,8 @@
                 fetch(url, {
                     method: 'DELETE',
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json'
                     }
                 })
                 .then(response => {
@@ -303,20 +291,8 @@
                 })
                 .then(data => {
                     if (data.success) {
-                        const highlightBox = element.closest('.highlight-box');
-                        highlightBox.innerHTML = `
-                            <div class="highlight-placeholder">
-                                <i class="menu-icon mdi mdi-library-plus" style="font-size: 4vw; opacity: 0.75"></i>
-                            </div>
-                        `;
-                        const highlightId = highlightBox.getAttribute('data-id');
-                        const allHighlightItem = document.getElementById(`all-highlight-${highlightId}`);
-                        if (allHighlightItem) {
-                            allHighlightItem.classList.remove('selected');
-                        }
-                        highlightBox.setAttribute('data-id', '');
-                        updateSaveButton();
-                        updateDeleteButtons();
+                        // Reload the page after successful deletion
+                        window.location.reload();
                     } else {
                         alert(data.message || 'Failed to delete highlight');
                     }
@@ -415,7 +391,6 @@
             .then(data => {
                 if (data.success) {
                     alert('Highlights saved successfully!');
-                    // Reload the page after successful save
                     window.location.reload();
                 } else {
                     alert(data.message || 'Failed to save highlights');
@@ -439,50 +414,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        const highlights = data.highlights;
-                        for (let i = 1; i <= 3; i++) {
-                            const highlightBox = document.getElementById(`highlight-${i}`);
-                            const highlight = highlights[i - 1];
-                            if (highlight) {
-                                highlightBox.innerHTML = `
-                                    <i class="menu-icon mdi mdi-close-circle close-icon"
-                                       onclick="deleteHighlight('${highlight.destroy_route}', this)"></i>
-                                    <img src="${highlight.image_url}"
-                                         class="rounded img-fluid float-start" alt="${highlight.topic}">
-                                    <div class="topic">${highlight.topic.substring(0, 90)}</div>
-                                `;
-                                highlightBox.setAttribute('data-id', highlight.id);
-                            } else {
-                                highlightBox.innerHTML = `
-                                    <div class="highlight-placeholder">
-                                        <i class="menu-icon mdi mdi-library-plus" style="font-size: 4vw; opacity: 0.75"></i>
-                                    </div>
-                                `;
-                                highlightBox.setAttribute('data-id', '');
-                            }
-                        }
-
-                        const allHighlightBoxes = allHighlights.querySelectorAll('.highlight-box');
-                        allHighlightBoxes.forEach(box => {
-                            box.classList.remove('selected');
-                            const id = box.getAttribute('data-id');
-                            if (highlights.some(h => h.id == id)) {
-                                box.classList.add('selected');
-                            }
-                        });
-
-                        alert('Highlights reset successfully!');
-                        allHighlights.style.display = 'none';
-                        allHighlightsTitle.style.display = 'none';
-                        if (selectedHighlightId) {
-                            document.getElementById(`highlight-${selectedHighlightId}`).classList.remove('selected');
-                            selectedHighlightId = null;
-                        }
-                        for (let i = 1; i <= 3; i++) {
-                            initialHighlights[i] = highlights[i-1] ? highlights[i-1].id : null;
-                        }
-                        updateSaveButton();
-                        updateDeleteButtons();
+                        window.location.reload();
                     } else {
                         alert(data.message || 'Failed to reset highlights');
                     }

@@ -1,7 +1,6 @@
 @extends('dashboards.users.layouts.user-dash-layout')
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css">
 <style type="text/css">
     .dropdown-toggle {
@@ -68,6 +67,7 @@
         color: #2781ff;
     }
 </style>
+
 @section('content')
     <div class="container">
         @if ($message = Session::get('success'))
@@ -115,14 +115,52 @@
                         <p class="col-sm-3"><b>Topic</b></p>
                         <div class="col-sm-8">
                             <input name="topic" class="form-control" placeholder="หัวข้อไฮไลท์"
-                                value="{{ $highlight->topic }}">
+                                value="{{ old('topic', $highlight->topic) }}">
                         </div>
                     </div>
                     <!-- Detail -->
                     <div class="form-group row">
                         <p class="col-sm-3"><b>Detail</b></p>
                         <div class="col-sm-8">
-                            <textarea name="detail" class="form-control" style="height:400px">{{ $highlight->detail }}</textarea>
+                            <textarea name="detail" class="form-control" style="height:400px">{{ old('detail', $highlight->detail) }}</textarea>
+                        </div>
+                    </div>
+                    <!-- Tags -->
+                    <div class="form-group row">
+                        <p class="col-sm-3 pt-4"><b>Tags</b></p>
+                        <div class="col-sm-8">
+                            <table class="table" id="dynamicTagsAddRemove">
+                                <tr>
+                                    <th>
+                                        <button type="button" name="add" id="add-tag-btn"
+                                            class="btn btn-success btn-sm add"><i class="mdi mdi-plus"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+                                @foreach ($highlight->tags as $index => $tag)
+                                    <tr id="tagRow{{ $index }}">
+                                        <td style="padding: 0;">
+                                            <div class="input-group mb-3">
+                                                <select name="tags[{{ $index }}]" class="form-control my-select me-2">
+                                                    <option value="">เลือกกลุ่มวิจัย</option>
+                                                    @foreach ($researchGroups as $groupName)
+                                                        <option value="{{ $groupName }}"
+                                                            {{ $tag->name === $groupName ? 'selected' : '' }}>
+                                                            {{ $groupName }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button style="padding: 8px 10px;" type="button"
+                                                        class="btn btn-danger remove-tag-btn" data-id="{{ $index }}">
+                                                        <i class="mdi mdi-minus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
                         </div>
                     </div>
                     <!-- Albums -->
@@ -173,6 +211,7 @@
         </div>
     </div>
 @stop
+
 @section('javascript')
     <script>
         // Show Banner when uploaded
@@ -188,6 +227,45 @@
                 };
                 reader.readAsDataURL(e.target.files[0]);
             }
+        });
+
+        // Dynamic add/remove tag fields
+        document.addEventListener("DOMContentLoaded", function() {
+            let tagIndex = {{ $highlight->tags->count() }}; // Start index after existing tags
+            const tagWrapper = document.getElementById("dynamicTagsAddRemove");
+            const researchGroups = @json($researchGroups); // Array of group_name_th values
+
+            document.getElementById("add-tag-btn").addEventListener("click", function(e) {
+                e.preventDefault();
+                const newRow = document.createElement("tr");
+                newRow.id = `tagRow${tagIndex}`;
+                newRow.innerHTML = `
+                    <td style="padding: 0;">
+                        <div class="input-group mb-3">
+                            <select name="tags[${tagIndex}]" class="form-control my-select me-2">
+                                <option value="">เลือกกลุ่มวิจัย</option>
+                                ${researchGroups.map(name => `<option value="${name}">${name}</option>`).join('')}
+                            </select>
+                            <div class="input-group-append">
+                                <button style="padding: 8px 10px;" type="button" class="btn btn-danger remove-tag-btn" data-id="${tagIndex}">
+                                    <i class="mdi mdi-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>`;
+                tagWrapper.appendChild(newRow);
+                tagIndex++;
+            });
+
+            tagWrapper.addEventListener("click", function(e) {
+                const removeBtn = e.target.closest(".remove-tag-btn");
+                if (removeBtn) {
+                    e.preventDefault();
+                    const rowId = removeBtn.getAttribute("data-id");
+                    const row = document.getElementById(`tagRow${rowId}`);
+                    if (row) row.remove();
+                }
+            });
         });
 
         // Dynamic add/remove album fields with multiple image input and preview
@@ -212,7 +290,8 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="album-preview" id="albumPreviewContainer${i}" style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
+                        <div class="album-preview" id="albumPreviewContainer${i}"
+                            style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
                         </div>
                     </td>`;
                 wrapper.appendChild(newRow);
@@ -259,8 +338,7 @@
             // Preview existing album uploads
             @foreach ($highlight->albums as $index => $album)
                 document.getElementById(`albumInput${{ $index }}`).addEventListener("change", function(e) {
-                    const previewContainer = document.getElementById(
-                        `albumPreviewContainer${{ $index }}`);
+                    const previewContainer = document.getElementById(`albumPreviewContainer${{ $index }}`);
                     previewContainer.innerHTML = ""; // Clear previous previews
                     if (e.target.files && e.target.files.length > 0) {
                         Array.from(e.target.files).forEach(file => {
@@ -282,29 +360,30 @@
             @endforeach
         });
 
+        // Delete highlight
         document.getElementById("deleteHighlightBtn").addEventListener("click", function() {
             if (confirm("Are you sure you want to delete this highlight?")) {
                 const url = this.getAttribute("data-url");
                 fetch(url, {
-                        method: "DELETE",
-                        headers: {
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                            "Accept": "application/json"
-                        }
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Failed to delete highlight");
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        window.location.href = "{{ route('all-highlight.index') }}";
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        alert("Failed to delete highlight: " + error.message);
-                    });
+                    method: "DELETE",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Accept": "application/json"
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to delete highlight");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    window.location.href = "{{ route('all-highlight.index') }}";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Failed to delete highlight: " + error.message);
+                });
             }
         });
     </script>

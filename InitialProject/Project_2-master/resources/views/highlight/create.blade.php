@@ -82,7 +82,8 @@
                         style="font-size: 24px; cursor: pointer;"></i>
                 </div>
                 <h4 class="card-title" style="text-align: center;">สร้างไฮไลท์</h4>
-                <form class="row g-3 mt-3" action="{{ route('all-highlight.store') }}" method="POST" enctype="multipart/form-data">
+                <form class="row g-3 mt-3" action="{{ route('all-highlight.store') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <!-- Banner -->
                     <div id="banner-row-preview" class="form-group row" style="display: none;">
@@ -113,6 +114,21 @@
                             <textarea name="detail" class="form-control" style="height:400px"></textarea>
                         </div>
                     </div>
+                    <!-- Tag -->
+                    <div class="form-group row">
+                        <p class="col-sm-3 pt-4"><b>Tags</b></p>
+                        <div class="col-sm-8">
+                            <table class="table" id="dynamicTagsAddRemove">
+                                <tr>
+                                    <th>
+                                        <button type="button" name="add" id="add-tag-btn"
+                                            class="btn btn-success btn-sm add"><i class="mdi mdi-plus"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                     <!-- Albums -->
                     <div class="form-group row">
                         <p class="col-sm-3 pt-4"><b>Album</b></p>
@@ -130,7 +146,7 @@
                     </div>
                     <div>
                         <button style="margin-left: auto; margin-right: 12%; display: block;" type="submit"
-                                class="btn btn-primary mt-4">Submit</button>
+                            class="btn btn-primary mt-4">Submit</button>
                     </div>
                 </form>
             </div>
@@ -139,7 +155,7 @@
 @stop
 @section('javascript')
     <script>
-        // Show Banner when uploaded
+        // Banner preview (unchanged)
         document.getElementById("bannerImageInput").addEventListener("change", function(e) {
             const bannerPreview = document.getElementById("bannerPreview");
             const bannerRowPreview = document.getElementById("banner-row-preview");
@@ -157,45 +173,38 @@
             }
         });
 
-        // Dynamic add/remove album fields with multiple image input and preview
+        // Dynamic add/remove album fields (unchanged)
         document.addEventListener("DOMContentLoaded", function() {
-            let i = 0; // Initialize counter outside the event listener to persist across clicks
+            let i = 0;
             const wrapper = document.getElementById("dynamicAddRemove");
-
-            // Add new album field when clicking the "add" button
             document.getElementById("add-btn2").addEventListener("click", function(e) {
                 e.preventDefault();
                 const newRow = document.createElement("tr");
-                newRow.id = `row${i}`; // Unique row ID based on current index
+                newRow.id = `row${i}`;
                 newRow.innerHTML = `
                     <td style="padding: 0;">
                         <div class="input-group mb-3">
-                            <input type="file" name="albums[${i}][]" class="form-control me-2"
-                                accept="image/png, image/jpeg, image/jpg, image/webp"
-                                id="albumInput${i}" multiple>
+                            <input type="file" name="albums[${i}][]" class="form-control me-2" accept="image/png, image/jpeg, image/jpg, image/webp" id="albumInput${i}" multiple>
                             <div class="input-group-append">
                                 <button style="padding: 8px 10px;" type="button" class="btn btn-danger remove-btn" data-id="${i}">
                                     <i class="mdi mdi-minus"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="album-preview" id="albumPreviewContainer${i}" style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px;">
-                        </div>
+                        <div class="album-preview" id="albumPreviewContainer${i}" style="margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px;"></div>
                     </td>`;
                 wrapper.appendChild(newRow);
 
-                // Add event listener for the new file input to show previews
                 const albumInput = document.getElementById(`albumInput${i}`);
                 albumInput.addEventListener("change", function(e) {
                     const previewContainer = document.getElementById(`albumPreviewContainer${i}`);
-                    previewContainer.innerHTML = ""; // Clear previous previews
+                    previewContainer.innerHTML = "";
                     if (e.target.files && e.target.files.length > 0) {
                         Array.from(e.target.files).forEach(file => {
                             const reader = new FileReader();
                             reader.onload = function(e) {
                                 const imgElement = document.createElement("img");
                                 imgElement.src = e.target.result;
-                                imgElement.alt = "Album Preview";
                                 imgElement.style.width = "150px";
                                 imgElement.style.height = "150px";
                                 imgElement.style.objectFit = "cover";
@@ -206,22 +215,58 @@
                         });
                     }
                 });
-
-                i++; // Increment the counter *after* adding the row to ensure unique indices
+                i++;
             });
 
-            // Remove album field when clicking the "remove" button
             wrapper.addEventListener("click", function(e) {
                 const removeBtn = e.target.closest(".remove-btn");
                 if (removeBtn) {
                     e.preventDefault();
                     const rowId = removeBtn.getAttribute("data-id");
                     const row = document.getElementById(`row${rowId}`);
-                    if (row) {
-                        row.remove(); // Remove the row from the DOM
-                    }
+                    if (row) row.remove();
+                }
+            });
+        });
+
+        // Dynamic add/remove tag fields (using research_groups.group_name_th)
+        document.addEventListener("DOMContentLoaded", function() {
+            let tagIndex = 0;
+            const tagWrapper = document.getElementById("dynamicTagsAddRemove");
+            const researchGroups = @json($researchGroups); // Array of group_name_th values
+
+            document.getElementById("add-tag-btn").addEventListener("click", function(e) {
+                e.preventDefault();
+                const newRow = document.createElement("tr");
+                newRow.id = `tagRow${tagIndex}`;
+                newRow.innerHTML = `
+                    <td style="padding: 0;">
+                        <div class="input-group mb-3">
+                            <select name="tags[${tagIndex}]" class="form-control my-select me-2">
+                                <option value="">เลือกกลุ่มวิจัย</option>
+                                ${researchGroups.map(name => `<option value="${name}">${name}</option>`).join('')}
+                            </select>
+                            <div class="input-group-append">
+                                <button style="padding: 8px 10px;" type="button" class="btn btn-danger remove-tag-btn" data-id="${tagIndex}">
+                                    <i class="mdi mdi-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>`;
+                tagWrapper.appendChild(newRow);
+                tagIndex++;
+            });
+
+            tagWrapper.addEventListener("click", function(e) {
+                const removeBtn = e.target.closest(".remove-tag-btn");
+                if (removeBtn) {
+                    e.preventDefault();
+                    const rowId = removeBtn.getAttribute("data-id");
+                    const row = document.getElementById(`tagRow${rowId}`);
+                    if (row) row.remove();
                 }
             });
         });
     </script>
 @endsection
+

@@ -84,7 +84,11 @@ Route::get('/researchproject', [App\Http\Controllers\ResearchProjController::cla
 Route::get('/researchgroup', [App\Http\Controllers\ResearchgroupsController::class, 'index'])->name('researchgroup');
 Route::get('researchgroupdetail/{id}', [ResearchGroupDetailController::class, 'request'])->name('researchgroupdetail');
 Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports');
-Route::get('/highlight-banner', [HighlighBannerController::class, 'index']);
+Route::get('/highlight-banner', [HighlightController::class, 'showHighlights'])->name('highlight.banner');
+//To show highlight as viewer(non-login user)
+Route::get('/highlight{id}', [HighlightController::class, 'details'])->name('highlight.details');
+Route::get('/highlights/tag/{tag}', [HighlightController::class, 'showByTag'])->name('highlights.byTag');
+
 Route::get('loadindex', [PDFController::class, 'index']);
 Route::get('pdf', [PDFController::class, 'generateInvoicePDF'])->name('pdf');
 Route::get('docx', [PDFController::class, 'generateInvoiceDOCX'])->name('docx');

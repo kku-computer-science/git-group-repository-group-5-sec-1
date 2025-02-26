@@ -39,4 +39,28 @@
     font-size: 16px;
 }
 </style>
+
 @section('content')
+    <div class="container">
+        <h2 class="text-center">ไฮไลท์ทั้งหมด</h2>
+
+        @if ($highlights->isEmpty())
+            <p class="text-center">ไม่มีไฮไลท์.</p>
+        @else
+            <div class="row">
+                @foreach ($highlights as $highlight)
+                    <div class="col-md-4 mb-4"> 
+                        <div class="card" style="cursor: pointer;" onclick="window.location.href = '{{ route('highlight.details', $highlight->id) }}'">
+                            <img src="{{ url('/highlight-image/' . $highlight->banner) }}" 
+                                class="card-img-top rounded img-fluid" 
+                                alt="{{ $highlight->topic }}">
+                            <div class="card-body text-center">
+                                <h5>{{ Str::limit($highlight->topic, 50) }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+@endsection
