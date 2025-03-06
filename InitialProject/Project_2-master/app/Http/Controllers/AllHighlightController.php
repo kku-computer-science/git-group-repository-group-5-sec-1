@@ -37,10 +37,10 @@ class AllHighlightController extends Controller
 
         try {
             $storage = new StorageClient([
-                'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
-                'keyFilePath' => env('GOOGLE_CLOUD_KEY_FILE', storage_path('app/google/service-account.json')),
+                'projectId' => 'handy-amplifier-451806-b1',
+                'keyFilePath' => storage_path('app/google/service-account.json'),
             ]);
-            $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
+            $bucket = $storage->bucket('highlight-image');
 
             if (!$bucket->exists()) {
                 throw new \Exception("Bucket does not exist or is inaccessible.");
@@ -116,10 +116,10 @@ class AllHighlightController extends Controller
         try {
             $highlight = Highlight::findOrFail($id);
             $storage = new StorageClient([
-                'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
-                'keyFilePath' => env('GOOGLE_CLOUD_KEY_FILE', storage_path('app/google/service-account.json')),
+                'projectId' => 'handy-amplifier-451806-b1',
+                'keyFilePath' => storage_path('app/google/service-account.json'),
             ]);
-            $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
+            $bucket = $storage->bucket('highlight-image');
 
             if ($request->hasFile('banner')) {
                 $bucket->object($highlight->banner)->delete();
@@ -177,10 +177,10 @@ class AllHighlightController extends Controller
         try {
             $highlight = Highlight::findOrFail($id);
             $storage = new StorageClient([
-                'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
-                'keyFilePath' => env('GOOGLE_CLOUD_KEY_FILE', storage_path('app/google/service-account.json')),
+                'projectId' => 'handy-amplifier-451806-b1',
+                'keyFilePath' => storage_path('app/google/service-account.json'),
             ]);
-            $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
+            $bucket = $storage->bucket('highlight-image');
 
             $bucket->object($highlight->banner)->delete();
             foreach ($highlight->albums as $album) {

@@ -1,7 +1,7 @@
 <?php
-  
+
 namespace App\Http\Controllers;
-   
+
 use App\Models\Fund;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -25,22 +25,21 @@ class FundController extends Controller
         }
         elseif( auth()->user()->HasRole('headproject') ){
             $funds = Fund::with('User')->get();
-            
+
         }
         elseif( auth()->user()->HasRole('staff') ){
             $funds = Fund::with('User')->get();
-            
         }
         else{
             $funds=User::find($id)->fund()->get();
             //$researchProjects=User::find($id)->researchProject()->latest()->paginate(5);
-            
+
             //$researchProjects = ResearchProject::with('User')->latest()->paginate(5);
         }
 
         return view('funds.index',compact('funds'));
     }
-     
+
     /**
      * Show the form for creating a new resource.
      *
@@ -50,7 +49,7 @@ class FundController extends Controller
     {
         return view('funds.create');
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -70,10 +69,10 @@ class FundController extends Controller
         //return $request->all();
         // if($request->has('pos')){
         //     $fund_type = $request->fund_type_etc ;
-            
+
         // }else{
         //     $fund_type = $request->fund_type;
-            
+
         // }
 
         //$fund = $request->all();
@@ -86,7 +85,7 @@ class FundController extends Controller
         $user->fund()->Create($input);
         return redirect()->route('funds.index')->with('success','fund created successfully.');
     }
-     
+
     /**
      * Display the specified resource.
      *
@@ -96,8 +95,8 @@ class FundController extends Controller
     public function show(Fund $fund)
     {
         return view('funds.show',compact('fund'));
-    } 
-     
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -107,12 +106,12 @@ class FundController extends Controller
     public function edit($id)
     {
         //return $id;
-        $fu_id = Crypt::decrypt($id);  
+        $fu_id = Crypt::decrypt($id);
         $fund=Fund::find($fu_id);
         $this->authorize('update', $fund);
         return view('funds.edit',compact('fund'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -135,7 +134,7 @@ class FundController extends Controller
         return redirect()->route('funds.index')
                         ->with('success','Fund updated successfully');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -145,7 +144,7 @@ class FundController extends Controller
     public function destroy(Fund $fund)
     {
         $fund->delete();
-    
+
         return redirect()->route('funds.index')
                         ->with('success','Fund deleted successfully');
     }

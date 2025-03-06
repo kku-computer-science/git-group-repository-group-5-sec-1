@@ -10,21 +10,18 @@ class GoogleCloudController extends Controller
     public function getImage($filename)
     {
         $storage = new StorageClient([
-            'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
-            'keyFilePath' => env('GOOGLE_CLOUD_KEY_FILE', storage_path('app/google/service-account.json')),
+            "projectId" => "handy-amplifier-451806-b1",
+            "keyFilePath" => storage_path("app/google/service-account.json"),
         ]);
+        $bucket = $storage->bucket("highlight-image");
 
-        $bucket = $storage->bucket(env('GOOGLE_CLOUD_STORAGE_BUCKET'));
         $object = $bucket->object($filename);
 
         if (!$object->exists()) {
-            abort(404, 'File not found');
+            abort(404, "File not found");
         }
 
-        $signedUrl = $object->signedUrl(
-            now()->addDay(7),
-            ['version' => 'v4']
-        );
+        $signedUrl = $object->signedUrl(now()->addDay(7), ["version" => "v4"]);
 
         return redirect($signedUrl);
     }

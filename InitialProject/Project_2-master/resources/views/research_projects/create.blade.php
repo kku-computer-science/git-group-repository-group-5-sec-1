@@ -109,7 +109,9 @@
                         <label for="exampleInputfund_details" class="col-sm-2 ">ผู้รับผิดชอบโครงการ</label>
                         <div class="col-sm-9">
                             <select id='head0' style='width: 200px;' name="head">
-                                <option value=''>Select User</option>@foreach($users as $user)<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>
+                                <option value=''>Select User</option>
+                                @foreach($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -147,7 +149,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <!-- <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" /> 
+                                <!-- <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />
                             </div>
                         </div>
                     </div> -->
