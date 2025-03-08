@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2025 at 12:34 PM
+-- Generation Time: Mar 08, 2025 at 06:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -2450,10 +2450,7 @@ CREATE TABLE `files` (
 CREATE TABLE `funds` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `fund_name` text NOT NULL,
-  `fund_details` text DEFAULT NULL,
-  `fund_type` varchar(10) NOT NULL,
-  `fund_cate` varchar(10) DEFAULT NULL,
-  `fund_agency` varchar(150) DEFAULT NULL,
+  `fund_cate` bigint(20) UNSIGNED NOT NULL,
   `support_resource` varchar(150) DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -2464,8 +2461,66 @@ CREATE TABLE `funds` (
 -- Dumping data for table `funds`
 --
 
-INSERT INTO `funds` (`id`, `fund_name`, `fund_details`, `fund_type`, `fund_cate`, `fund_agency`, `support_resource`, `user_id`, `created_at`, `updated_at`) VALUES
-(2, 'Statistical Thai – Isarn Dialect Machine Translation System using Parallel Corpus', NULL, 'ทุนภายใน', NULL, NULL, 'มหาวิทยาลัยขอนแก่น', 16, '2022-05-04 12:28:09', '2022-05-04 12:28:09');
+INSERT INTO `funds` (`id`, `fund_name`, `fund_cate`, `support_resource`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'งบประมาณมหาวิทยาลัย', 18, 'มหาวิทยาลัยขอนแก่น', 161, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `funds_category`
+--
+
+CREATE TABLE `funds_category` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fund_type_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `funds_category`
+--
+
+INSERT INTO `funds_category` (`id`, `name`, `fund_type_id`) VALUES
+(1, 'Research Program', 2),
+(2, 'Research Assistant (RA)', 2),
+(3, 'Post-Doctoral Training (PD)', 2),
+(4, 'ทุนพัฒนานักวิจัยใหม่', 2),
+(5, 'วิจัยสถาบัน มข. / R2R', 2),
+(6, 'โครงการสนับสนุนผู้ที่ได้รับทุนปริญญาเอกกาญจนาภิเษก (คปก.)', 2),
+(7, 'Research Utilization for SDGs', 2),
+(8, 'กลุ่มวิจัย ศูนย์วิจัยเฉพาะทาง และสถาบันวิจัย', 2),
+(9, 'การส่งเสริมผลงานวิจัย วิทยาเขตหนองคาย', 2),
+(10, 'ทุนสนับสนุนการทำวิจัยร่วมกับต่างประเทศ', 2),
+(11, 'มหาวิทยาลัยวิจัยแห่งชาติ', 2),
+(12, 'บูรณาการงานวิจัย มข.', 2),
+(13, 'อุดหนุนทั่วไป (มุ่งเป้า-ยางนา)', 2),
+(14, 'แสงซินโครตรอน', 2),
+(15, 'แสงซินโครตรอน (สำหรับนักวิจัยที่ไม่เคยใช้)', 2),
+(16, 'นักวิจัยใหม่ (มช - มข)', 2),
+(17, 'ทุนต่างประเทศ', 1),
+(18, 'งบประมาณมหาวิทยาลัย / วิจัยใหม่ / งานวิจัยประยุกต์', 2),
+(19, 'งบประมาณมหาวิทยาลัย / วิจัยใหม่ / งานวิจัยพื้นฐาน', 2),
+(20, 'Fundamental Fund (FF)', 1),
+(21, 'Strategic Fund (SF)', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `funds_type`
+--
+
+CREATE TABLE `funds_type` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `funds_type`
+--
+
+INSERT INTO `funds_type` (`id`, `name`) VALUES
+(1, 'ทุนภายนอก'),
+(2, 'ทุนภายใน');
 
 -- --------------------------------------------------------
 
@@ -2735,17 +2790,6 @@ CREATE TABLE `outsiders` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `outsiders`
---
-
-INSERT INTO `outsiders` (`id`, `fname`, `lname`, `title_name`, `created_at`, `updated_at`) VALUES
-(1, 'geng', 'geng', 'dr.', NULL, NULL),
-(2, 'gggg', 'gggg', 'dr.', '2022-04-29 14:39:30', '2022-04-29 14:39:30'),
-(3, 'watchara', 'srtitonwong', 'dr.', '2022-04-29 15:08:46', '2022-04-29 15:08:46'),
-(4, 'wat', 'geng', 'ass.', '2022-04-29 15:25:00', '2022-04-29 15:25:00'),
-(5, 'นำโชค', 'ไม่มี', 'ศ. ดร.', '2022-05-16 04:24:05', '2022-05-16 04:24:05');
 
 -- --------------------------------------------------------
 
@@ -3577,7 +3621,7 @@ CREATE TABLE `research_projects` (
   `project_end` date DEFAULT NULL,
   `project_year` year(4) DEFAULT NULL,
   `budget` int(11) DEFAULT NULL,
-  `responsible_department` varchar(50) DEFAULT NULL,
+  `show_budget` tinyint(1) DEFAULT NULL,
   `note` text DEFAULT NULL,
   `status` int(4) NOT NULL,
   `fund_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -3585,36 +3629,36 @@ CREATE TABLE `research_projects` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `research_projects`
+-- Table structure for table `responsible_department`
 --
 
-INSERT INTO `research_projects` (`id`, `project_name`, `project_start`, `project_end`, `project_year`, `budget`, `responsible_department`, `note`, `status`, `fund_id`, `created_at`, `updated_at`) VALUES
-(16, 'Statistical Thai – Isarn Dialect Machine Translation System using Parallel Corpus', NULL, NULL, '2019', 80000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 2, '2022-05-04 12:29:48', '2022-05-04 12:29:48'),
-(20, 'นวัตกรรมดัชนีสุขภาพของประชากรไทยโดยวิทยาการข้อมูลเพื่อประโยชน์ในการปรับเปลี่ยนพฤติกรรมและติดตามสภาวะสุขภาพก่อนการเกิดโรค', NULL, NULL, '2017', 1000000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 4, '2022-05-04 13:24:16', '2022-05-04 13:24:16'),
-(21, 'Morphological analysis for edible mushrooms using artificial neural networks ANN Model', NULL, NULL, '2019', 100000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 5, '2022-05-08 06:21:44', '2022-05-08 06:21:44'),
-(22, 'Ontology-based Learning data integration using ontology mapping and a rules based reasoning approach', NULL, NULL, '2019', 100000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 6, '2022-05-08 06:23:11', '2022-05-08 06:23:11'),
-(23, 'การศึกษาแนวทางในการวิเคราะห์ประสิทธิภาพของระบบการวางแผนทรัพยากรองค์กร', NULL, NULL, '2018', 80000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 7, '2022-05-08 06:25:01', '2022-05-08 06:25:01'),
-(24, 'การออกแบบและพัฒนาระบบการเรียนรู้การเขียนโปรแกรมแบบคู่ด้วยอาลิซ', NULL, NULL, '2018', 60000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 8, '2022-05-08 06:28:00', '2022-05-08 06:28:00'),
-(25, 'การพัฒนาต้นแบบเพื่อการวิเคราะห์ประสิทธิภาพของระบบการวางแผนทรัพยากรองค์กร', NULL, NULL, '2017', 80000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 9, '2022-05-08 06:31:40', '2022-05-08 06:31:40'),
-(26, 'วิธีการปรับโดเมนโดยใช้เซลลูลาร์ออโตมาตาสำหรับวิทัศน์คอมพิวเตอร์', NULL, NULL, '2016', 100000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 10, '2022-05-08 06:32:47', '2022-05-08 06:32:47'),
-(27, 'การเพิ่มความทนทานให้ตัวแบบเอ็กซ์ทรีมออนไลน์ตามลำดับ', NULL, NULL, '2016', 100000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 11, '2022-05-08 06:33:52', '2022-05-08 06:33:52'),
-(28, 'ระบบวัดดัชนีประสิทธิผลใน การจัดการเรียนรู้แบบผสมผสานที่ใช้สื่อความเป็นจริงเสริมในการสอน โดยมีเว็บเป็นฐาน', NULL, NULL, '2016', 80000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 12, '2022-05-08 06:35:25', '2022-05-08 06:35:25'),
-(29, 'โครงการการพัฒนาระบบฐานข้อมูลภูมิสารสนเทศยางนาใน จังหวัดขอนแก่น', '2016-06-01', '2017-09-15', '2016', 300000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 13, '2022-05-08 06:37:40', '2022-05-08 06:45:59'),
-(30, 'โครงการ', NULL, NULL, '2015', 230484, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 14, '2022-05-15 05:04:51', '2022-05-15 05:04:51'),
-(32, 'การจัดอบรมหลักสูตรประกาศนียบัตร (Non-Degree) โครงการพัฒนาทักษะกำลังคนของประเทศ (Reskill/Upskill/Newskill) เพื่อการมีงานทำและเตรียมความพร้อมรองรับการทำงานในอนาคตหลังวิกฤตการระบาดของไวรัสโคโรนา 2019 (COVID-19)', '2020-08-01', '2020-08-19', '2020', 90000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 15, '2022-05-15 06:07:16', '2022-05-15 06:07:16'),
-(33, 'อุปกรณ์ประเมินความเครียดพร้อมปัญญาประดิษฐ์สำหรับการประเมินโรคซึมเศร้า (Stress assessment devices with artificial intelligence for depression disorder assessment)', '2019-02-01', '2021-07-31', '2019', 6633000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 16, '2022-05-15 06:14:56', '2022-05-15 06:14:56'),
-(34, 'รูปแบบเทคโนโลยีฉลาดสำหรับสังคมสูงวัยสุขภาพดี (Smart technology for healthy aging society)', '2020-10-01', '2020-08-31', '2019', 8000000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 17, '2022-05-15 06:19:40', '2022-05-15 06:19:40'),
-(35, 'ดัชนีความเยาว์วัยของร่างกายแบบองค์รวมจากปัญญาประดิษฐ์ข้อมูลสุขภาพ (Youth Index from Health Artificial Intelligence)', NULL, NULL, '2018', 5000000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 18, '2022-05-15 06:24:02', '2022-05-15 06:24:02'),
-(36, 'ERASMUS+ : Curriculum Development in Data Science and Artificial Intelligence/DS&AI', NULL, NULL, '2018', 2453555, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 19, '2022-05-15 06:29:08', '2022-05-15 06:29:08'),
-(37, '“เครือข่ายวิจัยเทคโนโลยีทันสมัยของเครือข่ายอันชาญฉลาดที่แพร่หลาย” (Pervasive inteLligent and Network Emerging Technology (PLANET))', NULL, NULL, '2018', 10000000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 20, '2022-05-15 06:30:38', '2022-05-15 06:30:38'),
-(38, 'โครงการจัดการพลังงานที่มีประสิทธิภาพ ในเครือข่ายเซ็นเซอร์ไร้สายแบบเติมได้', NULL, NULL, '2018', 1500000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 21, '2022-05-15 06:32:14', '2022-05-15 06:32:14'),
-(39, 'ERASMUS+ : Innovation on Remote Sensing Education and Learning', '2017-10-15', '2020-09-30', '2017', 5234131, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 22, '2022-05-15 06:36:18', '2022-05-15 06:36:18'),
-(40, 'การพัฒนาระบบเซนเซอร์อัตโนมัติสำหรับสภาวะแวดล้อมภายในโรงเรือนและปรับปรุงการชั่งน้ำหนักอัตโนมัติสำหรับฟาร์มไก่อัจฉริยะ', NULL, NULL, '2017', 1617080, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 21, '2022-05-15 06:38:22', '2022-05-15 06:38:22'),
-(41, 'โครงการระบบภูมิสารสนเทศโรคพยาธิใบไม้ตับและมะเร็งท่อน้ำดีภาคตะวันออกเฉียงเหนือ ประเทศไทย', '2016-11-01', '2018-10-01', '2017', 5000000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 25, '2022-05-15 06:40:33', '2022-05-15 06:40:33'),
-(42, 'รูปแบบเทคโนโลยีฉลาดและระบบนิเวศชุมชนครบวงจรเพื่อสังคมสูงวัยสุขภาพดี (โครงการมณี) ระยะที่ 1 (Ma-Nee Smart Technology and Ecosystems for Healthy Aging Community, Phase I)', NULL, NULL, '2017', 10000000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 26, '2022-05-15 06:42:08', '2022-05-15 06:42:08'),
-(43, 'การพัฒนานวัตกรรมปัญญาประดิษฐ์อัจฉริยะเพื่อทำนายภาวะสุขภาพและภาวะที่ต้องได้รับการดูแลฉุกเฉินในผู้สูงอายุและผู้ป่วยโรคเรื้อรัง (Medical Artificial Intelligence System for Prediction of Health Status and Emergency Alert in Elderly and Patient with Chronic Diseases)', NULL, NULL, '2017', 1600000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 27, '2022-05-15 06:44:12', '2022-05-15 06:44:12'),
-(44, 'โครงการความฉลาดของเครื่องและการประยุกต์กับปัญหาที่เกิดใหม่ในกลุ่มทุกสิ่งเชื่อมต่อกับอินเทอร์เน็ตและการวิเคราะห์ด้านชีวการแพทย์', NULL, NULL, '2017', 1620000, 'สาขาวิชาวิทยาการคอมพิวเตอร์', NULL, 3, 28, '2022-05-15 06:45:23', '2022-05-15 06:45:23');
+CREATE TABLE `responsible_department` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `responsible_department`
+--
+
+INSERT INTO `responsible_department` (`id`, `name`, `type`) VALUES
+(1, 'วิทยาลัยการคอมพิวเตอร์', 'ภายใน');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `responsible_department_research_projects`
+--
+
+CREATE TABLE `responsible_department_research_projects` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `research_projects_id` bigint(20) UNSIGNED NOT NULL,
+  `responsible_department_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -3639,7 +3683,8 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 (2, 'teacher', 'web', NULL, NULL),
 (3, 'student', 'web', '2022-03-31 15:14:52', '2022-03-31 15:14:52'),
 (4, 'staff', 'web', '2022-03-31 16:57:10', '2022-03-31 16:57:10'),
-(5, 'headproject', 'web', '2022-04-29 05:52:46', '2022-04-29 05:53:03');
+(5, 'headproject', 'web', '2022-04-29 05:52:46', '2022-04-29 05:53:03'),
+(6, 'memberproject', 'web', '2022-04-29 05:52:46', '2022-04-29 05:53:03');
 
 -- --------------------------------------------------------
 
@@ -3677,6 +3722,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (17, 2),
 (17, 4),
 (17, 5),
+(17, 6),
 (18, 1),
 (18, 2),
 (18, 4),
@@ -4592,7 +4638,8 @@ INSERT INTO `users` (`id`, `email`, `username`, `password`, `fname_en`, `lname_e
 (157, 'wannad@kku.ac.th', NULL, '$2y$10$1zIzwxKbnj7YuOd4kA87T.h5UHSh0lAuW25E2tJT9trZlxy5RL1e2', 'Wanchaloem', 'Nadda', 'วันเฉลิม', 'นัดดา', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นาย', 'Mr.', '34_2024-12-5-1733986955-1.jpeg', 0, NULL, 1, NULL, '2022-02-01 11:55:57', '2022-05-01 16:12:28'),
 (158, 'putklang_w@kku.ac.th', NULL, '$2y$10$1zIzwxKbnj7YuOd4kA87T.h5UHSh0lAuW25E2tJT9trZlxy5RL1e2', 'Wasana', 'Putklang', 'วาสนา', 'พุฒกลาง', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นาง', 'Mrs.', 'wassana.jpeg', 0, NULL, 3, NULL, '2022-02-01 11:55:57', '2022-05-01 16:12:28'),
 (159, 'pakamu@kku.ac.th', NULL, '$2y$10$qShntuYtnft33sKsaNyJA.S0x4vlrrJcJAaGKHZr9Q0MSc3P0hs6C', 'Pakarat', 'Musikawan', 'ภัคราช', 'มุสิกะวัน', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นาย', 'Mr.', '36_1677840079-pakarat.jpeg', 0, NULL, 4, NULL, '2022-02-01 11:55:57', '2022-05-01 15:58:15'),
-(160, 'yaniko@kku.ac.th', NULL, '$2y$10$1zIzwxKbnj7YuOd4kA87T.h5UHSh0lAuW25E2tJT9trZlxy5RL1e2', 'Yanika', 'Kongsorot', 'ญานิกา', 'คงโสรส', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นางสาว', 'Miss', '37_1677839562-AjPalmySquareSesize.jpeg', 0, NULL, 4, NULL, '2022-02-01 11:55:57', '2022-05-01 16:12:28');
+(160, 'yaniko@kku.ac.th', NULL, '$2y$10$1zIzwxKbnj7YuOd4kA87T.h5UHSh0lAuW25E2tJT9trZlxy5RL1e2', 'Yanika', 'Kongsorot', 'ญานิกา', 'คงโสรส', 'Ph.D.', 'Lecturer', 'อาจารย์', 'Lecturer', 'อ.ดร.', 'นางสาว', 'Miss', '37_1677839562-AjPalmySquareSesize.jpeg', 0, NULL, 4, NULL, '2022-02-01 11:55:57', '2022-05-01 16:12:28'),
+(161, 'jutaum@kku.ac.th', NULL, '$2y$10$nfveF1GM1NBnLwuFpYdRaea8Ah4UOg5wkv04.vP19eFRA68UGvWOi', 'Jutarat', 'Umthaisong', 'จุฑารัตน์', 'อุ่มไธสง', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2022-05-15 14:45:44', '2022-05-15 14:45:44');
 
 -- --------------------------------------------------------
 
@@ -5466,40 +5513,6 @@ CREATE TABLE `work_of_research_projects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `work_of_research_projects`
---
-
-INSERT INTO `work_of_research_projects` (`id`, `role`, `user_id`, `research_project_id`) VALUES
-(64, 1, 16, 16),
-(68, 1, 34, 20),
-(69, 1, 22, 21),
-(70, 1, 2, 22),
-(71, 1, 14, 23),
-(72, 1, 22, 24),
-(73, 1, 14, 25),
-(74, 1, 7, 26),
-(75, 1, 6, 27),
-(76, 1, 22, 28),
-(80, 1, 31, 29),
-(81, 1, 20, 30),
-(83, 1, 29, 32),
-(84, 2, 26, 32),
-(85, 1, 34, 33),
-(86, 1, 34, 34),
-(87, 1, 34, 35),
-(88, 1, 9, 36),
-(89, 2, 10, 36),
-(90, 1, 3, 37),
-(91, 1, 3, 38),
-(92, 1, 15, 39),
-(93, 1, 20, 40),
-(94, 1, 31, 41),
-(95, 1, 34, 42),
-(96, 1, 34, 43),
-(97, 1, 7, 44),
-(98, 2, 9, 44);
-
---
 -- Indexes for dumped tables
 --
 
@@ -5608,7 +5621,21 @@ ALTER TABLE `files`
 --
 ALTER TABLE `funds`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fund_user_id` (`user_id`);
+  ADD KEY `fund_user_id` (`user_id`),
+  ADD KEY `funds_category_type` (`fund_cate`);
+
+--
+-- Indexes for table `funds_category`
+--
+ALTER TABLE `funds_category`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `funds_category_funds_type` (`fund_type_id`);
+
+--
+-- Indexes for table `funds_type`
+--
+ALTER TABLE `funds_type`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `fund_of_research`
@@ -5711,6 +5738,18 @@ ALTER TABLE `research_groups`
 ALTER TABLE `research_projects`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fund_id` (`fund_id`);
+
+--
+-- Indexes for table `responsible_department`
+--
+ALTER TABLE `responsible_department`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `responsible_department_research_projects`
+--
+ALTER TABLE `responsible_department_research_projects`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `roles`
@@ -5884,6 +5923,18 @@ ALTER TABLE `funds`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
+-- AUTO_INCREMENT for table `funds_category`
+--
+ALTER TABLE `funds_category`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `funds_type`
+--
+ALTER TABLE `funds_type`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `fund_of_research`
 --
 ALTER TABLE `fund_of_research`
@@ -5956,10 +6007,22 @@ ALTER TABLE `research_projects`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
+-- AUTO_INCREMENT for table `responsible_department`
+--
+ALTER TABLE `responsible_department`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `responsible_department_research_projects`
+--
+ALTER TABLE `responsible_department_research_projects`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `source_data`
@@ -5983,7 +6046,7 @@ ALTER TABLE `teacher_papers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- AUTO_INCREMENT for table `user_of_academicworks`
@@ -6039,6 +6102,18 @@ ALTER TABLE `author_of_papers`
 ALTER TABLE `courses`
   ADD CONSTRAINT `courses_degree_id_foreign` FOREIGN KEY (`degree_id`) REFERENCES `degrees` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `courses_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `funds`
+--
+ALTER TABLE `funds`
+  ADD CONSTRAINT `funds_category_funds` FOREIGN KEY (`fund_cate`) REFERENCES `funds_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `funds_category`
+--
+ALTER TABLE `funds_category`
+  ADD CONSTRAINT `funds_category_type` FOREIGN KEY (`fund_type_id`) REFERENCES `funds_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `highlight`
