@@ -9,7 +9,7 @@ class ResearchProject extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'project_name', 'project_start', 'project_end', 'responsible_department', 'budget', 'note','status','project_year'
+        'project_name', 'project_start', 'project_end', 'responsible_department', 'budget', 'note','status','project_year', 'fund_id'
     ];
 
     public function user()
@@ -27,7 +27,15 @@ class ResearchProject extends Model
     {
         //return $this->belongsToMany(Fund::class,'fund_of_research');
         // OR return $this->belongsTo('App\User');
-        return $this->belongsTo(Fund::class);
+        return $this->belongsTo(Fund::class, 'fund_id')->with('category.fundType');
     }
-
+    public function responsibleDepartments()
+    {
+        return $this->belongsToMany(
+            ResponsibleDepartment::class, 
+            'responsible_department_research_projects', 
+            'research_projects_id', 
+            'responsible_department_id'
+        );
+    }
 }

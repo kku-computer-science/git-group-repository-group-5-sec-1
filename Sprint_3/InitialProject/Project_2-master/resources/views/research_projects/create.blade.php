@@ -63,12 +63,24 @@
                             <input type="year" name="project_year" class="form-control" placeholder="year">
                         </div>
                     </div>
+
                     <div class="form-group row mt-2">
                         <label for="exampleInputfund_name" class="col-sm-2 ">งบประมาณ</label>
                         <div class="col-sm-4">
-                            <input type="int" name="budget" class="form-control" placeholder="หน่วยบาท" value="{{ old('budget') }}">
+                            <input type="number" name="budget" class="form-control" placeholder="หน่วยบาท" value="{{ old('budget') }}">
                         </div>
+                        <div class="col-sm-2 d-flex align-items-center">
+                            <input type="hidden" name="show_budget" id="show_budget" value="0">
+                            <input type="checkbox" id="show_budget_checkbox">
+                            <label class="ms-2">แสดงงบประมาณ</label>
+                        </div>
+
+                        <!-- Message that changes -->
+                        <p id="budget_message" class="text-muted">
+                            งบประมาณจะ<strong>ไม่แสดง</strong>ในหน้า โครงการบริการวิชาการ/ โครงการวิจัย หากต้องการให้แสดง โปรดทำเครื่องหมายในช่อง แสดงงบประมาณ
+                        </p>
                     </div>
+
                     <div class="form-group row mt-2">
                         <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ</label>
                         <div class="col-sm-9">
@@ -286,6 +298,23 @@
                     $(this).closest("tr").remove();
                 } else {
                     alert("Sorry!! Can't remove first row!");
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkbox = document.getElementById("show_budget_checkbox");
+            const hiddenInput = document.getElementById("show_budget");
+            const message = document.getElementById("budget_message");
+
+            checkbox.addEventListener("change", function () {
+                if (this.checked) {
+                    message.innerHTML = "งบประมาณจะ<strong>แสดง</strong>ในหน้า โครงการบริการวิชาการ/ โครงการวิจัย หากต้องการซ่อน โปรดยกเลิกการทำเครื่องหมายในช่อง แสดงงบประมาณ";
+                    hiddenInput.value = 1;
+                } else {
+                    message.innerHTML = "งบประมาณจะ<strong>ไม่แสดง</strong>ในหน้า โครงการบริการวิชาการ/ โครงการวิจัย หากต้องการให้แสดง โปรดทำเครื่องหมายในช่อง แสดงงบประมาณ";
+                    hiddenInput.value = 0;
                 }
             });
         });

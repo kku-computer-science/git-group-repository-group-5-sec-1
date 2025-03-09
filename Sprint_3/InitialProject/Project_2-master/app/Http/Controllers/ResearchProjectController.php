@@ -23,13 +23,13 @@ class ResearchProjectController extends Controller
 
         $id = auth()->user()->id;
         if (auth()->user()->HasRole('admin')) {
-            $researchProjects = ResearchProject::with('User')->get();
+            $researchProjects = ResearchProject::with(['user', 'fund.category.fundType'])->get();
         } elseif (auth()->user()->HasRole('headproject')) {
-            $researchProjects = ResearchProject::with('User')->get();
+            $researchProjects = ResearchProject::with(['user', 'fund.category.fundType'])->get();
         } elseif (auth()->user()->HasRole('staff')) {
-            $researchProjects = ResearchProject::with('User')->get();
+            $researchProjects = ResearchProject::with(['user', 'fund.category.fundType'])->get();
         } else {
-            $researchProjects = User::find($id)->researchProject()->get();
+            $researchProjects = User::find($id)->researchProject()->with('fund.category.fundType')->get();
             //$researchProjects=User::find($id)->researchProject()->latest()->paginate(5);
 
             //$researchProjects = ResearchProject::with('User')->latest()->paginate(5);
@@ -69,7 +69,8 @@ class ResearchProjectController extends Controller
                 'project_year' => 'required',
                 'fund' => 'required',
                 //'note' => 'required',
-                'head' => 'required'
+                'head' => 'required',
+                'departments' => 'required|array'
             ],
 
             [
@@ -78,6 +79,7 @@ class ResearchProjectController extends Controller
                 'project_year.required' => 'ต้องใส่ข้อมูล ปีที่ปีที่ยื่นขอ',
                 'fund.required' => 'ต้องใส่ข้อมูล ทุนวิจัย',
                 'head.required' => 'ต้องใส่ข้อมูล ผู้รับผิดชอบโครงการ',
+                'departments.required' => 'ต้องใส่ข้อมูล หน่วยงานที่รับผิดชอบ'
             ]
         );
         //return $request->fund;
@@ -99,7 +101,9 @@ class ResearchProjectController extends Controller
         //$user=User::find($head);
         //$user->givePermissionTo('editResearchProject','deleteResearchProject');
 
-
+        $departments = $request->departments;
+        $researchProject->responsibleDepartments()->attach($departments);
+        
         if (isset($request->moreFields)) {
             foreach ($request->moreFields as $key => $value) {
                 //dd($value);
