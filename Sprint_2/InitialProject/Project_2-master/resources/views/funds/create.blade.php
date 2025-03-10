@@ -43,10 +43,17 @@
                     </div>
                     <div id="fund_code">
                         <div class="form-group row">
+<<<<<<< HEAD
                             <label for="exampleInputfund_level" class="col-sm-2 ">ระดับทุน</label>
                             <div class="col-sm-4">
                                 <select name="fund_level" class="custom-select my-select">
                                 <option value="" disabled selected >---- โปรดระบุระดับทุน ----</option>
+=======
+                            <label for="exampleInputfund_level" class="col-sm-2 ">ลักษณะทุน</label>
+                            <div class="col-sm-4">
+                                <select name="fund_level" class="custom-select my-select">
+                                <option value="" disabled selected >---- โปรดระบุลักษณะทุน ----</option>
+>>>>>>> Nantapong_1341
                                     <option value="">ไม่ระบุ</option>
                                     <option value="สูง">สูง</option>
                                     <option value="กลาง">กลาง</option>

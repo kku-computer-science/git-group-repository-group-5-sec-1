@@ -109,9 +109,13 @@
                         <label for="exampleInputfund_details" class="col-sm-2 ">ผู้รับผิดชอบโครงการ</label>
                         <div class="col-sm-9">
                             <select id='head0' style='width: 200px;' name="head">
+<<<<<<< HEAD
                                 <option value=''>Select User</option>
                                 @foreach($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>
+=======
+                                <option value=''>Select User</option>@foreach($users as $user)<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>
+>>>>>>> Nantapong_1341
                                 @endforeach
                             </select>
                         </div>
@@ -149,7 +153,11 @@
                                         </td>
                                     </tr>
                                 </table>
+<<<<<<< HEAD
                                 <!-- <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" />
+=======
+                                <!-- <input type="button" name="submit" id="submit" class="btn btn-info" value="Submit" /> 
+>>>>>>> Nantapong_1341
                             </div>
                         </div>
                     </div> -->
@@ -290,4 +298,8 @@
             });
         });
     </script>
+<<<<<<< HEAD
     @stop
+=======
+    @stop
+>>>>>>> Nantapong_1341

@@ -36,7 +36,11 @@
                                 <td>{{ Str::limit($paper->ac_name,50) }}</td>
                                 <td>{{ $paper->ac_type}}</td>
                                 <td>{{ $paper->ac_year}}</td>
+<<<<<<< HEAD
                                 <td>{{ Str::limit($paper->ac_refnumber, 50) }}</td>
+=======
+                                <td>{{ $paper->ac_refnumber,50 }}</td>
+>>>>>>> Nantapong_1341
                                 <td>@foreach($paper->user as $a)
                                     {{ $a->fname_th }} {{ $a->lname_th }}
                                     @if (!$loop->last),@endif

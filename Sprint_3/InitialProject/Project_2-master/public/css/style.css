@@ -570,7 +570,14 @@ Colors:
             border-bottom-left-radius: 10px;
             width: 100%;
             max-height: 260px;
+<<<<<<< HEAD
             aspect-ratio: 3/4;
+=======
+<<<<<<< HEAD
+=======
+            aspect-ratio: 3/4;
+>>>>>>> Nantapong_1341
+>>>>>>> Nantapong_1341
             object-fit: cover;
         }
         /* .card-2 .card .card-content {

@@ -15,8 +15,12 @@ class ResearchGroup extends Model
         'group_detail_en',
         'group_desc_th',
         'group_desc_en',
+<<<<<<< HEAD
         'group_image',
         'banner_image'
+=======
+        'group_image'
+>>>>>>> Nantapong_1341
     ];
 
     public function user()

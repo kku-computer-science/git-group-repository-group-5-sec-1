@@ -121,7 +121,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById ('logout-form').submit();"> {{ __('Logout') }} <i class="mdi mdi-logout"></i>
                         </a>
+<<<<<<< HEAD
                         <form id="logout-form" action="{{ route('logout') }}" method="GET" class="d-none">
+=======
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+>>>>>>> Nantapong_1341
                             @csrf
                         </form>
                     </li>
@@ -273,6 +277,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     @endcan
+<<<<<<< HEAD
                     @can('highlight-list')
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ManagePublications" aria-expanded="false" aria-controls="ManagePublications">
@@ -288,6 +293,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                     </li>
                     @endcan
+=======
+>>>>>>> Nantapong_1341
                 </ul>
             </nav>
 

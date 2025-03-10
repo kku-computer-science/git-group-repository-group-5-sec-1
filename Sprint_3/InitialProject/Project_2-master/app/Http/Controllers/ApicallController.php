@@ -16,7 +16,10 @@ class ApicallController extends Controller
      */
     public function create($id)
     {
+<<<<<<< HEAD
         Log::info("ID user". $id);
+=======
+>>>>>>> Nantapong_1341
         $decryptedId = Crypt::decrypt($id);
 
         // เรียกใช้งาน ScopuscallController
@@ -33,4 +36,7 @@ class ApicallController extends Controller
         return redirect()->back()->with('success', 'เรียกข้อมูลจาก Scopus และ Google Scholar สำเร็จ');
     }
 }
+<<<<<<< HEAD
     
+=======
+>>>>>>> Nantapong_1341

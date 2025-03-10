@@ -80,7 +80,11 @@ class ResearchProjectController extends Controller
                 'head.required' => 'ต้องใส่ข้อมูล ผู้รับผิดชอบโครงการ',
             ]
         );
+<<<<<<< HEAD
         //return $request->fund;
+=======
+        //return $request->fund; 
+>>>>>>> Nantapong_1341
         $fund = Fund::find($request->fund);
         $req = $request->all();
         //return $req;

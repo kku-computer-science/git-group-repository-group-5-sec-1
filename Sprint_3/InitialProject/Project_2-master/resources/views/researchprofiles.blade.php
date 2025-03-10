@@ -42,10 +42,17 @@
 <div class="container cardprofile mt-5">
     <div class="card">
         <div class="row g-0">
+<<<<<<< HEAD
             <div class="col-md-3">
                 <img class="card-image" src="{{$res->picture}}" alt="">
             </div>
             <div class="col-md-5">
+=======
+            <div class="col-md-2">
+                <img class="card-image" src="{{$res->picture}}" alt="">
+            </div>
+            <div class="col-md-6">
+>>>>>>> Nantapong_1341
                 <div class="card-body">
                     <h6 class="card-text"><b>{{$res->position_th}} {{$res->fname_th}} {{$res->lname_th}}</b></h6>
                     @if($res->doctoral_degree == 'Ph.D.')
@@ -88,18 +95,27 @@
                             <div class="count" id='scopus_sum'>
                             </div>
                         </div>
+<<<<<<< HEAD
 
                         {{-- <div class="col">
                         <div class="col"> --}}
 
                         {{-- <div class="col">
 
+=======
+<<<<<<< HEAD
+                        <div class="col">
+=======
+                        {{-- <div class="col">
+>>>>>>> Nantapong_1341
+>>>>>>> Nantapong_1341
                             <div class="count" id='wos_sum'>
                             </div>
                         </div>
                         <div class="col">
                             <div class="count" id='tci_sum'>
                             </div>
+<<<<<<< HEAD
 
                         </div>
 
@@ -107,6 +123,13 @@
 
                         </div> --}}
 
+=======
+<<<<<<< HEAD
+                        </div>
+=======
+                        </div> --}}
+>>>>>>> Nantapong_1341
+>>>>>>> Nantapong_1341
 
                     </div>
                     <br>
@@ -523,16 +546,36 @@
 
 <script>
     var year = <?php echo $year; ?>;
+<<<<<<< HEAD
     // var paper_tci = <?php echo $paper_tci; ?>;
     var paper_scopus = <?php echo $paper_scopus; ?>;
     // var paper_wos = <?php echo $paper_wos; ?>;
 
+=======
+<<<<<<< HEAD
+    var paper_tci = <?php echo $paper_tci; ?>;
+    var paper_scopus = <?php echo $paper_scopus; ?>;
+    var paper_wos = <?php echo $paper_wos; ?>;
+=======
+    // var paper_tci = <?php echo $paper_tci; ?>;
+    var paper_scopus = <?php echo $paper_scopus; ?>;
+    // var paper_wos = <?php echo $paper_wos; ?>;
+>>>>>>> Nantapong_1341
+>>>>>>> Nantapong_1341
     var areaChartData = {
 
         labels: year,
 
+<<<<<<< HEAD
         datasets: {
 
+=======
+<<<<<<< HEAD
+        datasets: [{
+=======
+        datasets: {
+>>>>>>> Nantapong_1341
+>>>>>>> Nantapong_1341
                 label: 'SCOPUS',
                 backgroundColor: '#83E4B5',
                 borderColor: 'rgba(255, 255, 255, 0.5)',
@@ -542,7 +585,36 @@
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: '#83E4B5',
                 data: paper_scopus
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+            },
+            {
+                label: 'TCI',
+                backgroundColor: '#3994D6',
+                borderColor: 'rgba(210, 214, 222, 1)',
+                pointRadius: false,
+                pointColor: '#3994D6',
+                pointStrokeColor: '#c1c7d1',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: '#3994D6',
+                data: paper_tci
+            },
+            {
+                label: 'WOS',
+                backgroundColor: '#FCC29A',
+                borderColor: 'rgba(0, 0, 255, 1)',
+                pointRadius: false,
+                pointColor: '#FCC29A',
+                pointStrokeColor: '#c1c7d1',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: '#FCC29A',
+                data: paper_wos
+            },
+        ]
+=======
+>>>>>>> Nantapong_1341
             }
             // {
             //     label: 'TCI',
@@ -566,11 +638,17 @@
             //     pointHighlightStroke: '#FCC29A',
             //     data: paper_wos
             // },
+<<<<<<< HEAD
 
 
             }
 
 
+=======
+        
+>>>>>>> Nantapong_1341
+    }
+>>>>>>> Nantapong_1341
 
 
 
@@ -617,7 +695,11 @@
     async function myFunction() {
         var res = <?php echo $res; ?>;
         //var fname = res.fname_en;
+<<<<<<< HEAD
         //var fname = res.fname_en.substr(0, 1);
+=======
+        //var fname = res.fname_en.substr(0, 1); 
+>>>>>>> Nantapong_1341
         //console.log(fname);
         //const response = await fetch('https://api.elsevier.com/content/search/scopus?query=AUTHOR-NAME('+ res.lname_en +','+fname+')%20&apikey=6ab3c2a01c29f0e36b00c8fa1d013f83&httpAccept=application%2Fjson');
         const response = await fetch('https://api.elsevier.com/content/search/author?query=authlast(' + res.lname_en +
@@ -678,6 +760,7 @@
         let sum = sumsco + sumtci + sumwos + sumbook + sumpatent;
 
         //$("#scopus").append('data-to="100"');
+<<<<<<< HEAD
         document.getElementById("all").innerHTML += `
                 <h2 class="timer count-title count-number" data-to="${sum}" data-speed="1500"></h2>
                 <p class="count-text ">SUMMARY</p>`
@@ -704,6 +787,33 @@
         //         <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
         //         <p class="count-text ">TCI</p>`
 
+=======
+        document.getElementById("all").innerHTML += `   
+                <h2 class="timer count-title count-number" data-to="${sum}" data-speed="1500"></h2>
+                <p class="count-text ">SUMMARY</p>`
+
+        document.getElementById("scopus_sum").innerHTML += `   
+                <h2 class="timer count-title count-number" data-to="${sumsco}" data-speed="1500"></h2>
+                <p class="count-text">SCOPUS</p>`
+
+<<<<<<< HEAD
+        document.getElementById("wos_sum").innerHTML += `    
+                <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
+                <p class="count-text ">WOS</p>`
+
+        document.getElementById("tci_sum").innerHTML += `  
+                <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
+                <p class="count-text ">TCI</p>`
+=======
+        // document.getElementById("wos_sum").innerHTML += `    
+        //         <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
+        //         <p class="count-text ">WOS</p>`
+
+        // document.getElementById("tci_sum").innerHTML += `  
+        //         <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
+        //         <p class="count-text ">TCI</p>`
+>>>>>>> Nantapong_1341
+>>>>>>> Nantapong_1341
 
 
         //document.getElementById("scopus").appendChild('data-to="100"');
@@ -813,7 +923,14 @@
     const myArray =  a.text.toString().split(" ");
     console.log(myArray)
     document.getElementById("authtd").innerHTML = "name :"+ myArray;
+<<<<<<< HEAD
 
 });
 </script> -->
 @endsection
+=======
+    
+});
+</script> -->
+@endsection
+>>>>>>> Nantapong_1341

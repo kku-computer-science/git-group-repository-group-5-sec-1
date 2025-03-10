@@ -127,7 +127,11 @@
                         <tr>
                             <td>{{ $key++ }}</td>
                             <td>{{ $user->fname_en }} {{ $user->lname_en }} </td>
+<<<<<<< HEAD
                             <td>{{ Str::limit($user->program->program_name_en ?? '- -',20) }}</td>
+=======
+                            <td>{{ Str::limit($user->program->program_name_en,20) }}</td>
+>>>>>>> Nantapong_1341
                             <td>{{ $user->email }}</td>
                             <td>
                                 @if(!empty($user->getRoleNames()))
@@ -165,7 +169,11 @@
                         @endforeach
                     </tbody>
                 </table>
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> Nantapong_1341
             </div>
         </div>
     </div>
@@ -205,4 +213,8 @@
             });
     });
 </script>
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> Nantapong_1341

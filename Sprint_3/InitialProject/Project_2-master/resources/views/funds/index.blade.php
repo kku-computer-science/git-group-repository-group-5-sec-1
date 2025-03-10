@@ -18,6 +18,7 @@
             <a class="btn btn-primary btn-menu btn-icon-text btn-sm mb-3" href="{{ route('funds.create') }}"><i class="mdi mdi-plus btn-icon-prepend"></i> ADD</a>
             <div class="table-responsive">
                 <table id="example1" class="table table-striped">
+<<<<<<< HEAD
                     <thead>
                         <tr>
                             <th>No.</th>
@@ -66,6 +67,53 @@
                         </tr>
                         @endforeach
                     </tbody>
+=======
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Fund name</th>
+                                <th>Fund Type</th>
+                                <th>Fund Category</th>
+                                <!-- <th>Create by</th> -->
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($funds as $i => $fund)
+                            <tr>
+                                <td>{{ $i + 1 }}</td>
+                                <td>{{ Str::limit($fund->fund_name, 80) }}</td>
+                                <td>{{ $fund->category->fundType->name }}</td>
+                            <td>{{ $fund->category->name }}</td>
+                                <!-- <td>{{ $fund->user->fname_en }} {{ $fund->user->lname_en }}</td> -->
+                                <td>
+                                    @csrf
+                                    <form action="{{ route('funds.destroy', $fund->id) }}" method="POST">
+                                        <li class="list-inline-item">
+                                            <a class="btn btn-outline-primary btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="view" href="{{ route('funds.show', $fund->id) }}"><i class="mdi mdi-eye"></i></a>
+                                        </li>
+                                        @if(Auth::user()->can('update', $fund))
+                                        <li class="list-inline-item">
+                                            <a class="btn btn-outline-success btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Edit" 
+                                            href="{{ route('funds.edit', $fund->id) }}">
+                                             <i class="mdi mdi-pencil"></i>
+                                         </a>                                        </li>
+                                        @endif
+                        
+                                        @if(Auth::user()->can('delete', $fund))
+                                        @csrf
+                                        @method('DELETE')
+                        
+                                        <li class="list-inline-item">
+                                            <button class="btn btn-outline-danger btn-sm" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="mdi mdi-delete"></i></button>
+                                        </li>
+                                        @endif
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+>>>>>>> Nantapong_1341
                 </table>
             </div>
         </div>

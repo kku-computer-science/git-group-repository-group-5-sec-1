@@ -51,6 +51,7 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
+<<<<<<< HEAD
         'gcs' => [
             'driver' => 'gcs',
             'project_id' => env('GOOGLE_CLOUD_PROJECT_ID'),
@@ -59,6 +60,8 @@ return [
             'path_prefix' => null,
             'visibility' => 'public',
         ],
+=======
+>>>>>>> Nantapong_1341
 
     ],
 

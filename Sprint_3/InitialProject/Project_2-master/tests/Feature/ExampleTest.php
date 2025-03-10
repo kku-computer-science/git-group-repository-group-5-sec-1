@@ -19,4 +19,7 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> Nantapong_1341

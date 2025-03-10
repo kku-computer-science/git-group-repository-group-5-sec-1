@@ -64,14 +64,21 @@ class LoginController extends Controller
     {
         if (Auth::user()->hasRole('admin')) {
             return route('dashboard');
+<<<<<<< HEAD
         } elseif (Auth::user()->hasRole('admin staff')) {
             return route('dashboard');
+=======
+>>>>>>> Nantapong_1341
         } elseif (Auth::user()->hasRole('staff')) {
             return route('dashboard');
         } elseif (Auth::user()->hasRole('teacher')) {
             return route('dashboard');
         } elseif (Auth::user()->hasRole('student')) {
             return route('dashboard');
+<<<<<<< HEAD
+=======
+            //return view('home');
+>>>>>>> Nantapong_1341
         }
     }
 
@@ -87,7 +94,11 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);*/
             /*$key = $this->throttleKey($request);
                 $rateLimiter = $this->limiter();
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> Nantapong_1341
                 $limit = [3 => 1, 5 => 5];
                 $attempts = $rateLimiter->attempts($key);  // return how attapts already yet
                 if (array_key_exists($attempts, $limit)) {
@@ -159,7 +170,11 @@ class LoginController extends Controller
                     //$user->givePermissionTo('addResearchProject','editResearchProject','deleteResearchProject');
                     //return redirect()->route('teacher.dashboard');
                     return redirect()->route('dashboard');
+<<<<<<< HEAD
                 }
+=======
+                } 
+>>>>>>> Nantapong_1341
             } else {
                 //fail
                 $this->incrementLoginAttempts($request);

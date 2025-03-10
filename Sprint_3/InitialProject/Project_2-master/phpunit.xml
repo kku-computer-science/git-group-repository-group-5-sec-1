@@ -11,10 +11,13 @@
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
+<<<<<<< HEAD
         <testsuite name="Api">
             <directory suffix="Test.php">./tests/Api</directory>
         </testsuite>
 
+=======
+>>>>>>> Nantapong_1341
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>

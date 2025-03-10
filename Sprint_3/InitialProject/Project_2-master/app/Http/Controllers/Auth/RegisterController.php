@@ -102,7 +102,11 @@ class RegisterController extends Controller
          $user->role = 2;
          $user->favoriteColor = $request->favoriteColor;
          $user->picture = $picture;
+<<<<<<< HEAD
          $user->password = Hash::make($request->password);
+=======
+         $user->password = \Hash::make($request->password);
+>>>>>>> Nantapong_1341
 
          if( $user->save() ){
 

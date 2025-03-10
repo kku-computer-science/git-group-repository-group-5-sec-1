@@ -15,8 +15,11 @@ class ResearcherController extends Controller
         //$reshr = User::role('teacher')->orderBy('department_id')->with('Expertise')->get();
         //$reshr = Department::with(['users' => fn($query) => $query->where('fname', 'like', 'wat%')])->get();
         $reshr = Program::with(['users' => fn ($query) => $query->role('teacher')->with('expertise')])->where('degree_id', '=', 1)->get();
+<<<<<<< HEAD
         $reshr = Program::with(['users' => fn ($query) => $query->role('teacher')->with('expertise')])->where('degree_id', '=', 2)->get();
         $reshr = Program::with(['users' => fn ($query) => $query->role('teacher')->with('expertise')])->where('degree_id', '=', 3)->get();
+=======
+>>>>>>> Nantapong_1341
         //$reshr = Department::with('users')->join('expertises', 'id', '=', 'expertises.user_id')->get();
 
 

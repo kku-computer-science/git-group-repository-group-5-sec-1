@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+<<<<<<< HEAD
 //     public function boot()
 //     {
 //         Paginator::useBootstrap();
@@ -45,3 +46,16 @@ public function boot()
     );
 }
 }
+=======
+    public function boot()
+    {
+        Paginator::useBootstrap();
+        view()->composer(
+            'layouts.layout', 
+            function ($view) {
+                $view->with('dn', \App\Models\Program::where('degree_id', '=', 1)->get());
+            }
+        );
+    }
+}
+>>>>>>> Nantapong_1341

@@ -10,17 +10,23 @@ use Bibtex;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor;
+<<<<<<< HEAD
 use App\Models\Highlight;
+=======
+>>>>>>> Nantapong_1341
 
 class HomeController extends Controller
 {
 
     public function index()
     {
+<<<<<<< HEAD
         $latestHighlights = Highlight::whereIn('selected', [1, 2, 3])
                             ->orderBy('selected', 'asc')
                             ->take(3)
                             ->get();
+=======
+>>>>>>> Nantapong_1341
         //$papers = Paper::all()->orderBy, 'DESC');
         $papers = [];
         $year = range(Carbon::now()->year - 4, Carbon::now()->year);
@@ -176,7 +182,11 @@ class HomeController extends Controller
         $paper_scopus_numall = $num['paper_scopus'];
         $paper_wos_numall = $num['paper_wos'];
         //return $paper_scopus_numall;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> Nantapong_1341
 
         //$id = 0
 
@@ -184,8 +194,12 @@ class HomeController extends Controller
 
         //$key="watchara";
         //return response()->json($bb);
+<<<<<<< HEAD
         return view('home', compact('papers', 'latestHighlights'))
             ->with('year', json_encode($year, JSON_NUMERIC_CHECK))
+=======
+        return view('home', compact('papers'))->with('year', json_encode($year, JSON_NUMERIC_CHECK))
+>>>>>>> Nantapong_1341
             ->with('paper_tci', json_encode($paper_tci, JSON_NUMERIC_CHECK))
             ->with('paper_scopus', json_encode($paper_scopus, JSON_NUMERIC_CHECK))
             ->with('paper_wos', json_encode($paper_wos, JSON_NUMERIC_CHECK))
@@ -195,11 +209,17 @@ class HomeController extends Controller
 
 
 
+<<<<<<< HEAD
 
         // return $papers;
         // (DB::raw('YEAR(paper_yearpub)')
         //return view('home',compact('papers'));
 
+=======
+        // return $papers;
+        // (DB::raw('YEAR(paper_yearpub)')
+        //return view('home',compact('papers'));
+>>>>>>> Nantapong_1341
     }
 
     public function getnum()

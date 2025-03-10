@@ -36,6 +36,7 @@
 <div class="container home">
     <div class="container d-sm-flex justify-content-center mt-5">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+<<<<<<< HEAD
             
             {{-- Dynamic Carousel Indicators --}}
             <div class="carousel-indicators">
@@ -60,6 +61,25 @@
             </div>
 
             {{-- Carousel Controls --}}
+=======
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <!-- <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                aria-label="Slide 3"></button> -->
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{asset('img/Banner1.png')}}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{asset('img/Banner2.png')}}" class="d-block w-100" alt="...">
+                </div>
+                <!-- <div class="carousel-item">
+                <img src="..." class="d-block w-100" alt="...">
+            </div> -->
+            </div>
+>>>>>>> Nantapong_1341
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
@@ -70,7 +90,11 @@
             </button>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
+=======
+
+>>>>>>> Nantapong_1341
 
     <!-- Modal -->
 
@@ -307,7 +331,11 @@
     let sumsco = paper_scopus;
     let sumwos = paper_wos;
     (function($) {
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> Nantapong_1341
         let sum = paper_wos + paper_tci + paper_scopus;
         //console.log(sum);
         //$("#scopus").append('data-to="100"');
@@ -320,8 +348,11 @@
                 <h2 class="timer count-title count-number" data-to="${sumsco}" data-speed="1500"></h2>
                 <p class="count-text ">SCOPUS</p>`
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> Nantapong_1341
+=======
 >>>>>>> Nantapong_1341
         document.getElementById("wos").innerHTML += `
                 <i class="count-icon fa fa-book fa-2x"></i>
@@ -332,7 +363,10 @@
                 <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
                 <p class="count-text ">TCI</p>`
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> Nantapong_1341
 =======
         // document.getElementById("wos").innerHTML += `
         //         <i class="count-icon fa fa-book fa-2x"></i>
@@ -343,6 +377,9 @@
         //         <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
         //         <p class="count-text ">TCI</p>`
 >>>>>>> Nantapong_1341
+<<<<<<< HEAD
+>>>>>>> Nantapong_1341
+=======
 >>>>>>> Nantapong_1341
         //document.getElementById("scopus").appendChild('data-to="100"');
         $.fn.countTo = function(options) {
@@ -460,4 +497,8 @@
         })
     });
 </script>
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> Nantapong_1341

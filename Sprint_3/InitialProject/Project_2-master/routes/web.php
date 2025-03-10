@@ -43,6 +43,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
 use App\Http\Controllers\HighlightController;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> Nantapong_1341
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,8 +80,13 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
     Auth::routes();
 });
 
+<<<<<<< HEAD
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+=======
+Route::resource('funds', FundController::class);
+Route::get('/getFundsCategory/{fund_type_id}', [FundController::class, 'getFundsCategory'])->name('funds.getCategories');Route::get('/getFundsCategory/{fund_type_id}', [FundController::class, 'getFundsCategory']);Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+>>>>>>> Nantapong_1341
 //Route::get('/researchers',[ResearcherController::class,'index'])->name('researchers');
 Route::get('researchers/{id}', [ResearcherController::class, 'request'])->name('researchers');
 Route::get('researchers/{id}/search', [ResearcherController::class, 'search'])->name('searchresearchers');
@@ -124,6 +134,13 @@ Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], functi
 
 Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     //Route::get('profile',[UserController::class,'profile'])->name('profile2');
+<<<<<<< HEAD
+=======
+    // Route AJAX ดึงข้อมูลประเภททุน
+    Route::get('funds/ajax/funds-type', [FundController::class, 'getFundsType'])->name('funds.ajax.funds-type');
+    // Route AJAX ดึงข้อมูลลักษณะทุนตามประเภททุนที่เลือก
+    Route::get('/getFundsCategory/{fundTypeId}', [FundController::class, 'getFundsCategory'])->name('getFundsCategory');    Route::get('funds/ajax/funds-category', [FundController::class, 'getFundsCategory'])->name('funds.ajax.funds-category');
+>>>>>>> Nantapong_1341
     Route::post('update-profile-info', [ProfileuserController::class, 'updateInfo'])->name('adminUpdateInfo');
     Route::post('update-edu-info', [EducationController::class, 'updateEdInfo'])->name('updateEdInfo');
     Route::post('change-profile-picture', [UserController::class, 'updatePicture'])->name('adminPictureUpdate');

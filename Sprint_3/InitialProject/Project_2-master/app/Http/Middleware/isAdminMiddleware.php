@@ -20,8 +20,11 @@ class isAdminMiddleware
     {
         if( Auth::check() && Auth::user()->hasRole('admin') ){
             return $next($request);
+<<<<<<< HEAD
         } elseif( Auth::check() && Auth::user()->hasRole('admin staff') ){
             return $next($request);
+=======
+>>>>>>> Nantapong_1341
         }else{
             return redirect()->route('login');
         }
