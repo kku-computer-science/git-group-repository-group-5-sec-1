@@ -27,19 +27,10 @@
                 <p class="card-text col-sm-9">{{ $fund->fund_year ?? '-' }}</p>
             </div>
 
-            <div class="row">
-                <p class="card-text col-sm-3"><b>รายละเอียดทุน</b></p>
-                <p class="card-text col-sm-9">{{ $fund->fund_details ?? '-' }}</p>
-            </div>
 
             <div class="row">
                 <p class="card-text col-sm-3"><b>หน่วยงานที่สนับสนุน</b></p>
                 <p class="card-text col-sm-9">{{ $fund->support_resource ?? '-' }}</p>
-            </div>
-
-            <div class="row">
-                <p class="card-text col-sm-3"><b>หน่วยงาน</b></p>
-                <p class="card-text col-sm-9">{{ $fund->fund_agency ?? '-' }}</p>
             </div>
 
             <div class="row">
