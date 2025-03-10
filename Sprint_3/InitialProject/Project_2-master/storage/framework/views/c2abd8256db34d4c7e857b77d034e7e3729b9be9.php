@@ -121,7 +121,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a class="nav-link" href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault();
                         document.getElementById ('logout-form').submit();"> <?php echo e(__('Logout')); ?> <i class="mdi mdi-logout"></i>
                         </a>
-                        <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="GET" class="d-none">
+                        <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
                             <?php echo csrf_field(); ?>
                         </form>
                     </li>
@@ -271,21 +271,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <span class="menu-title">Manage Expertise</span>
 
                         </a>
-                    </li>
-                    <?php endif; ?>
-                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('highlight-list')): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#ManagePublications" aria-expanded="false" aria-controls="ManagePublications">
-                            <i class="menu-icon mdi mdi-folder-multiple-image"></i>
-                            <span class="menu-title">Manage Publications</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ManagePublications">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="<?php echo e(route('highlight.index')); ?>">Show</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="<?php echo e(route('all-highlight.index')); ?>">Manage</a></li>
-                            </ul>
-                        </div>
                     </li>
                     <?php endif; ?>
                 </ul>

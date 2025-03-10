@@ -89,9 +89,6 @@
                         <a class="nav-link" href="/researchgroup"><?php echo e(trans('message.ResearchGroup')); ?></a>
                     </li>
                     <li class="nav-item <?php echo e(request()->is('reports') ? 'active' : ''); ?>">
-                        <a class="nav-link" href="/highlight-banner">highlight</a>
-                    </li>
-                    <li class="nav-item <?php echo e(request()->is('reports') ? 'active' : ''); ?>">
                         <a class="nav-link" href="/reports"><?php echo e(trans('message.Report')); ?></a>
                     </li>
 
@@ -119,7 +116,7 @@
                 </ul>
                 
                 <span class="nav-item">
-                    <a class="btn-solid-sm" href="<?php echo e(route('login')); ?>" target="_blank">Login</a>
+                    <a class="btn-solid-sm" href="/login" target="_blank">Login</a>
                 </span>
                 
             </div> <!-- end of navbar-collapse -->

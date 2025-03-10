@@ -36,30 +36,23 @@
 <div class="container home">
     <div class="container d-sm-flex justify-content-center mt-5">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            
-            
             <div class="carousel-indicators">
-                <?php $__currentLoopData = $latestHighlights; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $highlight): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" 
-                        data-bs-slide-to="<?php echo e($index); ?>" 
-                        class="<?php echo e($index == 0 ? 'active' : ''); ?>" 
-                        aria-label="Slide <?php echo e($index + 1); ?>"></button>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <!-- <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                aria-label="Slide 3"></button> -->
             </div>
-
-            
             <div class="carousel-inner">
-                <?php $__currentLoopData = $latestHighlights; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $highlight): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="carousel-item <?php echo e($index == 0 ? 'active' : ''); ?>">
-                        <a href="<?php echo e(url('/highlight' . $highlight->id)); ?>">
-                            <img src="<?php echo e(url('/highlight-image/' . $highlight->banner)); ?>" 
-                                class="d-block w-100" alt="<?php echo e($highlight->topic); ?>">
-                        </a>
-                    </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <div class="carousel-item active">
+                    <img src="<?php echo e(asset('img/Banner1.png')); ?>" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?php echo e(asset('img/Banner2.png')); ?>" class="d-block w-100" alt="...">
+                </div>
+                <!-- <div class="carousel-item">
+                <img src="..." class="d-block w-100" alt="...">
+            </div> -->
             </div>
-
-            
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
@@ -70,7 +63,7 @@
             </button>
         </div>
     </div>
-</div>
+
 
     <!-- Modal -->
 
@@ -309,7 +302,7 @@
     let sumsco = paper_scopus;
     let sumwos = paper_wos;
     (function($) {
-
+        
         let sum = paper_wos + paper_tci + paper_scopus;
         //console.log(sum);
         //$("#scopus").append('data-to="100"');
@@ -322,9 +315,6 @@
                 <h2 class="timer count-title count-number" data-to="${sumsco}" data-speed="1500"></h2>
                 <p class="count-text ">SCOPUS</p>`
 <<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> Nantapong_1341
         document.getElementById("wos").innerHTML += `
                 <i class="count-icon fa fa-book fa-2x"></i>
                 <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
@@ -333,8 +323,6 @@
                 <i class="count-icon fa fa-book fa-2x"></i>
                 <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
                 <p class="count-text ">TCI</p>`
-<<<<<<< HEAD
-=======
 =======
         // document.getElementById("wos").innerHTML += `
         //         <i class="count-icon fa fa-book fa-2x"></i>
@@ -344,7 +332,6 @@
         //         <i class="count-icon fa fa-book fa-2x"></i>
         //         <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
         //         <p class="count-text ">TCI</p>`
->>>>>>> Nantapong_1341
 >>>>>>> Nantapong_1341
         //document.getElementById("scopus").appendChild('data-to="100"');
         $.fn.countTo = function(options) {
@@ -463,5 +450,4 @@
     });
 </script>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\8-3-68\git-group-repository-group-5-sec-1\Sprint_3\InitialProject\Project_2-master\resources\views/home.blade.php ENDPATH**/ ?>
