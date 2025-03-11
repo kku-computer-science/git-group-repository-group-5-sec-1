@@ -106,7 +106,7 @@
                     </div>
 
                     <div class="form-group row mt-2">
-                        <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ <span class="text-danger fw-bold">*</span></label>
+                        <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ (ภายใน) <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-9">
                             <select id='dep' style='width: 200px;' class="custom-select my-select" name="responsible_department">
                                 @foreach($deps as $dep)
@@ -114,7 +114,7 @@
                                         $isSelected = false;
                                         if($researchProject->responsibleDepartmentResearchProject->isNotEmpty()) {
                                             foreach($researchProject->responsibleDepartmentResearchProject as $rdp) {
-                                                if($rdp->responsible_department_id == $dep->id) {
+                                                if($rdp->responsible_department_id == $dep->id && ($dep->type == 'internal' || $dep->type === null)) {
                                                     $isSelected = true;
                                                     break;
                                                 }
@@ -124,6 +124,45 @@
                                     <option value="{{ $dep->id }}" {{ $isSelected ? 'selected' : '' }}>{{ $dep->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-2">
+                        <label for="exampleInputfund_details" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ (ภายนอก)</label>
+                        <div class="col-sm-9">
+                            <div class="table-responsive">
+                                <table class="table table-hover small-text" id="tb_departments">
+                                    <tr class="tr-header">
+                                        <th>ชื่อหน่วยงาน</th>
+                                        <th><a href="javascript:void(0);" style="font-size:18px;" id="addMoreDepartment" title="Add More Department"><i class="mdi mdi-plus"></i></span></a></th>
+                                    </tr>
+                                    @php
+                                        // ค้นหาหน่วยงานภายนอกที่เกี่ยวข้องกับโครงการนี้
+                                        $externalDepartments = [];
+                                        if($researchProject->responsibleDepartmentResearchProject->isNotEmpty()) {
+                                            foreach($researchProject->responsibleDepartmentResearchProject as $rdp) {
+                                                if($rdp->responsibleDepartment && $rdp->responsibleDepartment->type == 'ภายนอก') {
+                                                    $externalDepartments[] = $rdp->responsibleDepartment->name;
+                                                }
+                                            }
+                                        }
+                                    @endphp
+
+                                    @if(count($externalDepartments) > 0)
+                                        @foreach($externalDepartments as $index => $extDep)
+                                            <tr>
+                                                <td><input type="text" name="ext_departments[]" class="form-control" value="{{ $extDep }}" placeholder="ชื่อหน่วยงาน"></td>
+                                                <td><a href='javascript:void(0);' class='remove-department'><span><i class="mdi mdi-minus"></span></a></td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td><input type="text" name="ext_departments[]" class="form-control" placeholder="ชื่อหน่วยงาน"></td>
+                                            <td><a href='javascript:void(0);' class='remove-department'><span><i class="mdi mdi-minus"></span></a></td>
+                                        </tr>
+                                    @endif
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row mt-2">
@@ -202,6 +241,23 @@
 @stop
 
 @section('javascript')
+<script>
+    $(document).ready(function() {
+        $('#addMoreDepartment').on('click', function() {
+            $('#tb_departments').append('<tr><td><input type="text" name="ext_departments[]" class="form-control" placeholder="ชื่อหน่วยงาน"></td><td><a href="javascript:void(0);" class="remove-department"><span><i class="mdi mdi-minus"></span></a></td></tr>');
+        });
+
+        $(document).on('click', '.remove-department', function() {
+            var trIndex = $(this).closest("tr").index();
+            if (trIndex > 1) {
+                $(this).closest("tr").remove();
+            } else {
+                // ถ้าเป็นแถวแรก ทำได้เพียงล้างข้อมูล ไม่ลบแถว
+                $(this).closest("tr").find('input').val('');
+            }
+        });
+    });
+</script>
 <script>
     $(document).ready(function() {
         // เก็บข้อมูลผู้ใช้ทั้งหมดไว้ในตัวแปร

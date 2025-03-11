@@ -105,13 +105,32 @@
                     </div>
 
                     <div class="form-group row mt-2">
-                        <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ <span class="text-danger fw-bold">*</span></label>
+                        <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ (ภายใน) <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-9">
                             <select id='dep' style='width: 200px;' class="custom-select my-select" name="responsible_department">
                                 @foreach($deps as $dep)
-                                <option disable selected value="{{ $dep->id }}">{{ $dep->name }}</option>
+                                    @if($dep->type == 'ภายใน' || $dep->type === null)
+                                        <option value="{{ $dep->id }}" {{ old('responsible_department') == $dep->id ? 'selected' : '' }}>{{ $dep->name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-2">
+                        <label for="exampleInputfund_details" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ (ภายนอก)</label>
+                        <div class="col-sm-9">
+                            <div class="table-responsive">
+                                <table class="table table-hover small-text" id="tb_departments">
+                                    <tr class="tr-header">
+                                        <th>ชื่อหน่วยงาน</th>
+                                        <th><a href="javascript:void(0);" style="font-size:18px;" id="addMoreDepartment" title="Add More Department"><i class="mdi mdi-plus"></i></span></a></th>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" name="ext_departments[]" class="form-control" placeholder="ชื่อหน่วยงาน"></td>
+                                        <td><a href='javascript:void(0);' class='remove-department'><span><i class="mdi mdi-minus"></span></a></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row mt-2">
@@ -225,6 +244,23 @@
 
     @stop
     @section('javascript')
+    <script>
+        $(document).ready(function() {
+            $('#addMoreDepartment').on('click', function() {
+                var data = $("#tb_departments tr:eq(1)").clone(true).appendTo("#tb_departments");
+                data.find("input").val('');
+            });
+
+            $(document).on('click', '.remove-department', function() {
+                var trIndex = $(this).closest("tr").index();
+                if (trIndex > 1) {
+                    $(this).closest("tr").remove();
+                } else {
+                    alert("ไม่สามารถลบแถวแรกได้!");
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             // เก็บข้อมูลผู้ใช้ทั้งหมดไว้ในตัวแปร

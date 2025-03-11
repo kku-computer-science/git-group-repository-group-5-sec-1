@@ -117,6 +117,8 @@ class ResearchProjectController extends Controller
                 "responsible_department" => "required",
                 "status" => "required",
                 "head" => "required",
+                "ext_departments" => "nullable|array",
+                "ext_departments.*" => "nullable|string|max:255",
             ],
             [
                 "project_name.required" => "กรุณากรอกชื่อโครงการวิจัย",
@@ -130,9 +132,10 @@ class ResearchProjectController extends Controller
                 "project_year.numeric" => "ปีที่ยื่นต้องเป็นตัวเลขเท่านั้น",
                 "budget.required" => "กรุณากรอกงบประมาณ",
                 "budget.numeric" => "งบประมาณต้องเป็นตัวเลขเท่านั้น",
-                "responsible_department.required" => "กรุณาเลือกหน่วยงานที่รับผิดชอบ",
+                "responsible_department.required" => "กรุณาเลือกหน่วยงานที่รับผิดชอบ (ภายใน)",
                 "status.required" => "กรุณาเลือกสถานะโครงการ",
                 "head.required" => "กรุณาเลือกผู้รับผิดชอบโครงการ",
+                "ext_departments.*.max" => "ชื่อหน่วยงานภายนอกต้องไม่เกิน 255 ตัวอักษร",
             ]
         );
 
@@ -149,11 +152,30 @@ class ResearchProjectController extends Controller
             "fund_id" => $request->fund,
         ]);
 
-        // Store responsible department
+        // Store responsible department (internal)
         ResponsibleDepartmentResearchProject::create([
             "research_projects_id" => $researchProject->id,
             "responsible_department_id" => $request->responsible_department,
         ]);
+
+        // Store external departments
+        if (isset($request->ext_departments) && is_array($request->ext_departments)) {
+            foreach ($request->ext_departments as $extDepartmentName) {
+                if (!empty($extDepartmentName)) {
+                    // Check if the department already exists
+                    $extDepartment = ResponsibleDepartment::firstOrCreate(
+                        ['name' => $extDepartmentName],
+                        ['type' => 'ภายนอก'] // Set type as external for external departments
+                    );
+
+                    // Create relationship with research project
+                    ResponsibleDepartmentResearchProject::create([
+                        "research_projects_id" => $researchProject->id,
+                        "responsible_department_id" => $extDepartment->id,
+                    ]);
+                }
+            }
+        }
 
         //return $request->fund;
         $fund = Fund::find($request->fund);
@@ -235,7 +257,27 @@ class ResearchProjectController extends Controller
      */
     public function show(ResearchProject $researchProject)
     {
+        $researchProject = ResearchProject::with([
+            'user',
+            'outsider',
+            'fund.category.fundType',
+            'responsibleDepartmentResearchProject.responsibleDepartment'
+        ])->findOrFail($researchProject->id);
+
         return view("research_projects.show", compact("researchProject"));
+    }
+
+    private function getExternalDepartments($researchProjectId) {
+        // หาหน่วยงานภายนอกที่เกี่ยวข้องกับ Research Project นี้
+        $externalDepartments = ResponsibleDepartmentResearchProject::where('research_projects_id', $researchProjectId)
+            ->join('responsible_department', 'responsible_department_research_projects.responsible_department_id', '=', 'responsible_department.id')
+            ->where('responsible_department.type', 'ภายนอก')
+            ->select('responsible_department.name')
+            ->get()
+            ->pluck('name')
+            ->toArray();
+
+        return $externalDepartments;
     }
 
     /**
@@ -254,23 +296,21 @@ class ResearchProjectController extends Controller
             "user",
             "fund.category.fundType",
             "outsider",
-            "responsibleDepartmentResearchProject.responsibleDepartment", // เพิ่มนี้
+            "responsibleDepartmentResearchProject.responsibleDepartment",
         ])
             ->where("id", $researchProject->id)
             ->first();
 
         $users = User::role(["teacher", "student"])->get();
         $fundType = FundType::get();
-
-        // ใช้ ResponsibleDepartment แทน Department
         $deps = ResponsibleDepartment::get();
 
-        // Debug เพื่อตรวจสอบข้อมูล
-        // dd($researchProject->responsibleDepartmentResearchProject);
+        // โหลดหน่วยงานภายนอก
+        $externalDepartments = $this->getExternalDepartments($researchProject->id);
 
         return view(
             "research_projects.edit",
-            compact("researchProject", "users", "fundType", "deps")
+            compact("researchProject", "users", "fundType", "deps", "externalDepartments")
         );
     }
 
@@ -283,19 +323,21 @@ class ResearchProjectController extends Controller
      */
      public function update(Request $request, ResearchProject $researchProject)
      {
-        $request->validate(
+         $request->validate(
             [
                 "project_name" => "required",
                 "project_start" => "required|date",
                 "project_end" => "required|date|after_or_equal:project_start",
                 "funds_type_id" => "required",
                 "fund_cate" => "required",
-                "fund" => "required", // เพิ่ม fund เข้ามา (ใช้ชื่อเดียวกับ HTML)
+                "fund" => "required",
                 "project_year" => "required|numeric",
                 "budget" => "required|numeric",
                 "responsible_department" => "required",
                 "status" => "required",
                 "head" => "required",
+                "ext_departments" => "nullable|array",
+                "ext_departments.*" => "nullable|string|max:255",
             ],
             [
                 "project_name.required" => "กรุณากรอกชื่อโครงการวิจัย",
@@ -309,9 +351,10 @@ class ResearchProjectController extends Controller
                 "project_year.numeric" => "ปีที่ยื่นต้องเป็นตัวเลขเท่านั้น",
                 "budget.required" => "กรุณากรอกงบประมาณ",
                 "budget.numeric" => "งบประมาณต้องเป็นตัวเลขเท่านั้น",
-                "responsible_department.required" => "กรุณาเลือกหน่วยงานที่รับผิดชอบ",
+                "responsible_department.required" => "กรุณาเลือกหน่วยงานที่รับผิดชอบ (ภายใน)",
                 "status.required" => "กรุณาเลือกสถานะโครงการ",
                 "head.required" => "กรุณาเลือกผู้รับผิดชอบโครงการ",
+                "ext_departments.*.max" => "ชื่อหน่วยงานภายนอกต้องไม่เกิน 255 ตัวอักษร",
             ]
         );
 
@@ -337,33 +380,49 @@ class ResearchProjectController extends Controller
             $fundId = $fund->id;
         }
 
-         $researchProject = ResearchProject::find($researchProject->id);
-         $this->authorize("update", $researchProject);
+        $researchProject = ResearchProject::find($researchProject->id);
+        $this->authorize("update", $researchProject);
 
          // อัปเดตข้อมูลโครงการวิจัย
-         $researchProject->update([
-             "project_name" => $request->project_name,
-             "project_start" => $request->project_start,
-             "project_end" => $request->project_end,
-             "budget" => $request->budget,
-             "show_budget" => $request->show_budget ?? 0,
-             "note" => $request->note,
-             "status" => $request->status,
-             "project_year" => $request->project_year,
-             "fund_id" => $fundId,
-         ]);
+        $researchProject->update([
+            "project_name" => $request->project_name,
+            "project_start" => $request->project_start,
+            "project_end" => $request->project_end,
+            "budget" => $request->budget,
+            "show_budget" => $request->show_budget ?? 0,
+            "note" => $request->note,
+            "status" => $request->status,
+            "project_year" => $request->project_year,
+            "fund_id" => $fundId,
+        ]);
 
-         // อัปเดตหน่วยงานที่รับผิดชอบ
-         if ($request->has('responsible_department')) {
-             // ลบความสัมพันธ์เดิม
-             ResponsibleDepartmentResearchProject::where('research_projects_id', $researchProject->id)->delete();
+        // ลบความสัมพันธ์หน่วยงานที่รับผิดชอบเดิมทั้งหมด
+        ResponsibleDepartmentResearchProject::where('research_projects_id', $researchProject->id)->delete();
 
-             // สร้างความสัมพันธ์ใหม่
-             ResponsibleDepartmentResearchProject::create([
-                 'research_projects_id' => $researchProject->id,
-                 'responsible_department_id' => $request->responsible_department
-             ]);
-         }
+        // สร้างความสัมพันธ์ใหม่กับหน่วยงานภายใน
+        ResponsibleDepartmentResearchProject::create([
+            'research_projects_id' => $researchProject->id,
+            'responsible_department_id' => $request->responsible_department
+        ]);
+
+        // สร้างความสัมพันธ์ใหม่กับหน่วยงานภายนอก (ถ้ามี)
+        if (isset($request->ext_departments) && is_array($request->ext_departments)) {
+            foreach ($request->ext_departments as $extDepartmentName) {
+                if (!empty($extDepartmentName)) {
+                    // Check if the department already exists
+                    $extDepartment = ResponsibleDepartment::firstOrCreate(
+                        ['name' => $extDepartmentName],
+                        ['type' => 'ภายนอก'] // Set type as external for external departments
+                    );
+
+                    // Create relationship with research project
+                    ResponsibleDepartmentResearchProject::create([
+                        "research_projects_id" => $researchProject->id,
+                        "responsible_department_id" => $extDepartment->id,
+                    ]);
+                }
+            }
+        }
 
          // อัปเดตผู้รับผิดชอบโครงการ (ส่วนที่เหลือไม่เปลี่ยนแปลง)
          $head = $request->head;
