@@ -32,27 +32,27 @@
                 <form action="{{ route('researchProjects.store') }}" method="POST">
                     @csrf
                     <div class="form-group row mt-5">
-                        <label for="exampleInputfund_name" class="col-sm-2 ">ชื่อโครงการวิจัย</label>
+                        <label for="exampleInputfund_name" class="col-sm-2 ">ชื่อโครงการวิจัย <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-8">
                             <input type="text" name="project_name" class="form-control" placeholder="ชื่อโครงการวิจัย" value="{{ old('project_name') }}">
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_name" class="col-sm-2 ">วันที่เริ่มต้น</label>
+                        <label for="exampleInputfund_name" class="col-sm-2 ">วันที่เริ่มต้น <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <input type="date" name="project_start" id="Project_start" class="form-control" value="{{ old('project_start') }}">
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_name" class="col-sm-2 ">วันที่สิ้นสุด</label>
+                        <label for="exampleInputfund_name" class="col-sm-2 ">วันที่สิ้นสุด <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <input type="date" name="project_end" id="Project_end" class="form-control" value="{{ old('project_end') }}">
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_details" class="col-sm-2 ">เลือกประเภททุน<span class="required-star">*</span></label>
+                        <label for="exampleInputfund_details" class="col-sm-2 ">เลือกประเภททุน <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
-                            <select name="funds_type_id" class="custom-select my-select" id="funds_type" required>
+                            <select name="funds_type_id" class="custom-select my-select" id="funds_type" >
                                 <option value="">---- โปรดระบุประเภททุน ----</option>
                                 @foreach($fundType as $type)
                                     <option value="{{ $type->id }}" {{ old('funds_type_id') == $type->id ? 'selected' : '' }}>
@@ -64,10 +64,10 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <label for="exampleInputfund_details" class="col-sm-2 ">เลือกลักษณะทุน<span class="required-star">*</span></label>
+                        <label for="funds_category" class="col-sm-2">ลักษณะทุน <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
-                            <select name="fund_cate" class="custom-select my-select" id="funds_category" required>
-                                <option value="">---- โปรดระบุลักษณะทุน ----</option>
+                            <select name="fund_cate" id="funds_category" class="custom-select my-select" >
+                                <option value="">-- โปรดระบุลักษณะทุน --</option>
                             </select>
                             <p class="tooltip-text mt-1">กรุณาเลือกประเภททุนก่อน</p>
                             @error('fund_cate')
@@ -77,14 +77,22 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="exampleInputproject_year" class="col-sm-2 ">ปีที่ยื่น (ค.ศ.)</label>
+                        <label for="funds" class="col-sm-2">ทุน <span class="text-danger fw-bold">*</span></label>
+                        <div class="col-sm-4">
+                            <select name="fund" id="funds" class="custom-select my-select">
+                                <option value="">-- โปรดเลือกทุน --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputproject_year" class="col-sm-2 ">ปีที่ยื่น (ค.ศ.) <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <input type="year" name="project_year" class="form-control" placeholder="year">
                         </div>
                     </div>
 
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_name" class="col-sm-2 ">งบประมาณ</label>
+                        <label for="exampleInputfund_name" class="col-sm-2 ">งบประมาณ <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <input type="number" name="budget" class="form-control" placeholder="หน่วยบาท" value="{{ old('budget') }}">
                         </div>
@@ -104,7 +112,7 @@
                     </div>
 
                     <div class="form-group row mt-2">
-                        <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ</label>
+                        <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-9">
                             <select id='dep' style='width: 200px;' class="custom-select my-select" name="responsible_department">
                                 @foreach($deps as $dep)
@@ -120,9 +128,10 @@
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        <label for="exampleInputstatus" class="col-sm-2 ">สถานะ</label>
+                        <label for="exampleInputstatus" class="col-sm-2 ">สถานะ <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-3">
-                            <select id='status' class="custom-select my-select" name="status">
+                            <input type="hidden" name="status" id="hidden_status" value="">
+                            <select id='status' class="custom-select my-select">
                                 <option value="" disabled selected>โปรดระบุสถานะดำเนินงาน</option>
                                 <option value="2">ดำเนินการ</option>
                                 <option value="3">ปิดโครงการ</option>
@@ -141,7 +150,7 @@
                     </div> -->
 
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_details" class="col-sm-2 ">ผู้รับผิดชอบโครงการ</label>
+                        <label for="exampleInputfund_details" class="col-sm-2 ">ผู้รับผิดชอบโครงการ <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-9">
                             <select id='head0' style='width: 200px;' name="head">
                                 <option value=''>Select User</option>
@@ -225,6 +234,10 @@
     @section('javascript')
     <script>
         $(document).ready(function() {
+            $('#status').on('change', function() {
+                $('#hidden_status').val($(this).val());
+            });
+
             // ฟังก์ชันสำหรับรับวันที่ปัจจุบันในรูปแบบ YYYY-MM-DD
             function getTodayFormatted() {
                 var today = new Date();
@@ -362,21 +375,78 @@
                         // เปลี่ยนสถานะเป็น "ปิดโครงการ" (value="3")
                         $('#status').val('3');
                         $('#status').attr('disabled', true);
+                        $('#hidden_status').val('3'); // อัพเดทค่าใน hidden field
                     }
                     // ถ้าวันสิ้นสุดตรงกับวันปัจจุบัน หรือน้อยกว่าวันปัจจุบัน (ผ่านมาแล้ว)
                     else if (isSameDate(endDate, today) || endDate < today) {
                         // เปลี่ยนสถานะเป็น "ปิดโครงการ" (value="3")
                         $('#status').val('3');
                         $('#status').attr('disabled', true);
+                        $('#hidden_status').val('3'); // อัพเดทค่าใน hidden field
                     } else {
                         // เปลี่ยนสถานะเป็น "ดำเนินการ" (value="2")
                         $('#status').val('2');
                         $('#status').attr('disabled', false);
+                        $('#hidden_status').val('2'); // อัพเดทค่าใน hidden field
                     }
                 }
             }
 
+            $('#funds_category').on('change', function () {
+                let fundCateId = $(this).val();
+
+                if (fundCateId) {
+                    $.ajax({
+                        url: '/get-funds-by-category',
+                        type: 'GET',
+                        data: {
+                            fund_cate: fundCateId
+                        },
+                        success: function (data) {
+                            $('#funds').empty();
+                            $('#funds').append('<option value="">-- โปรดเลือกทุน --</option>');
+                            $.each(data, function (key, value) {
+                                $('#funds').append(`<option value="${value.id}">${value.fund_name}</option>`);
+                            });
+                        },
+                        error: function (xhr) {
+                            console.error(xhr.responseText);
+                            alert('เกิดข้อผิดพลาดในการโหลดข้อมูลทุน');
+                        }
+                    });
+                } else {
+                    $('#funds').empty();
+                    $('#funds').append('<option value="">-- โปรดเลือกทุน --</option>');
+                }
+            });
+
+            $('#funds_type').on('change', function () {
+                let fundTypeId = $(this).val();
+
+                if (fundTypeId) {
+                    $.ajax({
+                        url: `/getFundsCategory/${fundTypeId}`,
+                        type: 'GET',
+                        success: function (data) {
+                            $('#funds_category').empty();
+                            $('#funds_category').append('<option value="">-- โปรดระบุลักษณะทุน --</option>');
+                            $.each(data, function (key, value) {
+                                $('#funds_category').append(`<option value="${value.id}">${value.name}</option>`);
+                            });
+                        },
+                        error: function (xhr) {
+                            console.error(xhr.responseText);
+                            alert('เกิดข้อผิดพลาดในการโหลดข้อมูลลักษณะทุน');
+                        }
+                    });
+                } else {
+                    $('#funds_category').empty();
+                    $('#funds_category').append('<option value="">-- โปรดระบุลักษณะทุน --</option>');
+                }
+            });
+
             updateProjectStatus();
+
         });
     </script>
     <script>

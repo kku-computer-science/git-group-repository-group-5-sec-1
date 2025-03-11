@@ -134,6 +134,7 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::get('settings', [ProfileuserController::class, 'settings'])->name('settings');
     Route::resource('funds', FundController::class);
     Route::get('/getFundsCategory/{fund_type_id}', [FundController::class, 'getFundsCategory'])->name('funds.getCategories');
+    Route::get('/get-funds-by-category', [ResearchProjectController::class, 'getFundsByCategory']);
     Route::resource('experts', ExpertiseController::class);
     Route::get('experts/{id}/edit/', [ExpertiseController::class, 'edit']);
     Route::resource('sources', SourceController::class);

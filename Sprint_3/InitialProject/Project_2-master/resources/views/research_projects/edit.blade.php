@@ -31,25 +31,25 @@
                     @csrf
                     @method('PUT')
                     <div class="form-group row mt-5">
-                        <label for="exampleInputfund_name" class="col-sm-2 ">ชื่อโครงการวิจัย</label>
+                        <label for="exampleInputfund_name" class="col-sm-2 ">ชื่อโครงการวิจัย <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-8">
                             <input type="text" name="project_name" class="form-control" placeholder="ชื่อโครงการวิจัย" value="{{ $researchProject->project_name }}">
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_name" class="col-sm-2 ">วันที่เริ่มต้น</label>
+                        <label for="exampleInputfund_name" class="col-sm-2 ">วันที่เริ่มต้น <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <input type="date" name="project_start" id="Project_start" class="form-control" value="{{ $researchProject->project_start }}">
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_name" class="col-sm-2 ">วันที่สิ้นสุด</label>
+                        <label for="exampleInputfund_name" class="col-sm-2 ">วันที่สิ้นสุด <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <input type="date" name="project_end" id="Project_end" class="form-control" value="{{ $researchProject->project_end }}">
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_details" class="col-sm-2 ">เลือกประเภททุน<span class="required-star">*</span></label>
+                        <label for="exampleInputfund_details" class="col-sm-2 ">เลือกประเภททุน <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <select name="funds_type_id" class="custom-select my-select" id="funds_type" required>
                                 <option value="">---- โปรดระบุประเภททุน ----</option>
@@ -63,10 +63,11 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <label for="exampleInputfund_details" class="col-sm-2 ">เลือกลักษณะทุน<span class="required-star">*</span></label>
+                        <label for="funds_category" class="col-sm-2">ลักษณะทุน <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
-                            <select name="fund_cate" class="custom-select my-select" id="funds_category" required>
-                                <option value="">---- โปรดระบุลักษณะทุน ----</option>
+                            <select name="fund_cate" id="funds_category" class="custom-select my-select" required>
+                                <option value="">-- โปรดระบุลักษณะทุน --</option>
+                                <!-- จะถูกเติมโดย JavaScript -->
                             </select>
                             <p class="tooltip-text mt-1">กรุณาเลือกประเภททุนก่อน</p>
                             @error('fund_cate')
@@ -75,14 +76,26 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="exampleInputproject_year" class="col-sm-2 ">ปีที่ยื่น (ค.ศ.)</label>
+                        <label for="funds" class="col-sm-2">ทุน <span class="text-danger fw-bold">*</span></label>
+                        <div class="col-sm-4">
+                            <select name="fund" id="funds" class="custom-select my-select" required>
+                                <option value="">-- โปรดเลือกทุน --</option>
+                                <!-- จะถูกเติมโดย JavaScript -->
+                            </select>
+                            @error('fund')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputproject_year" class="col-sm-2 ">ปีที่ยื่น (ค.ศ.) <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <input type="year" name="project_year" class="form-control" placeholder="year" value="{{ $researchProject->project_year }}">
                         </div>
                     </div>
 
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_name" class="col-sm-2 ">งบประมาณ</label>
+                        <label for="exampleInputfund_name" class="col-sm-2 ">งบประมาณ <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
                             <input type="number" name="budget" class="form-control" placeholder="หน่วยบาท" value="{{ $researchProject->budget }}">
                         </div>
@@ -102,7 +115,7 @@
                     </div>
 
                     <div class="form-group row mt-2">
-                        <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ</label>
+                        <label for="exampleInputresponsible_department" class="col-sm-2 ">หน่วยงานที่รับผิดชอบ <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-9">
                             <select id='dep' style='width: 200px;' class="custom-select my-select" name="responsible_department">
                                 @foreach($deps as $dep)
@@ -129,11 +142,11 @@
                         </div>
                     </div>
                     <div class="form-group row mt-2">
-                        <label for="exampleInputstatus" class="col-sm-2 ">สถานะ</label>
+                        <label for="exampleInputstatus" class="col-sm-2 ">สถานะ <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-3">
-                            <select id='status' class="custom-select my-select" name="status">
+                            <input type="hidden" name="status" id="hidden_status" value="{{ $researchProject->status }}">
+                            <select id='status' class="custom-select my-select">
                                 <option value="" disabled>โปรดระบุสถานะดำเนินงาน</option>
-                                <option value="1" {{ $researchProject->status == 1 ? 'selected' : '' }}>ยื่นขอ</option>
                                 <option value="2" {{ $researchProject->status == 2 ? 'selected' : '' }}>ดำเนินการ</option>
                                 <option value="3" {{ $researchProject->status == 3 ? 'selected' : '' }}>ปิดโครงการ</option>
                             </select>
@@ -141,7 +154,7 @@
                     </div>
 
                     <div class="form-group row mt-2">
-                        <label for="exampleInputfund_details" class="col-sm-2 ">ผู้รับผิดชอบโครงการ</label>
+                        <label for="exampleInputfund_details" class="col-sm-2 ">ผู้รับผิดชอบโครงการ <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-9">
                             <select id='head0' style='width: 200px;' name="head">
                                 <option value=''>Select User</option>
@@ -200,6 +213,9 @@
 @section('javascript')
 <script>
     $(document).ready(function() {
+        $('#status').on('change', function() {
+            $('#hidden_status').val($(this).val());
+        });
         // ฟังก์ชันสำหรับรับวันที่ปัจจุบันในรูปแบบ YYYY-MM-DD
         function getTodayFormatted() {
             var today = new Date();
@@ -275,19 +291,75 @@
                     // เปลี่ยนสถานะเป็น "ปิดโครงการ" (value="3")
                     $('#status').val('3');
                     $('#status').attr('disabled', true);
+                    $('#hidden_status').val('3'); // อัพเดทค่าใน hidden field
                 }
                 // ถ้าวันสิ้นสุดตรงกับวันปัจจุบัน หรือน้อยกว่าวันปัจจุบัน (ผ่านมาแล้ว)
                 else if (isSameDate(endDate, today) || endDate < today) {
                     // เปลี่ยนสถานะเป็น "ปิดโครงการ" (value="3")
                     $('#status').val('3');
                     $('#status').attr('disabled', true);
+                    $('#hidden_status').val('3'); // อัพเดทค่าใน hidden field
                 } else {
                     // เปลี่ยนสถานะเป็น "ดำเนินการ" (value="2")
                     $('#status').val('2');
                     $('#status').attr('disabled', false);
+                    $('#hidden_status').val('2'); // อัพเดทค่าใน hidden field
                 }
             }
         }
+
+        $('#funds_category').on('change', function () {
+            let fundCateId = $(this).val();
+
+            if (fundCateId) {
+                $.ajax({
+                    url: '/get-funds-by-category',
+                    type: 'GET',
+                    data: {
+                        fund_cate: fundCateId
+                    },
+                    success: function (data) {
+                        $('#funds').empty();
+                        $('#funds').append('<option value="">-- โปรดเลือกทุน --</option>');
+                        $.each(data, function (key, value) {
+                            $('#funds').append(`<option value="${value.id}">${value.fund_name}</option>`);
+                        });
+                    },
+                    error: function (xhr) {
+                        console.error(xhr.responseText);
+                        alert('เกิดข้อผิดพลาดในการโหลดข้อมูลทุน');
+                    }
+                });
+            } else {
+                $('#funds').empty();
+                $('#funds').append('<option value="">-- โปรดเลือกทุน --</option>');
+            }
+        });
+
+        $('#funds_type').on('change', function () {
+            let fundTypeId = $(this).val();
+
+            if (fundTypeId) {
+                $.ajax({
+                    url: `/getFundsCategory/${fundTypeId}`,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#funds_category').empty();
+                        $('#funds_category').append('<option value="">-- โปรดระบุลักษณะทุน --</option>');
+                        $.each(data, function (key, value) {
+                            $('#funds_category').append(`<option value="${value.id}">${value.name}</option>`);
+                        });
+                    },
+                    error: function (xhr) {
+                        console.error(xhr.responseText);
+                        alert('เกิดข้อผิดพลาดในการโหลดข้อมูลลักษณะทุน');
+                    }
+                });
+            } else {
+                $('#funds_category').empty();
+                $('#funds_category').append('<option value="">-- โปรดระบุลักษณะทุน --</option>');
+            }
+        });
 
         updateProjectStatus();
     });
@@ -295,17 +367,29 @@
 <script>
     const fundTypeSelect = document.getElementById('funds_type');
     const categorySelect = document.getElementById('funds_category');
+    const fundsSelect = document.getElementById('funds');
     const tooltipText = document.querySelector('.tooltip-text');
-    const currentFundCate = "{{ $researchProject->fund->category->id }}";
 
+    // ค่าปัจจุบันของข้อมูล
+    const currentFundTypeId = "{{ $researchProject->fund->category->fundType->id }}";
+    const currentFundCateId = "{{ $researchProject->fund->category->id }}";
+    const currentFundId = "{{ $researchProject->fund->id }}";
+
+    // โหลดลักษณะทุนเมื่อมีการเลือกประเภททุน
     function loadCategories(fundTypeId) {
         fetch(`/getFundsCategory/${fundTypeId}`)
             .then(response => response.json())
             .then(data => {
                 categorySelect.innerHTML = '<option value="">---- โปรดระบุลักษณะทุน ----</option>';
                 data.forEach(category => {
-                    categorySelect.innerHTML += `<option value="${category.id}" ${category.id == currentFundCate ? 'selected' : ''}>${category.name}</option>`;
+                    const selected = category.id == currentFundCateId ? 'selected' : '';
+                    categorySelect.innerHTML += `<option value="${category.id}" ${selected}>${category.name}</option>`;
                 });
+
+                // หลังจากโหลดลักษณะทุนแล้ว ถ้ามีค่าที่เลือกให้โหลดทุน
+                if (categorySelect.value) {
+                    loadFunds(categorySelect.value);
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -313,24 +397,31 @@
             });
     }
 
-    // โหลดลักษณะทุนเมื่อโหลดหน้า
-    if (fundTypeSelect.value) {
-        loadCategories(fundTypeSelect.value);
+    // โหลดทุนเมื่อมีการเลือกลักษณะทุน
+    function loadFunds(fundCateId) {
+        fetch(`/get-funds-by-category?fund_cate=${fundCateId}`)
+            .then(response => response.json())
+            .then(data => {
+                fundsSelect.innerHTML = '<option value="">-- โปรดเลือกทุน --</option>';
+                data.forEach(fund => {
+                    const selected = fund.id == currentFundId ? 'selected' : '';
+                    fundsSelect.innerHTML += `<option value="${fund.id}" ${selected}>${fund.fund_name}</option>`;
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('เกิดข้อผิดพลาดในการโหลดข้อมูลทุน');
+            });
     }
 
-    categorySelect.addEventListener('mousedown', function(e) {
-        if (fundTypeSelect.value === '') {
-            e.preventDefault();
-            this.classList.add('shake-animation');
-            alert('กรุณาเลือกประเภททุนวิจัยก่อน');
-
-            setTimeout(() => {
-                this.classList.remove('shake-animation');
-            }, 200);
+    // โหลดข้อมูลเริ่มต้นเมื่อโหลดหน้า
+    document.addEventListener("DOMContentLoaded", function() {
+        if (fundTypeSelect.value) {
+            loadCategories(fundTypeSelect.value);
         }
     });
 
-    // เพิ่ม event listener เมื่อเลือก fund type
+    // เพิ่ม event listener เมื่อเลือกประเภททุน
     fundTypeSelect.addEventListener('change', function() {
         if (this.value) {
             categorySelect.disabled = false;
@@ -341,9 +432,33 @@
             loadCategories(this.value);
         } else {
             categorySelect.disabled = true;
+            categorySelect.innerHTML = '<option value="">-- โปรดระบุลักษณะทุน --</option>';
+            fundsSelect.innerHTML = '<option value="">-- โปรดเลือกทุน --</option>';
             tooltipText.style.visibility = 'visible';
             tooltipText.style.opacity = '1';
             categorySelect.classList.add('disabled-select');
+        }
+    });
+
+    // เพิ่ม event listener เมื่อเลือกลักษณะทุน
+    categorySelect.addEventListener('change', function() {
+        if (this.value) {
+            loadFunds(this.value);
+        } else {
+            fundsSelect.innerHTML = '<option value="">-- โปรดเลือกทุน --</option>';
+        }
+    });
+
+    // ตรวจสอบการคลิกเลือกลักษณะทุนก่อนเลือกประเภททุน
+    categorySelect.addEventListener('mousedown', function(e) {
+        if (fundTypeSelect.value === '') {
+            e.preventDefault();
+            this.classList.add('shake-animation');
+            alert('กรุณาเลือกประเภททุนวิจัยก่อน');
+
+            setTimeout(() => {
+                this.classList.remove('shake-animation');
+            }, 200);
         }
     });
 </script>

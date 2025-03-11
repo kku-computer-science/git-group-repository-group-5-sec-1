@@ -35,7 +35,6 @@
                                 <td>{{ Str::limit($fund->fund_name, 80) }}</td>
                                 <td>{{ $fund->category->fundType->name }}</td>
                             <td>{{ $fund->category->name }}</td>
-                                <!-- <td>{{ $fund->user->fname_en }} {{ $fund->user->lname_en }}</td> -->
                                 <td>
                                     @csrf
                                     <form action="{{ route('funds.destroy', $fund->id) }}" method="POST">
@@ -47,7 +46,8 @@
                                             <a class="btn btn-outline-success btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Edit"
                                             href="{{ route('funds.edit', $fund->id) }}">
                                              <i class="mdi mdi-pencil"></i>
-                                         </a>                                        </li>
+                                         </a>
+                                        </li>
                                         @endif
 
                                         @if(Auth::user()->can('delete', $fund))

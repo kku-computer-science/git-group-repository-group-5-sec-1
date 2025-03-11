@@ -10,6 +10,7 @@ use App\Models\ResponsibleDepartment;
 use App\Models\ResponsibleDepartmentResearchProject;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use SebastianBergmann\Environment\Console;
 use Illuminate\Support\Facades\Log;
 use App\Models\Fund;
@@ -62,6 +63,23 @@ class ResearchProjectController extends Controller
         return view("research_projects.index", compact("researchProjects"));
     }
 
+    public function getFundsByCategory(Request $request)
+    {
+        $fundCategory = DB::table('funds_category')
+            ->where('id', $request->fund_cate)
+            ->first();
+
+        if ($fundCategory) {
+            $funds = DB::table('funds')
+                ->where('fund_cate', $fundCategory->id) // ใช้ fund_cate ที่ได้จาก funds_category
+                ->get();
+
+            return response()->json($funds);
+        }
+
+        return response()->json([]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -91,6 +109,8 @@ class ResearchProjectController extends Controller
                 "project_name" => "required",
                 "project_start" => "required|date",
                 "project_end" => "required|date|after_or_equal:project_start",
+                "funds_type_id" => "required",
+                "fund_cate" => "required",
                 "fund" => "required",
                 "project_year" => "required|numeric",
                 "budget" => "required|numeric",
@@ -99,16 +119,20 @@ class ResearchProjectController extends Controller
                 "head" => "required",
             ],
             [
-                "project_name.required" => "ต้องใส่ข้อมูล ชื่อโครงการวิจัย",
-                "project_start.required" => "ต้องใส่ข้อมูล วันที่เริ่มโครงการ",
-                "project_end.required" => "ต้องใส่ข้อมูล วันที่สิ้นสุดโครงการ",
-                "budget.required" => "ต้องใส่ข้อมูล งบประมาณ",
-                "project_year.required" => "ต้องใส่ข้อมูล ปีที่ปีที่ยื่นขอ",
-                "fund.required" => "ต้องใส่ข้อมูล ทุนวิจัย",
-                "head.required" => "ต้องใส่ข้อมูล ผู้รับผิดชอบโครงการ",
-                "responsible_department.required" =>
-                    "ต้องใส่ข้อมูล หน่วยงานที่รับผิดชอบ",
-                "status.required" => "ต้องใส่ข้อมูล สถานะโครงการ",
+                "project_name.required" => "กรุณากรอกชื่อโครงการวิจัย",
+                "project_start.required" => "กรุณาเลือกวันที่เริ่มโครงการ",
+                "project_end.required" => "กรุณาเลือกวันที่สิ้นสุดโครงการ",
+                "project_end.after_or_equal" => "วันที่สิ้นสุดต้องเท่ากับหรือหลังจากวันที่เริ่มต้น",
+                "funds_type_id.required" => "กรุณาเลือกประเภททุน",
+                "fund_cate.required" => "กรุณาเลือกลักษณะทุน",
+                "fund.required" => "กรุณาเลือกทุน",
+                "project_year.required" => "กรุณากรอกปีที่ยื่น",
+                "project_year.numeric" => "ปีที่ยื่นต้องเป็นตัวเลขเท่านั้น",
+                "budget.required" => "กรุณากรอกงบประมาณ",
+                "budget.numeric" => "งบประมาณต้องเป็นตัวเลขเท่านั้น",
+                "responsible_department.required" => "กรุณาเลือกหน่วยงานที่รับผิดชอบ",
+                "status.required" => "กรุณาเลือกสถานะโครงการ",
+                "head.required" => "กรุณาเลือกผู้รับผิดชอบโครงการ",
             ]
         );
 
@@ -259,49 +283,59 @@ class ResearchProjectController extends Controller
      */
      public function update(Request $request, ResearchProject $researchProject)
      {
-         $request->validate(
-             [
-                 "project_name" => "required",
-                 "project_start" => "required|date",
-                 "project_end" => "required|date|after_or_equal:project_start",
-                 "funds_type_id" => "required",
-                 "fund_cate" => "required",
-                 "project_year" => "required|numeric",
-                 "budget" => "required|numeric",
-                 "responsible_department" => "required",
-                 "status" => "required",
-                 "head" => "required",
-             ],
-             [
-                 "project_name.required" => "ต้องใส่ข้อมูล ชื่อโครงการวิจัย",
-                 "project_start.required" => "ต้องใส่ข้อมูล วันที่เริ่มโครงการ",
-                 "project_end.required" => "ต้องใส่ข้อมูล วันที่สิ้นสุดโครงการ",
-                 "budget.required" => "ต้องใส่ข้อมูล งบประมาณ",
-                 "project_year.required" => "ต้องใส่ข้อมูล ปีที่ปีที่ยื่นขอ",
-                 "funds_type_id.required" => "ต้องใส่ข้อมูล ประเภททุน",
-                 "fund_cate.required" => "ต้องใส่ข้อมูล ลักษณะทุน",
-                 "head.required" => "ต้องใส่ข้อมูล ผู้รับผิดชอบโครงการ",
-                 "responsible_department.required" => "ต้องใส่ข้อมูล หน่วยงานที่รับผิดชอบ",
-                 "status.required" => "ต้องใส่ข้อมูล สถานะโครงการ",
-             ]
-         );
+        $request->validate(
+            [
+                "project_name" => "required",
+                "project_start" => "required|date",
+                "project_end" => "required|date|after_or_equal:project_start",
+                "funds_type_id" => "required",
+                "fund_cate" => "required",
+                "fund" => "required", // เพิ่ม fund เข้ามา (ใช้ชื่อเดียวกับ HTML)
+                "project_year" => "required|numeric",
+                "budget" => "required|numeric",
+                "responsible_department" => "required",
+                "status" => "required",
+                "head" => "required",
+            ],
+            [
+                "project_name.required" => "กรุณากรอกชื่อโครงการวิจัย",
+                "project_start.required" => "กรุณาเลือกวันที่เริ่มโครงการ",
+                "project_end.required" => "กรุณาเลือกวันที่สิ้นสุดโครงการ",
+                "project_end.after_or_equal" => "วันที่สิ้นสุดต้องเท่ากับหรือหลังจากวันที่เริ่มต้น",
+                "funds_type_id.required" => "กรุณาเลือกประเภททุน",
+                "fund_cate.required" => "กรุณาเลือกลักษณะทุน",
+                "fund.required" => "กรุณาเลือกทุน",
+                "project_year.required" => "กรุณากรอกปีที่ยื่น",
+                "project_year.numeric" => "ปีที่ยื่นต้องเป็นตัวเลขเท่านั้น",
+                "budget.required" => "กรุณากรอกงบประมาณ",
+                "budget.numeric" => "งบประมาณต้องเป็นตัวเลขเท่านั้น",
+                "responsible_department.required" => "กรุณาเลือกหน่วยงานที่รับผิดชอบ",
+                "status.required" => "กรุณาเลือกสถานะโครงการ",
+                "head.required" => "กรุณาเลือกผู้รับผิดชอบโครงการ",
+            ]
+        );
 
          // หา fund_id จาก fund_cate
-         $fund = Fund::where('fund_cate', $request->fund_cate)->first();
-
+         $fundId = $request->fund;
          // ถ้าไม่มี Fund ให้สร้างใหม่
-         if (!$fund) {
-             // ขอชื่อ category เพื่อตั้งชื่อ fund
-             $category = FundCategory::find($request->fund_cate);
-             if (!$category) {
-                 return redirect()->back()->with('error', 'ไม่พบลักษณะทุนที่เลือก');
-             }
+         if (!$fundId) {
+            $fund = Fund::where('fund_cate', $request->fund_cate)->first();
 
-             $fund = Fund::create([
-                 'fund_name' => $category->name, // ใช้ชื่อจาก category
-                 'fund_cate' => $request->fund_cate, // ใช้ fund_cate แทน category_id
-             ]);
-         }
+            // ถ้าไม่มี Fund ให้สร้างใหม่
+            if (!$fund) {
+                // ขอชื่อ category เพื่อตั้งชื่อ fund
+                $category = FundCategory::find($request->fund_cate);
+                if (!$category) {
+                    return redirect()->back()->with('error', 'ไม่พบลักษณะทุนที่เลือก');
+                }
+
+                $fund = Fund::create([
+                    'fund_name' => $category->name, // ใช้ชื่อจาก category
+                    'fund_cate' => $request->fund_cate, // ใช้ fund_cate แทน category_id
+                ]);
+            }
+            $fundId = $fund->id;
+        }
 
          $researchProject = ResearchProject::find($researchProject->id);
          $this->authorize("update", $researchProject);
