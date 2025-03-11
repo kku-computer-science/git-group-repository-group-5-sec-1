@@ -350,7 +350,7 @@ class ResearchProjectController extends Controller
              "note" => $request->note,
              "status" => $request->status,
              "project_year" => $request->project_year,
-             "fund_id" => $fund->id,
+             "fund_id" => $fundId,
          ]);
 
          // อัปเดตหน่วยงานที่รับผิดชอบ

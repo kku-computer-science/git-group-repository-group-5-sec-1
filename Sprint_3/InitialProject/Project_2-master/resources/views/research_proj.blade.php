@@ -19,7 +19,7 @@
             </thead>
 
 
-            
+
             <tbody>
                 @foreach($resp as $i => $re)
                 <tr>
@@ -34,7 +34,7 @@
                             <span style="font-weight: bold;">ระยะเวลาโครงการ</span>
                             <span style="padding-left: 10px;">
                                 @if ($re->project_start != null)
-                                    {{\Carbon\Carbon::parse($re->project_start)->thaidate('j F Y') }} 
+                                    {{\Carbon\Carbon::parse($re->project_start)->thaidate('j F Y') }}
                                     ถึง {{\Carbon\Carbon::parse($re->project_end)->thaidate('j F Y') }}
                                 @endif
                             </span>
@@ -59,9 +59,9 @@
                         <div style="padding-bottom: 10px;">
                             <span style="font-weight: bold;">หน่วยงานที่รับผิดชอบ</span>
                             <span style="padding-left: 10px;">
-                                @if($re->responsibleDepartments->isNotEmpty())
-                                    @foreach($re->responsibleDepartments as $department)
-                                        {{$department->name}}<br>
+                                @if($re->responsibleDepartmentResearchProject->isNotEmpty())
+                                    @foreach($re->responsibleDepartmentResearchProject as $deptRelation)
+                                        {{$deptRelation->responsibleDepartment->name ?? 'N/A'}}<br>
                                     @endforeach
                                 @else
                                     <span class="text-danger">ไม่มีข้อมูล</span>
@@ -72,6 +72,11 @@
                             <div style="padding-bottom: 10px;">
                                 <span style="font-weight: bold;">งบประมาณที่ได้รับจัดสรร</span>
                                 <span style="padding-left: 10px;"> {{ number_format($re->budget) }} บาท</span>
+                            </div>
+                        @else
+                            <div style="padding-bottom: 10px;">
+                                <span style="font-weight: bold;">งบประมาณที่ได้รับจัดสรร</span>
+                                <span style="padding-left: 10px;"> - </span>
                             </div>
                         @endif
 
@@ -85,7 +90,7 @@
                         </div>
                     </td>
 
-                    <td style="vertical-align: top;text-align: left;"> 
+                    <td style="vertical-align: top;text-align: left;">
                         <div style="padding-bottom: 10px;">
                             @foreach($re->outsider as $outsider)
                                 {{$outsider->title_name}} {{$outsider->fname}} {{$outsider->lname}}<br>
