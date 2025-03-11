@@ -51,7 +51,7 @@
                     <div class="form-group row mt-2">
                         <label for="exampleInputfund_details" class="col-sm-2 ">เลือกประเภททุน <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
-                            <select name="funds_type_id" class="custom-select my-select" id="funds_type" required>
+                            <select name="funds_type_id" class="custom-select my-select" id="funds_type">
                                 <option value="">---- โปรดระบุประเภททุน ----</option>
                                 @foreach($fundType as $type)
                                     <option value="{{ $type->id }}" {{ $researchProject->fund->category->fundType->id == $type->id ? 'selected' : '' }}>
@@ -59,32 +59,23 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('funds_type_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                         <label for="funds_category" class="col-sm-2">ลักษณะทุน <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
-                            <select name="fund_cate" id="funds_category" class="custom-select my-select" required>
+                            <select name="fund_cate" id="funds_category" class="custom-select my-select">
                                 <option value="">-- โปรดระบุลักษณะทุน --</option>
                                 <!-- จะถูกเติมโดย JavaScript -->
                             </select>
                             <p class="tooltip-text mt-1">กรุณาเลือกประเภททุนก่อน</p>
-                            @error('fund_cate')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="funds" class="col-sm-2">ทุน <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
-                            <select name="fund" id="funds" class="custom-select my-select" required>
+                            <select name="fund" id="funds" class="custom-select my-select">
                                 <option value="">-- โปรดเลือกทุน --</option>
                                 <!-- จะถูกเติมโดย JavaScript -->
                             </select>
-                            @error('fund')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                     </div>
                     <div class="form-group row">
@@ -456,60 +447,90 @@
 
     // โหลดลักษณะทุนเมื่อมีการเลือกประเภททุน
     function loadCategories(fundTypeId) {
-        fetch(`/getFundsCategory/${fundTypeId}`)
-            .then(response => response.json())
-            .then(data => {
-                categorySelect.innerHTML = '<option value="">---- โปรดระบุลักษณะทุน ----</option>';
-                data.forEach(category => {
-                    const selected = category.id == currentFundCateId ? 'selected' : '';
-                    categorySelect.innerHTML += `<option value="${category.id}" ${selected}>${category.name}</option>`;
-                });
+        return new Promise((resolve, reject) => {
+            fetch(`/getFundsCategory/${fundTypeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    categorySelect.innerHTML = '<option value="">---- โปรดระบุลักษณะทุน ----</option>';
+                    data.forEach(category => {
+                        const selected = category.id == currentFundCateId ? 'selected' : '';
+                        categorySelect.innerHTML += `<option value="${category.id}" ${selected}>${category.name}</option>`;
+                    });
 
-                // หลังจากโหลดลักษณะทุนแล้ว ถ้ามีค่าที่เลือกให้โหลดทุน
-                if (categorySelect.value) {
-                    loadFunds(categorySelect.value);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('เกิดข้อผิดพลาดในการโหลดข้อมูลลักษณะทุน');
-            });
+                    // หลังจากโหลดลักษณะทุนแล้ว เปิดใช้งาน select
+                    categorySelect.disabled = false;
+                    categorySelect.style.color = 'inherit';
+                    tooltipText.style.visibility = 'hidden';
+                    tooltipText.style.opacity = '0';
+                    categorySelect.classList.remove('disabled-select');
+
+                    resolve(categorySelect.value);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('เกิดข้อผิดพลาดในการโหลดข้อมูลลักษณะทุน');
+                    reject(error);
+                });
+        });
     }
 
     // โหลดทุนเมื่อมีการเลือกลักษณะทุน
     function loadFunds(fundCateId) {
-        fetch(`/get-funds-by-category?fund_cate=${fundCateId}`)
-            .then(response => response.json())
-            .then(data => {
-                fundsSelect.innerHTML = '<option value="">-- โปรดเลือกทุน --</option>';
-                data.forEach(fund => {
-                    const selected = fund.id == currentFundId ? 'selected' : '';
-                    fundsSelect.innerHTML += `<option value="${fund.id}" ${selected}>${fund.fund_name}</option>`;
+        return new Promise((resolve, reject) => {
+            fetch(`/get-funds-by-category?fund_cate=${fundCateId}`)
+                .then(response => response.json())
+                .then(data => {
+                    fundsSelect.innerHTML = '<option value="">-- โปรดเลือกทุน --</option>';
+                    data.forEach(fund => {
+                        const selected = fund.id == currentFundId ? 'selected' : '';
+                        fundsSelect.innerHTML += `<option value="${fund.id}" ${selected}>${fund.fund_name}</option>`;
+                    });
+                    resolve();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('เกิดข้อผิดพลาดในการโหลดข้อมูลทุน');
+                    reject(error);
                 });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('เกิดข้อผิดพลาดในการโหลดข้อมูลทุน');
-            });
+        });
     }
 
     // โหลดข้อมูลเริ่มต้นเมื่อโหลดหน้า
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", async function() {
+        // โหลดข้อมูลเริ่มต้น (หน้า edit)
         if (fundTypeSelect.value) {
-            loadCategories(fundTypeSelect.value);
+            try {
+                const selectedCategoryId = await loadCategories(fundTypeSelect.value);
+                if (selectedCategoryId) {
+                    await loadFunds(selectedCategoryId);
+                }
+            } catch (error) {
+                console.error("Failed to load initial data:", error);
+            }
+        } else {
+            // ถ้าไม่มีการเลือกประเภททุน ให้ปิด category select ไว้
+            categorySelect.disabled = true;
+            tooltipText.style.visibility = 'visible';
+            tooltipText.style.opacity = '1';
+            categorySelect.classList.add('disabled-select');
         }
     });
 
     // เพิ่ม event listener เมื่อเลือกประเภททุน
-    fundTypeSelect.addEventListener('change', function() {
+    fundTypeSelect.addEventListener('change', async function() {
         if (this.value) {
-            categorySelect.disabled = false;
-            categorySelect.style.color = 'inherit';
-            tooltipText.style.visibility = 'hidden';
-            tooltipText.style.opacity = '0';
-            categorySelect.classList.remove('disabled-select');
-            loadCategories(this.value);
+            try {
+                const selectedCategoryId = await loadCategories(this.value);
+                if (selectedCategoryId) {
+                    await loadFunds(selectedCategoryId);
+                } else {
+                    fundsSelect.innerHTML = '<option value="">-- โปรดเลือกทุน --</option>';
+                }
+            } catch (error) {
+                console.error("Failed to load data after fund type change:", error);
+            }
         } else {
+            // ถ้ายกเลิกการเลือกประเภททุน
             categorySelect.disabled = true;
             categorySelect.innerHTML = '<option value="">-- โปรดระบุลักษณะทุน --</option>';
             fundsSelect.innerHTML = '<option value="">-- โปรดเลือกทุน --</option>';
@@ -520,9 +541,13 @@
     });
 
     // เพิ่ม event listener เมื่อเลือกลักษณะทุน
-    categorySelect.addEventListener('change', function() {
+    categorySelect.addEventListener('change', async function() {
         if (this.value) {
-            loadFunds(this.value);
+            try {
+                await loadFunds(this.value);
+            } catch (error) {
+                console.error("Failed to load funds after category change:", error);
+            }
         } else {
             fundsSelect.innerHTML = '<option value="">-- โปรดเลือกทุน --</option>';
         }

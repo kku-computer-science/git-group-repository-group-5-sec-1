@@ -224,7 +224,7 @@ class ResearchProjectController extends Controller
 
         return redirect()
             ->route("researchProjects.index")
-            ->with("success", "research projects created successfully.");
+            ->with("success", "สร้างโครงการวิจัยสำเร็จ");
     }
 
     /**
@@ -407,7 +407,7 @@ class ResearchProjectController extends Controller
 
          return redirect()
              ->route("researchProjects.index")
-             ->with("success", "Research Project updated successfully");
+             ->with("success", "อัปเดตโครงการวิจัยสำเร็จ");
      }
 
     /**
@@ -422,6 +422,6 @@ class ResearchProjectController extends Controller
         $researchProject->delete();
         return redirect()
             ->route("researchProjects.index")
-            ->with("success", "Research Project deleted successfully");
+            ->with("success", "ลบโครงการวิจัยสำเร็จ");
     }
 }

@@ -60,9 +60,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('funds_type_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
                         </div>
                         <label for="funds_category" class="col-sm-2">ลักษณะทุน <span class="text-danger fw-bold">*</span></label>
                         <div class="col-sm-4">
@@ -70,10 +67,6 @@
                                 <option value="">-- โปรดระบุลักษณะทุน --</option>
                             </select>
                             <p class="tooltip-text mt-1">กรุณาเลือกประเภททุนก่อน</p>
-                            @error('fund_cate')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -532,8 +525,9 @@
         const categorySelect = document.getElementById('funds_category');
         const tooltipText = document.querySelector('.tooltip-text');
         const oldFundCate = @json(old('fund_cate'));
+        const oldFundType = @json(old('funds_type_id'));
 
-            function loadCategories(fundTypeId) {
+        function loadCategories(fundTypeId) {
             fetch(`/getFundsCategory/${fundTypeId}`)
                 .then(response => response.json())
                 .then(data => {
@@ -541,31 +535,41 @@
                     data.forEach(category => {
                         categorySelect.innerHTML += `<option value="${category.id}" ${category.id == oldFundCate ? 'selected' : ''}>${category.name}</option>`;
                     });
+
+                    // เมื่อโหลดข้อมูลเสร็จ ถ้ามีการเลือก category ก่อนหน้านี้ ให้เลือกกลับมา
+                    if (oldFundCate) {
+                        categorySelect.value = oldFundCate;
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     alert('เกิดข้อผิดพลาดในการโหลดข้อมูลลักษณะทุน');
                 });
         }
-        if (fundTypeSelect.value) {
-            loadCategories(fundTypeSelect.value);
+
+        // ตรวจสอบว่ามีค่า fund type เดิมหรือไม่ (จาก validation error)
+        if (oldFundType) {
+            // ถ้ามีค่า fund type เดิม ให้เลือก fund type นั้น
+            fundTypeSelect.value = oldFundType;
+
+            // เปิดใช้งาน category select
+            categorySelect.disabled = false;
+            categorySelect.style.color = 'inherit';
+            tooltipText.style.visibility = 'hidden';
+            tooltipText.style.opacity = '0';
+            categorySelect.classList.remove('disabled-select');
+
+            // โหลดข้อมูล categories ตาม fund type ที่เลือก
+            loadCategories(oldFundType);
+        } else {
+            // ถ้าไม่มีค่าเดิม ให้ปิด select ของ category ไว้ก่อน
+            categorySelect.disabled = true;
+            tooltipText.style.visibility = 'visible';
+            tooltipText.style.opacity = '1';
+            categorySelect.classList.add('disabled-select');
         }
 
-            categorySelect.addEventListener('mousedown', function(e) {
-            if (fundTypeSelect.value === '') {
-                e.preventDefault();
-                this.classList.add('shake-animation');
-                alert('กรุณาเลือกประเภททุนวิจัยก่อน');
-
-                setTimeout(() => {
-                    this.classList.remove('shake-animation');
-                }, 200);
-            }
-        });
-         // ปิด select ของ category ไว้ก่อน
-         categorySelect.disabled = true;
-
-         // เพิ่ม event listener เมื่อเลือก fund type
+        // เพิ่ม event listener เมื่อเลือก fund type
         fundTypeSelect.addEventListener('change', function() {
             if (this.value) {
                 categorySelect.disabled = false;
@@ -579,6 +583,18 @@
                 tooltipText.style.visibility = 'visible';
                 tooltipText.style.opacity = '1';
                 categorySelect.classList.add('disabled-select');
+            }
+        });
+
+        categorySelect.addEventListener('mousedown', function(e) {
+            if (fundTypeSelect.value === '') {
+                e.preventDefault();
+                this.classList.add('shake-animation');
+                alert('กรุณาเลือกประเภททุนวิจัยก่อน');
+
+                setTimeout(() => {
+                    this.classList.remove('shake-animation');
+                }, 200);
             }
         });
     </script>

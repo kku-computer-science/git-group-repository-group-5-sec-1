@@ -6,7 +6,7 @@
         <div class="card-body">
             <h4 class="card-title">Fund Detail</h4>
             <p class="card-description">ข้อมูลรายละเอียดทุน</p>
-            
+
             <div class="row">
                 <p class="card-text col-sm-3"><b>ชื่อทุน</b></p>
                 <p class="card-text col-sm-9">{{ $fund->fund_name ?? '-' }}</p>
@@ -20,16 +20,6 @@
             <div class="row">
                 <p class="card-text col-sm-3"><b>ลักษณะทุน</b></p>
                 <p class="card-text col-sm-9">{{ $fund->category->name ?? '-' }}</p>
-            </div>
-
-            <div class="row">
-                <p class="card-text col-sm-3"><b>ปี</b></p>
-                <p class="card-text col-sm-9">{{ $fund->fund_year ?? '-' }}</p>
-            </div>
-
-            <div class="row">
-                <p class="card-text col-sm-3"><b>รายละเอียดทุน</b></p>
-                <p class="card-text col-sm-9">{{ $fund->fund_details ?? '-' }}</p>
             </div>
 
             <div class="row">

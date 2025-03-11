@@ -107,16 +107,32 @@ class FundController extends Controller
         // 1. Validate the request
         $request->validate(
             [
-                "funds_type_id" => "required",
-                "fund_cate" => "required",
-                "fund_name" => "required",
-                "support_resource" => "required",
+                "funds_type_id" => "required|exists:funds_type,id",
+                "fund_cate" => [
+                    "required",
+                    "exists:funds_category,id",
+                    function ($attribute, $value, $fail) use ($request) {
+                        // Check if fund_cate belongs to selected funds_type_id
+                        $category = FundsCategory::find($value);
+                        if ($category && $category->fund_type_id != $request->funds_type_id) {
+                            $fail('ลักษณะทุนที่เลือกไม่ตรงกับประเภททุนวิจัย');
+                        }
+                    },
+                ],
+                "fund_name" => "required|string|min:3|max:255",
+                "support_resource" => "required|string|min:3|max:255",
             ],
             [
                 "funds_type_id.required" => "กรุณาเลือกประเภททุนวิจัย",
+                "funds_type_id.exists" => "ประเภททุนวิจัยที่เลือกไม่ถูกต้อง",
                 "fund_cate.required" => "กรุณาเลือกลักษณะทุน",
+                "fund_cate.exists" => "ลักษณะทุนที่เลือกไม่ถูกต้อง",
                 "fund_name.required" => "กรุณากรอกชื่อทุน",
+                "fund_name.min" => "ชื่อทุนต้องมีความยาวอย่างน้อย 3 ตัวอักษร",
+                "fund_name.max" => "ชื่อทุนต้องมีความยาวไม่เกิน 255 ตัวอักษร",
                 "support_resource.required" => "กรุณากรอกหน่วยงานที่สนับสนุน",
+                "support_resource.min" => "ชื่อหน่วยงานที่สนับสนุนต้องมีความยาวอย่างน้อย 3 ตัวอักษร",
+                "support_resource.max" => "ชื่อหน่วยงานที่สนับสนุนต้องมีความยาวไม่เกิน 255 ตัวอักษร",
             ]
         );
 
@@ -225,16 +241,32 @@ class FundController extends Controller
     {
         $request->validate(
             [
-                "funds_type_id" => "required",
-                "fund_cate" => "required",
-                "fund_name" => "required",
-                "support_resource" => "required",
+                "funds_type_id" => "required|exists:funds_type,id",
+                "fund_cate" => [
+                    "required",
+                    "exists:funds_category,id",
+                    function ($attribute, $value, $fail) use ($request) {
+                        // Check if fund_cate belongs to selected funds_type_id
+                        $category = FundsCategory::find($value);
+                        if ($category && $category->fund_type_id != $request->funds_type_id) {
+                            $fail('ลักษณะทุนที่เลือกไม่ตรงกับประเภททุนวิจัย');
+                        }
+                    },
+                ],
+                "fund_name" => "required|string|min:3|max:255",
+                "support_resource" => "required|string|min:3|max:255",
             ],
             [
                 "funds_type_id.required" => "กรุณาเลือกประเภททุนวิจัย",
+                "funds_type_id.exists" => "ประเภททุนวิจัยที่เลือกไม่ถูกต้อง",
                 "fund_cate.required" => "กรุณาเลือกลักษณะทุน",
+                "fund_cate.exists" => "ลักษณะทุนที่เลือกไม่ถูกต้อง",
                 "fund_name.required" => "กรุณากรอกชื่อทุน",
+                "fund_name.min" => "ชื่อทุนต้องมีความยาวอย่างน้อย 3 ตัวอักษร",
+                "fund_name.max" => "ชื่อทุนต้องมีความยาวไม่เกิน 255 ตัวอักษร",
                 "support_resource.required" => "กรุณากรอกหน่วยงานที่สนับสนุน",
+                "support_resource.min" => "ชื่อหน่วยงานที่สนับสนุนต้องมีความยาวอย่างน้อย 3 ตัวอักษร",
+                "support_resource.max" => "ชื่อหน่วยงานที่สนับสนุนต้องมีความยาวไม่เกิน 255 ตัวอักษร",
             ]
         );
 
