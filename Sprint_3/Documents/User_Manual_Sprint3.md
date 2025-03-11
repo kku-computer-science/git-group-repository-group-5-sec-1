@@ -28,7 +28,7 @@
 3. ผู้ใช้สามารถเพิ่มทุนวิจัย โดยไปที่เมนู **Option** และกดที่ **Manage Fund**
 ![alt text](../Images/UserManual_images/ManageFund1.png)
 
-    กด **ADD** 
+    กด **ADD**
     ![alt text](../Images/UserManual_images/AddFund1.png)
 
     กรอกข้อมูลที่ต้องการเพิ่ม หากช่องข้อมูลใดมีเครื่องหมาย '*' ต้องกรอกข้อมูลเสมอ
@@ -52,13 +52,60 @@
 5. ผู้ใช้สามารถดูรายละเอียดทุนวิจัย โดยไปที่เมนู **Option** และกดที่ **Manage Fund**
     กด ** view ** ไอคอนดวงตา ที่ทุนวิจัยที่ต้องการดูรายละเอียด
     ![alt text](../Images/UserManual_images/viewFund1.png)
-    --------------------------
+    ![alt text](../Images/UserManual_images/viewFund2.png)
 
-6. ผู้ใช้สามารถดูรายละเอียดทุนวิจัย โดยไปที่เมนู **Option** และกดที่ **Manage Fund**
+6. ผู้ใช้สามารถลบทุนวิจัย โดยไปที่เมนู **Option** และกดที่ **Manage Fund**
     กด ** Delete ** ไอคอนถังขยะ ที่ทุนวิจัยที่ต้องการลบ
+    ![alt text](../Images/UserManual_images/DeleteFund1.png)
+
+    จะมี pop up แจ้งเตือน ให้ยืนยันการลบ
+    ![alt text](../Images/UserManual_images/DeleteFund2.png)
+
+    หากต้องการลบให้กดที่ 'OK' เมื่อการลบเสร็จสิ้น จะแสดง pop up ดังภาพ
+    ![alt text](../Images/UserManual_images/DeleteFund3.png)
+
 
 ### Reseach Project
 
 7. ผู้ใช้สามารถเพิ่มโครงการวิจัย โดยไปที่เมนู **Option** และกดที่ **Reseach Project**
+    ![alt text](../Images/UserManual_images/ResearchProject.png)
 
+    กด **ADD**
+    ![alt text](../Images/UserManual_images/Addrp1.png)
 
+    กรอกข้อมูลที่ต้องการเพิ่ม หากช่องข้อมูลใดมีเครื่องหมาย '*' ต้องกรอกข้อมูลเสมอ
+    ![alt text](../Images/UserManual_images/Addrp2.png)
+
+    check box แสดงงบประมาณ ผู้ใช้สามารถเลือกได้ว่าต้องการแสดงงบประมาณให้ผู้เข้าชมเห็นหรือไม่
+    ![alt text](../Images/UserManual_images/Addrp3.png)
+
+    เมื่อกรอกข้อมูลเรียบร้อย กด **Submit** เพื่อบันทึกข้อมูล
+    ![alt text](../Images/UserManual_images/Addrp4.png)
+
+    pop up แสดง เพิ่มโครงการวิจัยสำเร็จ
+    ![alt text](../Images/UserManual_images/Addrp5.png)
+
+8. ผู้ใช้สามารถเพิ่มโครงการวิจัย โดยไปที่เมนู **Option** และกดที่ **Reseach Project**
+    กด ** Edit ** ไอคอนดินสอ ที่โครงการวิจัยที่ต้องการแก้ไข 
+    ![alt text](../Images/UserManual_images/Editrp1.png)
+    ![alt text](../Images/UserManual_images/Editrp2.png)
+
+    แก้ไขข้อมูลและกด ** Submit ** เพื่ออัปเดตข้อมูล
+    ![alt text](../Images/UserManual_images/Editrp3.png)
+    ![alt text](../Images/UserManual_images/Editrp4.png)
+
+9. ผู้ใช้สามารถดูรายละเอียดโครงการวิจัย โดยไปที่เมนู **Option** และกดที่ **Reseach Project**
+    กด ** view ** ไอคอนดวงตา ที่ทุนวิจัยที่ต้องการดูรายละเอียด
+    ![alt text](../Images/UserManual_images/viewrp1.png)
+    ![alt text](../Images/UserManual_images/viewrp2.png)
+
+6. ผู้ใช้สามารถลบโครงการวิจัย โดยไปที่เมนู โดยไปที่เมนู **Option** และกดที่ **Reseach Project**
+    กด ** Delete ** ไอคอนถังขยะ ที่ทุนวิจัยที่ต้องการลบ
+    ![alt text](../Images/UserManual_images/Deleterp1.png)
+
+    จะมี pop up แจ้งเตือน ให้ยืนยันการลบ
+    ![alt text](../Images/UserManual_images/Deleterp2.png)
+
+    หากต้องการลบให้กดที่ 'OK' เมื่อการลบเสร็จสิ้น จะแสดง pop up ดังภาพ
+    ![alt text](../Images/UserManual_images/Deleterp3.png)
+    ![alt text](../Images/UserManual_images/Editrp4.png)
