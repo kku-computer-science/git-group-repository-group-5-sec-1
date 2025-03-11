@@ -23,7 +23,7 @@
 2. เมื่อเข้าสู่ระบบสำเร็จจะแสดงหน้าข้อมูลดังภาพ
 ![alt text](../Images/UserManual_images/Successfully_login_staff.png)
 
-# Manage Fund
+### Manage Fund
 
 3. ผู้ใช้สามารถเพิ่มทุนวิจัย โดยไปที่เมนู **Option** และกดที่ **Manage Fund**
 ![alt text](../Images/UserManual_images/ManageFund1.png)
@@ -52,12 +52,12 @@
 5. ผู้ใช้สามารถดูรายละเอียดทุนวิจัย โดยไปที่เมนู **Option** และกดที่ **Manage Fund**
     กด ** view ** ไอคอนดวงตา ที่ทุนวิจัยที่ต้องการดูรายละเอียด
     ![alt text](../Images/UserManual_images/viewFund1.png)
-    --------------------ยังไม่มีภาพดูรายละเอียด--------------------
+    --------------------------
 
 6. ผู้ใช้สามารถดูรายละเอียดทุนวิจัย โดยไปที่เมนู **Option** และกดที่ **Manage Fund**
     กด ** Delete ** ไอคอนถังขยะ ที่ทุนวิจัยที่ต้องการลบ
 
-# Reseach Project
+### Reseach Project
 
 7. ผู้ใช้สามารถเพิ่มโครงการวิจัย โดยไปที่เมนู **Option** และกดที่ **Reseach Project**
 
