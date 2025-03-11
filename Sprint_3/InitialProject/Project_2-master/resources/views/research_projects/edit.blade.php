@@ -213,6 +213,85 @@
 @section('javascript')
 <script>
     $(document).ready(function() {
+        // เก็บข้อมูลผู้ใช้ทั้งหมดไว้ในตัวแปร
+        const allUsers = [
+            @foreach($users as $user)
+                {
+                    id: {{ $user->id }},
+                    name: "{{ $user->fname_th }} {{ $user->lname_th }}"
+                },
+            @endforeach
+        ];
+
+        // ฟังก์ชันกรองรายชื่อผู้ใช้ที่ไม่ได้ถูกเลือกไปแล้ว
+        function filterUsers() {
+            // หาผู้ใช้ที่เลือกเป็นผู้รับผิดชอบหลัก
+            const headUserId = $('#head0').val();
+
+            // หาผู้ใช้ทั้งหมดที่เลือกเป็นผู้รับผิดชอบร่วม
+            const selectedCoResponsibleIds = [];
+            $('select[name^="moreFields"]').each(function() {
+                const value = $(this).val();
+                if (value) {
+                    selectedCoResponsibleIds.push(value);
+                }
+            });
+
+            // สร้าง HTML options สำหรับ dropdown แต่ละตัว
+            $('select[name^="moreFields"]').each(function() {
+                const currentSelectId = $(this).attr('id');
+                const currentValue = $(this).val();
+
+                // สร้าง options ใหม่
+                let options = '<option value="">Select User</option>';
+
+                allUsers.forEach(user => {
+                    // ถ้าผู้ใช้เป็นผู้รับผิดชอบหลักแล้ว ข้าม
+                    if (user.id == headUserId) return;
+
+                    // ถ้าผู้ใช้ถูกเลือกในรายการผู้รับผิดชอบร่วมอื่นแล้ว และไม่ใช่ผู้ใช้ปัจจุบัน ข้าม
+                    if (selectedCoResponsibleIds.includes(user.id.toString()) && currentValue != user.id) return;
+
+                    // เพิ่ม option
+                    const selected = (currentValue == user.id) ? 'selected' : '';
+                    options += `<option value="${user.id}" ${selected}>${user.name}</option>`;
+                });
+
+                // อัพเดท options
+                $(this).html(options);
+
+                // รีเซ็ต select2
+                if ($(this).hasClass('select2-hidden-accessible')) {
+                    $(this).select2('destroy');
+                }
+                $(this).select2();
+            });
+        }
+
+        // กรองตั้งแต่เริ่มต้น
+        filterUsers();
+
+        // เมื่อมีการเปลี่ยนแปลงผู้รับผิดชอบหลัก
+        $('#head0').on('change', function() {
+            filterUsers();
+        });
+
+        // เมื่อมีการเปลี่ยนแปลงผู้รับผิดชอบร่วม
+        $(document).on('change', 'select[name^="moreFields"]', function() {
+            filterUsers();
+        });
+
+        // เมื่อเพิ่มผู้รับผิดชอบร่วมใหม่
+        $("#add-btn2").on('click', function() {
+            setTimeout(function() {
+                filterUsers();
+            }, 100);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+
         $('#status').on('change', function() {
             $('#hidden_status').val($(this).val());
         });
