@@ -6,10 +6,10 @@
 ![alt text](../Images/UserManual_images/Home.png)
 
 3. เลือกเมนู **RESEARCH PROJECT** เพื่อดู **โครงการบริการวิชาการ/โครงการวิจัย**
-![alt text](../Images/UserManual_images/viewer_rp.png)
+![alt text](../Images/UserManual_images/Home2.png)
 
 4. สามารถค้นหา **โครงการบริการวิชาการ/โครงการวิจัย** ได้ที่ช่อง **Search**
-![alt text](../Images/UserManual_images/viewer_search.png)
+![alt text](../Images/UserManual_images/Home3.png)
 
 
 ## For Administrative staff
